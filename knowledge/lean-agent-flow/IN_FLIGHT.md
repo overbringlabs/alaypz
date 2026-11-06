@@ -8,6 +8,7 @@ stale and may be treated as released; whoever notices deletes the stale line.
 Edit only your own block; never another agent's.
 
 ## agent: main   since: 2026-11-06
+released: (whole-repo)  (Alaypz sweep + namespace rename Alaypz→Alaypz: 86 code/config/doc files, dirs+hooks+docs renamed via git mv, db files mv'd, plan/decision slugs, .gitignore, README)
 released: lib/alaypz_web/  assets/js/  assets/css/  (centered maximized tower: gutter in the dead space, compact one-row HUD)
 released: lib/alaypz_web/  test/alaypz_web/  assets/js/  assets/css/  (operator round 2: auto-claim, native mobile game screen, tone.js sfx, swipes)
 released: lib/alaypz_web/  test/alaypz_web/  assets/js/  (operator round: /u/ rename 7165b65, replay speeds 001103d, /play + mobile controls 8527fdd)

@@ -5,7 +5,7 @@ defmodule Alaypz.Game.Pieces do
   Cell coordinates are `{col, row}` with col 0 = left and row 0 = top, inside a
   4×4 box (col/row 0..3). Rotation states: 0 (spawn), 1 (R), 2, 3 (L).
   Kick tables use the same convention with `dy` positive = down (the
-  community SRS spec/SRS tables are y-up; signs are flipped accordingly).
+  community SRS tables are y-up; signs are flipped accordingly).
   """
 
   @ids [:i, :j, :l, :o, :s, :t, :z]
@@ -20,7 +20,7 @@ defmodule Alaypz.Game.Pieces do
     z: [{0, 0}, {1, 0}, {1, 1}, {2, 1}]
   }
 
-  # community SRS spec/SRS "J, L, S, T, Z" table, y flipped to down-positive.
+  # Community SRS "J, L, S, T, Z" table, y flipped to down-positive.
   @jlstz_kicks %{
     {0, 1} => [{0, 0}, {-1, 0}, {-1, -1}, {0, 2}, {-1, 2}],
     {1, 0} => [{0, 0}, {1, 0}, {1, 1}, {0, -2}, {1, -2}],
@@ -32,7 +32,7 @@ defmodule Alaypz.Game.Pieces do
     {0, 3} => [{0, 0}, {1, 0}, {1, -1}, {0, 2}, {1, 2}]
   }
 
-  # community SRS spec/SRS "I" table, y flipped to down-positive.
+  # Community SRS "I" table, y flipped to down-positive.
   @i_kicks %{
     {0, 1} => [{0, 0}, {-2, 0}, {1, 0}, {-2, 1}, {1, -2}],
     {1, 0} => [{0, 0}, {2, 0}, {-1, 0}, {2, -1}, {-1, 2}],
