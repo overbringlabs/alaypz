@@ -7,7 +7,7 @@ step commits. A claim older than ~15 minutes with no matching fresh write is
 stale and may be treated as released; whoever notices deletes the stale line.
 Edit only your own block; never another agent's.
 
-released: lib/alaypz_web/  assets/js/  (game-screen polish: board hugs canvas, overlay fits, game-over restart)
+released: lib/alaypz_web/  test/alaypz_web/  assets/js/  (swipe-only game screen: button pad removed, board fills the viewport)
 released: lib/alaypz_web/  test/alaypz_web/  assets/js/  assets/css/  (operator round 2: auto-claim, native mobile game screen, tone.js sfx, swipes)
 released: lib/alaypz_web/  test/alaypz_web/  assets/js/  (operator round: /u/ rename 7165b65, replay speeds 001103d, /play + mobile controls 8527fdd)
 released: lib/alaypz/replay.ex  lib/alaypz_web/  test/alaypz/  test/alaypz_web/  (committed bugfix pass)

@@ -38,38 +38,16 @@
             />
           </div>
 
-          <%!-- on-screen touch controls: large targets for mobile (also
-               handy with a mouse); the keyboard hook coexists on desktop --%>
-          <div
-            id="play-controls"
-            class="mx-auto mt-4 grid w-full max-w-xs grid-cols-3 gap-2 lg:mt-6"
+          <%!-- the board IS the touch surface: swipe to move, flick down
+               to hard-drop, flick up to rotate, press-and-hold to hold
+               (the .AlaypzKeys hook). Desktop keeps the kbd legend
+               inside the surface. --%>
+          <p
+            id="swipe-hint"
+            class="mt-3 text-center text-[11px] font-medium tracking-wide text-base-content/40 max-lg:mt-4"
           >
-            <%= for {action, glyph, hint} <- [
-                      {"ccw", "⟲", "Z"},
-                      {"soft", "↓", "soft"},
-                      {"cw", "⟳", "X"},
-                      {"left", "←", "left"},
-                      {"hard", "⤓", "drop"},
-                      {"right", "→", "right"},
-                      {"hold", "⇅", "C"}
-                    ] do %>
-              <button
-                type="button"
-                id={"ctrl-#{action}"}
-                phx-click="play-input"
-                phx-value-action={action}
-                class={[
-                  "min-h-12 cursor-pointer select-none rounded-lg border border-base-300 bg-base-200 text-base-content transition touch-manipulation hover:border-cyan-400/60 active:scale-95 active:bg-cyan-400/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70",
-                  action == "hold" && "col-span-3"
-                ]}
-              >
-                <span class="block text-2xl leading-none">{glyph}</span>
-                <span class="block text-[10px] uppercase tracking-wider text-base-content/50">
-                  {hint}
-                </span>
-              </button>
-            <% end %>
-          </div>
+            swipe to move · flick down to drop · flick up to rotate · press &amp; hold to hold
+          </p>
         <% else %>
           <%!-- mobile: the form above is the whole claim screen; the
                empty-state box is desktop-only filler --%>

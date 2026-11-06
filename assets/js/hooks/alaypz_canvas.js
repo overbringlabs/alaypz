@@ -99,24 +99,18 @@ export default {
       this.cols * this.cell > avail ? Math.max(8, Math.floor(avail / this.cols)) : this.cell
 
     // Height fit (the /play game screen — phones and portrait tablets):
-    // shrink the cell so the board + touch controls fill the viewport
-    // without scrolling. Desktop keeps its natural board size (the page
-    // scrolls there). bandH is mini*4+12 ≈ 1.84*cell + 12; the board adds
-    // ~18px of padding/border.
+    // the board is the only content below the HUD, so fill the remaining
+    // viewport height (minus the swipe-hint line) without scrolling.
+    // Desktop keeps its natural board size (the page scrolls there).
+    // bandH is mini*4+12 ≈ 1.84*cell + 12; the board adds ~18px chrome.
     const mobile = window.matchMedia("(max-width: 1023px)").matches
     if (this.fitHeight && mobile) {
-      const rect = board.getBoundingClientRect()
-      let controlsH = 160
-      let gap = 47
-      const controls = document.querySelector("#play-controls")
-      if (controls) {
-        controlsH = controls.getBoundingClientRect().height
-        gap = Math.max(0, controls.getBoundingClientRect().top - rect.bottom)
-      }
-      // board bottom (chrome = 18px padding/border) + gap + controls ≤ viewport
-      // bandH = mini*4 + 12 ≈ 1.84*cell + 12
-      const availH = window.innerHeight - rect.top - gap - controlsH
-      const hCell = Math.floor((availH - 18 - 12) / (this.rows + 1.84))
+      const top = board.getBoundingClientRect().top
+      // below the board: the swipe-hint line (16px margin, ~33px of text)
+      // and the page's bottom padding (8px)
+      const bottom = 57
+      const availH = window.innerHeight - top - bottom
+      const hCell = Math.floor((availH - 18) / (this.rows + 1.84))
       if (hCell < cell) cell = Math.max(8, hCell)
     }
     if (reapply && cell === this.cell) return

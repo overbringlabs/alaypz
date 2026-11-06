@@ -19,7 +19,7 @@ defmodule AlaypzWeb.PlayLiveTest do
     render_submit(element(view, "#name-form"))
   end
 
-  test "claims a name, starts a game, and shows the play surface with controls",
+  test "claims a name, starts a game, and shows the swipe-driven play surface",
        %{conn: conn} do
     {:ok, view, _html} = live(conn, "/play")
 
@@ -35,14 +35,9 @@ defmodule AlaypzWeb.PlayLiveTest do
 
     assert has_element?(view, "#focused-name", "alice-play")
     assert has_element?(view, "#focused-canvas")
-    # On-screen touch controls for mobile (and a mouse).
-    assert has_element?(view, "#ctrl-left")
-    assert has_element?(view, "#ctrl-right")
-    assert has_element?(view, "#ctrl-soft")
-    assert has_element?(view, "#ctrl-hard")
-    assert has_element?(view, "#ctrl-cw")
-    assert has_element?(view, "#ctrl-ccw")
-    assert has_element?(view, "#ctrl-hold")
+    # The board is the touch surface (swipes) — no button pad.
+    assert has_element?(view, "#swipe-hint")
+    refute has_element?(view, "#play-controls")
 
     on_exit(fn -> Games.stop(Players.get_by_name("alice-play")) end)
   end
@@ -60,7 +55,7 @@ defmodule AlaypzWeb.PlayLiveTest do
     submit_form(view)
 
     assert has_element?(view, "#focused-name", "reload-play")
-    assert has_element?(view, "#ctrl-left")
+    assert has_element?(view, "#swipe-hint")
 
     # The name is this browser's own (already claimed) and the surface is
     # up: no reclaim-mode ceremony (access input) or notice.
@@ -82,7 +77,7 @@ defmodule AlaypzWeb.PlayLiveTest do
     on_exit(fn -> Games.stop(Players.get_by_name("noleave-play")) end)
   end
 
-  test "play-input acts only on the view's own game" do
+  test "keyboard acts only on the view's own game" do
     {:ok, player, _secret} = Players.claim_name("dora-play")
     on_exit(fn -> Games.stop(player) end)
     Games.start_game(player, 42)
@@ -100,7 +95,7 @@ defmodule AlaypzWeb.PlayLiveTest do
     }
 
     {:noreply, _} =
-      AlaypzWeb.PlayLive.handle_event("play-input", %{"action" => "left"}, spectator)
+      AlaypzWeb.PlayLive.handle_event("game-key", %{"key" => "ArrowLeft"}, spectator)
 
     refute_receive %{type: :game, payload: %{piece: %{pos: {2, _y}}}}, 400
 
@@ -112,11 +107,13 @@ defmodule AlaypzWeb.PlayLiveTest do
       }
     }
 
-    {:noreply, _} = AlaypzWeb.PlayLive.handle_event("play-input", %{"action" => "left"}, owner)
+    {:noreply, _} =
+      AlaypzWeb.PlayLive.handle_event("game-key", %{"key" => "ArrowLeft"}, owner)
+
     assert_receive %{type: :game, payload: %{piece: %{pos: {2, _y}}}}, 500
   end
 
-  test "an unknown action from a tampered client is ignored, not a crash" do
+  test "an unknown key from a tampered client is ignored, not a crash" do
     {:ok, player, _secret} = Players.claim_name("tamper-play")
     on_exit(fn -> Games.stop(player) end)
     Games.start_game(player, 42)
@@ -131,6 +128,6 @@ defmodule AlaypzWeb.PlayLiveTest do
     }
 
     {:noreply, _} =
-      AlaypzWeb.PlayLive.handle_event("play-input", %{"action" => "exploit"}, owner)
+      AlaypzWeb.PlayLive.handle_event("game-key", %{"key" => "F12"}, owner)
   end
 end

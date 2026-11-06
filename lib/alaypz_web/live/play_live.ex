@@ -1,9 +1,9 @@
 defmodule AlaypzWeb.PlayLive do
   @moduledoc """
   `/play`: the play session for the claimed name. Starting the game, driving
-  it (keyboard via `.AlaypzKeys` on desktop, on-screen touch controls for
-  mobile), and watching your own board all happen here — the lobby is a
-  spectating surface and sends play to this route.
+  it (keyboard + swipe gestures via `.AlaypzKeys` — the board itself is the
+  touch surface on mobile), and watching your own board all happen here —
+  the lobby is a spectating surface and sends play to this route.
 
   The view attaches to its own game as owner (`Games.attach`); the game
   process repeats the owner check against the caller pid, so inputs from a
@@ -30,9 +30,6 @@ defmodule AlaypzWeb.PlayLive do
     "c" => :hold,
     "C" => :hold
   }
-
-  # On-screen touch controls: the only action strings `play-input` accepts.
-  @play_actions ~w(left right soft hard cw ccw hold)
 
   @impl true
   def mount(_params, _session, socket) do
@@ -125,15 +122,6 @@ defmodule AlaypzWeb.PlayLive do
   @impl true
   def handle_event("unfocus", _, socket) do
     {:noreply, Focus.unfocus_on(socket)}
-  end
-
-  # On-screen touch controls (`phx-click="play-input"`): same gate as keys.
-  # `action` is client-controlled — whitelist it before atomizing.
-  @impl true
-  def handle_event("play-input", %{"action" => action}, socket) do
-    valid = if action in @play_actions, do: String.to_existing_atom(action)
-    own_game_input(socket, valid)
-    {:noreply, socket}
   end
 
   # The focused game's topic: push every engine state to the surface.
