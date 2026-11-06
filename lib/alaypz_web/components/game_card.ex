@@ -91,11 +91,13 @@ defmodule AlaypzWeb.GameCard do
       phx-click="focus"
       phx-value-name={@name}
       class={[
-        "relative flex flex-col gap-2.5 rounded-xl border p-3 text-left transition",
+        "relative flex w-full flex-col gap-2.5 rounded-xl border p-3 text-left transition",
         if(@focused,
           do: "border-cyan-400/70 bg-cyan-400/10 shadow-[0_0_28px_rgba(0,229,255,0.22)]",
-          else: "border-base-300 bg-base-100 hover:border-cyan-400/60 hover:bg-base-200/60"
-        )
+          else:
+            "border-base-300 bg-base-100 hover:border-cyan-400/60 hover:bg-base-200/60 hover:shadow-[0_0_20px_rgba(0,229,255,0.14)]"
+        ),
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70"
       ]}
     >
       <span class="flex items-center justify-between gap-2">

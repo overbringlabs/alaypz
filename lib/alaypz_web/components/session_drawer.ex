@@ -50,7 +50,7 @@ defmodule AlaypzWeb.SessionDrawer do
             id="session-close"
             phx-click="close-session"
             aria-label="Close"
-            class="rounded-lg border border-base-300 p-2 text-base-content/60 transition hover:border-rose-400/60 hover:text-rose-500"
+            class="rounded-lg border border-base-300 p-2 text-base-content/60 transition hover:border-rose-400/60 hover:text-rose-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70"
           >
             <.icon name="hero-x-mark" class="size-5" />
           </button>
@@ -106,7 +106,7 @@ defmodule AlaypzWeb.SessionDrawer do
             <a
               id="session-replay"
               href={~p"/replay/#{@session.id}"}
-              class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-500"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-500 hover:shadow-[0_0_20px_rgba(0,229,255,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70"
             >
               <.icon name="hero-play" class="size-4" /> Replay this session
             </a>

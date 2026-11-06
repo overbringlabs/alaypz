@@ -42,8 +42,16 @@ defmodule AlaypzWeb.Layouts do
         </a>
         <span class="hidden text-xs text-base-content/60 lg:inline">classic alaypz · live boards</span>
         <nav class="ml-auto flex items-center gap-4 text-sm font-semibold">
-          <a href="/" class="text-base-content/70 transition hover:text-cyan-500">Lobby</a>
-          <a href="/leaderboard" class="text-base-content/70 transition hover:text-cyan-500">
+          <a
+            href="/"
+            class="rounded px-0.5 text-base-content/70 transition hover:text-cyan-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+          >
+            Lobby
+          </a>
+          <a
+            href="/leaderboard"
+            class="rounded px-0.5 text-base-content/70 transition hover:text-cyan-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+          >
             Leaderboard
           </a>
         </nav>
@@ -119,7 +127,7 @@ defmodule AlaypzWeb.Layouts do
       <div class="absolute w-1/3 h-full rounded-full border-1 border-base-200 bg-base-100 brightness-200 left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 [[data-theme-source=system]_&]:!left-0 transition-[left]" />
 
       <button
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex w-1/3 cursor-pointer rounded-full p-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70"
         phx-click={JS.dispatch("phx:set-theme")}
         data-phx-theme="system"
       >
@@ -127,7 +135,7 @@ defmodule AlaypzWeb.Layouts do
       </button>
 
       <button
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex w-1/3 cursor-pointer p-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70"
         phx-click={JS.dispatch("phx:set-theme")}
         data-phx-theme="light"
       >
@@ -135,7 +143,7 @@ defmodule AlaypzWeb.Layouts do
       </button>
 
       <button
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex w-1/3 cursor-pointer p-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70"
         phx-click={JS.dispatch("phx:set-theme")}
         data-phx-theme="dark"
       >

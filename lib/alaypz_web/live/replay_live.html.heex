@@ -103,7 +103,7 @@
                   phx-click="speed"
                   phx-value-speed={speed}
                   class={[
-                    "rounded-lg border px-3 py-1 text-sm font-semibold transition",
+                    "rounded-lg border px-3 py-1 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70",
                     if(@speed == speed,
                       do: "border-cyan-400/70 bg-cyan-400/10 text-cyan-700 dark:text-cyan-300",
                       else: "border-base-300 text-base-content/70 hover:border-cyan-400/50"

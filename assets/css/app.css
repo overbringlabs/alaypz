@@ -171,8 +171,22 @@ body {
   }
 }
 
+@keyframes drawer-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .session-drawer-panel {
   animation: drawer-slide-in 0.25s ease-out;
+}
+
+#session-drawer > .fixed.inset-0 {
+  animation: drawer-fade-in 0.2s ease-out;
 }
 
 /* Neon palette for the .AlaypzCanvas hook (assets/js/hooks/alaypz_canvas.js)

@@ -23,68 +23,88 @@ defmodule AlaypzWeb.ScoreCard do
       |> assign_new(:clickable, fn -> true end)
 
     ~H"""
-    <article
-      class={[
-        "group rounded-xl border p-4 transition",
-        if(@clickable,
-          do:
-            "cursor-pointer border-base-300 bg-base-100 hover:border-cyan-400/60 hover:bg-base-200/40",
-          else: "border-base-300/60 bg-base-100"
-        ),
-        @class
-      ]}
-      {@rest}
-    >
-      <div class="flex items-start justify-between gap-4">
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-2">
-            <span
-              :if={@rank}
-              class={["text-xl font-bold leading-none", rank_class(@rank)]}
-            >
-              {@rank}
-            </span>
-            <h3 class="truncate text-sm font-semibold text-base-content">{@score.player.name}</h3>
-          </div>
-          <p class="mt-1 text-xs text-base-content/60">{@date}</p>
-        </div>
+    <%= if @clickable do %>
+      <button
+        type="button"
+        class={[
+          "w-full cursor-pointer rounded-xl border border-base-300 bg-base-100 p-4 text-left transition",
+          "hover:border-cyan-400/70 hover:bg-base-200/40 hover:shadow-[0_0_24px_rgba(0,229,255,0.16)]",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70",
+          @class
+        ]}
+        {@rest}
+      >
+        {card_body(assigns)}
+      </button>
+    <% else %>
+      <article
+        class={[
+          "rounded-xl border border-base-300/60 bg-base-100 p-4 transition",
+          @class
+        ]}
+        {@rest}
+      >
+        {card_body(assigns)}
+      </article>
+    <% end %>
+    """
+  end
 
-        <span class="alaypz-board shrink-0 overflow-hidden rounded-md border border-base-300">
-          <canvas
-            id={@board_id}
-            phx-hook="AlaypzCanvas"
-            phx-update="ignore"
-            data-static
-            data-cell="10"
-            data-board={@score.board}
-            class="block"
+  # The inner markup is span-based: a clickable card renders inside a
+  # <button>, whose content model is phrasing content.
+  defp card_body(assigns) do
+    ~H"""
+    <span class="flex items-start justify-between gap-4">
+      <span class="block min-w-0">
+        <span class="flex items-baseline gap-2">
+          <span
+            :if={@rank}
+            class={["text-xl font-bold leading-none", rank_class(@rank)]}
           >
-            {AlaypzWeb.Board.text(Alaypz.Scores.decode_board(@score.board))}
-          </canvas>
+            {@rank}
+          </span>
+          <span class="truncate text-sm font-semibold text-base-content">
+            {@score.player.name}
+          </span>
         </span>
-      </div>
+        <span class="mt-1 block text-xs text-base-content/60">{@date}</span>
+      </span>
 
-      <dl class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1.5 text-sm">
-        <div class="flex items-baseline gap-1.5">
-          <dt class="text-xs uppercase tracking-wider text-base-content/60">score</dt>
-          <dd class="font-semibold text-cyan-600 dark:text-cyan-300">{@score.score}</dd>
-        </div>
-        <div class="flex items-baseline gap-1.5">
-          <dt class="text-xs uppercase tracking-wider text-base-content/60">lines</dt>
-          <dd class="text-base-content/80">{@score.lines}</dd>
-        </div>
-        <div class="flex items-baseline gap-1.5">
-          <dt class="text-xs uppercase tracking-wider text-base-content/60">level</dt>
-          <dd class="text-base-content/80">{@score.level}</dd>
-        </div>
-        <dd class={[
-          "ml-auto rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider",
-          end_class(@score.end_reason)
-        ]}>
-          {@score.end_reason}
-        </dd>
-      </dl>
-    </article>
+      <span class="alaypz-board shrink-0 overflow-hidden rounded-md border border-base-300">
+        <canvas
+          id={@board_id}
+          phx-hook="AlaypzCanvas"
+          phx-update="ignore"
+          data-static
+          data-cell="10"
+          data-board={@score.board}
+          class="block"
+        >
+          {AlaypzWeb.Board.text(Alaypz.Scores.decode_board(@score.board))}
+        </canvas>
+      </span>
+    </span>
+
+    <span class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1.5 text-sm">
+      <span class="flex items-baseline gap-1.5">
+        <span class="text-xs uppercase tracking-wider text-base-content/60">score</span>
+        <span class="font-semibold text-cyan-600 dark:text-cyan-300">{@score.score}</span>
+      </span>
+      <span class="flex items-baseline gap-1.5">
+        <span class="text-xs uppercase tracking-wider text-base-content/60">lines</span>
+        <span class="text-base-content/80">{@score.lines}</span>
+      </span>
+      <span class="flex items-baseline gap-1.5">
+        <span class="text-xs uppercase tracking-wider text-base-content/60">level</span>
+        <span class="text-base-content/80">{@score.level}</span>
+      </span>
+      <span class={[
+        "ml-auto rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider",
+        end_class(@score.end_reason)
+      ]}>
+        {@score.end_reason}
+      </span>
+    </span>
     """
   end
 
