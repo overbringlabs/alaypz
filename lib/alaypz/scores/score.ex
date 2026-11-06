@@ -13,6 +13,8 @@ defmodule Alaypz.Scores.Score do
     field :level, :integer
     field :end_reason, :string
     field :board, :string
+    field :seed, :integer
+    field :replay, :map
 
     timestamps(datetime: {:inserted_at, type: :naive_datetime})
   end
@@ -22,7 +24,7 @@ defmodule Alaypz.Scores.Score do
   @doc false
   def changeset(score, attrs) do
     score
-    |> cast(attrs, [:player_id, :score, :lines, :level, :end_reason, :board])
+    |> cast(attrs, [:player_id, :score, :lines, :level, :end_reason, :board, :seed, :replay])
     |> validate_required([:player_id, :score, :lines, :level, :end_reason, :board])
     |> validate_number(:score, greater_than_or_equal_to: 0)
     |> validate_number(:lines, greater_than_or_equal_to: 0)

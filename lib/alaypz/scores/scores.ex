@@ -29,6 +29,11 @@ defmodule Alaypz.Scores do
     |> Repo.all()
   end
 
+  @doc "A single game result by id, with its player. `nil` when unknown."
+  def get(id) do
+    from(s in Score, where: s.id == ^id, preload: :player) |> Repo.one()
+  end
+
   def record(attrs) do
     %Score{}
     |> Score.changeset(attrs)

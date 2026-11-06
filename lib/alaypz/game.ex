@@ -120,6 +120,31 @@ defmodule Alaypz.Game do
 
   def hold(%{} = s), do: s
 
+  # --- input dispatch -----------------------------------------------------
+
+  @actions [:left, :right, :cw, :ccw, :soft, :hard, :hold]
+
+  @doc """
+  Applies one player input to `game`. A no-op on unknown actions, or when the
+  game is not `:playing` (or the action is invalid) — the game is returned
+  unchanged in those cases, so callers can compare state to see if anything
+  happened. `Alaypz.Games.Game` (owner-gated) and `Alaypz.Replay` both drive
+  games through this single dispatch.
+  """
+  def apply(game, action) when action in @actions do
+    case action do
+      :left -> move(game, :left)
+      :right -> move(game, :right)
+      :cw -> rotate(game, :cw)
+      :ccw -> rotate(game, :ccw)
+      :soft -> soft_drop(game)
+      :hard -> hard_drop(game)
+      :hold -> hold(game)
+    end
+  end
+
+  def apply(game, _action), do: game
+
   # --- queries ----------------------------------------------------------
 
   @doc "Lowest position the current piece fits at (ghost piece)."

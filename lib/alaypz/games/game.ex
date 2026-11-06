@@ -27,7 +27,7 @@ defmodule Alaypz.Games.Game do
   @doc "Attaches the owner connection (monitored; its death starts the grace window)."
   def attach(pid, owner), do: GenServer.cast(pid, {:attach, owner})
 
-  @doc "Full state: `%{name, player_id, status, game, owner}`."
+  @doc "Full state: `%{name, player_id, status, game, seed, tick, inputs, owner, …}`."
   def state(pid), do: GenServer.call(pid, :state)
 
   # --- GenServer ----------------------------------------------------------
@@ -39,6 +39,9 @@ defmodule Alaypz.Games.Game do
       player_id: player_id,
       status: :playing,
       game: Game.new(seed),
+      seed: seed,
+      tick: 0,
+      inputs: [],
       owner: nil,
       owner_ref: nil,
       grace_ref: nil
@@ -58,6 +61,10 @@ defmodule Alaypz.Games.Game do
     if game == state.game do
       {:noreply, state}
     else
+      # Replay recording: an input that changed state is remembered at the
+      # number of gravity ticks done so far (it landed after that many ticks).
+      state = %{state | inputs: state.inputs ++ [{state.tick, action}]}
+
       if Game.playing?(game) do
         {:noreply, broadcast(%{state | game: game})}
       else
@@ -77,7 +84,8 @@ defmodule Alaypz.Games.Game do
 
   @impl true
   def handle_info(:tick, %{status: :playing} = state) do
-    state = %{state | game: Game.tick(state.game)}
+    # `tick` counts gravity ticks done so far — the replay clock.
+    state = %{state | tick: state.tick + 1, game: Game.tick(state.game)}
 
     if Game.playing?(state.game) do
       {:noreply, schedule(broadcast(state))}
@@ -130,13 +138,7 @@ defmodule Alaypz.Games.Game do
     end
   end
 
-  defp apply_input(game, :left), do: Game.move(game, :left)
-  defp apply_input(game, :right), do: Game.move(game, :right)
-  defp apply_input(game, :cw), do: Game.rotate(game, :cw)
-  defp apply_input(game, :ccw), do: Game.rotate(game, :ccw)
-  defp apply_input(game, :soft), do: Game.soft_drop(game)
-  defp apply_input(game, :hard), do: Game.hard_drop(game)
-  defp apply_input(game, :hold), do: Game.hold(game)
+  defp apply_input(game, action), do: Game.apply(game, action)
 
   defp schedule(state) do
     Process.send_after(self(), :tick, tick_interval_ms(state.game))
@@ -172,8 +174,24 @@ defmodule Alaypz.Games.Game do
     broadcast(state)
   end
 
-  defp persist(%{status: reason, player_id: player_id, game: game}) do
+  defp persist(%{
+         status: reason,
+         player_id: player_id,
+         game: game,
+         seed: seed,
+         tick: tick,
+         inputs: inputs
+       }) do
     end_reason = if(reason == :interrupted, do: "interrupted", else: "finished")
+
+    # Replay = the deterministic seed + every applied input stamped with the
+    # gravity-tick count it landed after. String keys: `:map` round-trips
+    # through JSON.
+    replay = %{
+      "seed" => seed,
+      "ticks" => tick,
+      "inputs" => Enum.map(inputs, fn {t, action} -> [t, to_string(action)] end)
+    }
 
     case Alaypz.Scores.record(%{
            player_id: player_id,
@@ -181,7 +199,9 @@ defmodule Alaypz.Games.Game do
            lines: game.lines,
            level: game.level,
            end_reason: end_reason,
-           board: Alaypz.Scores.encode_board(game.board)
+           board: Alaypz.Scores.encode_board(game.board),
+           seed: seed,
+           replay: replay
          }) do
       {:ok, _score} ->
         :ok
