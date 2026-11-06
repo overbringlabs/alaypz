@@ -16,12 +16,13 @@ const FLASH_MS = 350
 
 export default {
   mounted() {
-    this.cell = 26
-    this.mini = 12
+    this.card = this.el.dataset.card !== undefined
+    this.cell = Number(this.el.dataset.cell) || (this.card ? 10 : 26)
+    this.mini = Math.round(this.cell * 0.46)
     this.cols = Number(this.el.dataset.cols) || 10
     this.rows = Number(this.el.dataset.rows) || 20
     this.static = this.el.dataset.static !== undefined
-    this.bandH = this.static ? 0 : this.mini * 4 + 12
+    this.bandH = this.card || this.static ? 0 : this.mini * 4 + 12
     this.el.width = this.cols * this.cell
     this.el.height = this.rows * this.cell + this.bandH
     this.ctx = this.el.getContext("2d")
@@ -37,7 +38,14 @@ export default {
       this.drawBoard(this.decodeBoard(this.el.dataset.board || ""), null, null, 0)
     } else {
       this.raf = requestAnimationFrame(() => this.loop())
-      this.handleEvent("alaypz-frame", (frame) => this.onFrame(frame))
+      if (this.card) {
+        // A card canvas only draws frames for its own game.
+        this.handleEvent("alaypz-card-frame", (msg) => {
+          if (msg && msg.name === this.el.dataset.name) this.onFrame(msg.frame)
+        })
+      } else {
+        this.handleEvent("alaypz-frame", (frame) => this.onFrame(frame))
+      }
     }
   },
 
@@ -48,6 +56,13 @@ export default {
   onFrame(frame) {
     if (!frame) return
     this.frame = frame
+
+    // Cards draw the piece instantly — no tween, no line-clear flash.
+    if (this.card) {
+      this.shownPiece = frame.piece
+      this.tween = null
+      return
+    }
 
     if (frame.lines > this.lastLines) {
       this.lastLines = frame.lines
@@ -89,18 +104,21 @@ export default {
     ctx.fillRect(0, 0, this.el.width, this.el.height)
 
     if (frame) {
-      const piece = this.piecePosition(frame)
+      const piece = this.card ? frame.piece : this.piecePosition(frame)
       this.drawBoard(frame.board, frame.cells, frame.ghost, frame.status, piece)
-      this.drawBand(frame)
 
-      if (frame.lines > 0 && performance.now() < this.flashUntil) {
-        const t = (this.flashUntil - performance.now()) / FLASH_MS
-        ctx.fillStyle = `rgba(160, 240, 255, ${0.55 * t})`
-        ctx.fillRect(0, this.bandH, this.el.width, this.rows * this.cell)
-      }
+      if (!this.card) {
+        this.drawBand(frame)
 
-      if (frame.status === "finished" || frame.status === "interrupted") {
-        this.drawGameOver(frame.status)
+        if (frame.lines > 0 && performance.now() < this.flashUntil) {
+          const t = (this.flashUntil - performance.now()) / FLASH_MS
+          ctx.fillStyle = `rgba(160, 240, 255, ${0.55 * t})`
+          ctx.fillRect(0, this.bandH, this.el.width, this.rows * this.cell)
+        }
+
+        if (frame.status === "finished" || frame.status === "interrupted") {
+          this.drawGameOver(frame.status)
+        }
       }
     }
   },
@@ -158,11 +176,12 @@ export default {
 
     // ghost: faint outline under the current piece
     if (ghost && piecePos) {
+      const inset = Math.min(3, Math.floor(this.cell * 0.2))
       ctx.strokeStyle = this.palette.ghost
-      ctx.lineWidth = 2
+      ctx.lineWidth = 1
       for (const [x, y] of ghost) {
         if (y < this.rows) {
-          ctx.strokeRect(x * c + 3, y0 + y * c + 3, c - 6, c - 6)
+          ctx.strokeRect(x * c + inset + 0.5, y0 + y * c + inset + 0.5, c - inset * 2 - 1, c - inset * 2 - 1)
         }
       }
     }
@@ -177,7 +196,7 @@ export default {
 
       ctx.save()
       ctx.shadowColor = color
-      ctx.shadowBlur = 14
+      ctx.shadowBlur = Math.min(14, this.cell * 0.55)
       for (const [x, y] of cells) {
         this.cellAt(x + offX, y + offY, color)
       }
@@ -193,14 +212,15 @@ export default {
 
   cellAt(x, y, color) {
     const { ctx, cell: c } = this
+    const pad = Math.min(1.5, c * 0.12)
     const px = x * c
     const py = this.bandH + y * c
     if (px < 0 || py < 0 || px + c > this.el.width || py + c > this.el.height) return
     ctx.fillStyle = color
-    ctx.fillRect(px + 1.5, py + 1.5, c - 3, c - 3)
+    ctx.fillRect(px + pad, py + pad, c - pad * 2, c - pad * 2)
     // top highlight for the neon bevel
     ctx.fillStyle = "rgba(255, 255, 255, 0.25)"
-    ctx.fillRect(px + 1.5, py + 1.5, c - 3, 3)
+    ctx.fillRect(px + pad, py + pad, c - pad * 2, Math.max(1, Math.min(3, c * 0.2)))
   },
 
   // hold (left) + next three (right), drawn in the band above the board

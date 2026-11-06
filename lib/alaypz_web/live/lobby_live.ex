@@ -84,10 +84,23 @@ defmodule AlaypzWeb.LobbyLive do
     {:noreply, socket}
   end
 
-  # Clicking a card focuses the game surface on it.
+  # Clicking a card focuses the session on it; clicking the focused card
+  # (or the Unfocus button) releases it.
   @impl true
   def handle_event("focus", %{"name" => name}, socket) do
-    {:noreply, focus_on(socket, name)}
+    socket =
+      if socket.assigns.focused_name == name do
+        unfocus_on(socket)
+      else
+        focus_on(socket, name)
+      end
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("unfocus", _, socket) do
+    {:noreply, unfocus_on(socket)}
   end
 
   # The `.AlaypzKeys` hook: arrow/letter keys act on the focused game.
@@ -119,7 +132,8 @@ defmodule AlaypzWeb.LobbyLive do
     {:noreply, socket}
   end
 
-  # Live cards: every game change broadcasts a summary here.
+  # Live cards: every game change broadcasts its summary and full payload
+  # here, so each card can keep its mini-canvas up to date.
   @impl true
   def handle_info(%{type: :lobby, name: name} = msg, socket) do
     socket =
@@ -127,7 +141,7 @@ defmodule AlaypzWeb.LobbyLive do
         send_update(
           GameCard,
           id: name,
-          score: msg[:score],
+          payload: msg[:payload],
           status: msg[:status],
           reconnecting: Map.get(msg, :reconnecting, false)
         )
@@ -245,5 +259,16 @@ defmodule AlaypzWeb.LobbyLive do
     # The surface component self-hydrates on (re)mount for the new name;
     # further states arrive via the game topic.
     assign(socket, :focused_name, name)
+  end
+
+  defp unfocus_on(socket) do
+    case socket.assigns.focused_name do
+      nil ->
+        socket
+
+      old ->
+        Phoenix.PubSub.unsubscribe(Alaypz.PubSub, "game:#{old}")
+        assign(socket, :focused_name, nil)
+    end
   end
 end

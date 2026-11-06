@@ -78,7 +78,7 @@ defmodule AlaypzWeb.LobbyLiveTest do
     refute has_element?(view, "#access-string")
   end
 
-  test "a started game appears as a live card", %{conn: conn} do
+  test "a started game appears as a live card with its own canvas", %{conn: conn} do
     {:ok, player, _secret} = Players.claim_name("dave-lobby")
     on_exit(fn -> Games.stop(player) end)
 
@@ -88,6 +88,41 @@ defmodule AlaypzWeb.LobbyLiveTest do
     # the view's mailbox, so the next render shows the card.
     Games.start_game(player, 42)
     assert has_element?(view, "#card-dave-lobby", "dave-lobby")
+    assert has_element?(view, "#card-canvas-dave-lobby")
+    assert has_element?(view, "#card-score-dave-lobby", "0")
+  end
+
+  test "clicking a card focuses the session; clicking it again unfocuses", %{
+    conn: conn
+  } do
+    {:ok, player, _secret} = Players.claim_name("frank-lobby")
+    on_exit(fn -> Games.stop(player) end)
+
+    {:ok, view, _html} = live(conn, "/")
+    Games.start_game(player, 7)
+
+    render_click(element(view, "#card-frank-lobby"))
+    assert has_element?(view, "#focused-name", "frank-lobby")
+    assert has_element?(view, "#unfocus-button")
+
+    render_click(element(view, "#card-frank-lobby"))
+    assert has_element?(view, "#focused-section", "Start a game or click a card")
+    refute has_element?(view, "#focused-game")
+  end
+
+  test "the unfocus button releases the session", %{conn: conn} do
+    {:ok, player, _secret} = Players.claim_name("grace-lobby")
+    on_exit(fn -> Games.stop(player) end)
+
+    {:ok, view, _html} = live(conn, "/")
+    Games.start_game(player, 9)
+
+    render_click(element(view, "#card-grace-lobby"))
+    assert has_element?(view, "#focused-game")
+
+    render_click(element(view, "#unfocus-button"))
+    assert has_element?(view, "#focused-section", "Start a game or click a card")
+    refute has_element?(view, "#focused-game")
   end
 
   test "the focused surface reflects pushed game states", %{conn: conn} do

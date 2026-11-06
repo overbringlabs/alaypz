@@ -206,7 +206,8 @@ defmodule Alaypz.Games.Game do
       type: :lobby,
       name: state.name,
       score: state.game.score,
-      status: state.status
+      status: state.status,
+      payload: payload
     })
 
     state

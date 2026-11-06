@@ -69,6 +69,18 @@ defmodule Alaypz.GamesTest do
     end
   end
 
+  test "lobby broadcasts carry the full payload for the live cards", %{player: player} do
+    start_allowed(player, 42)
+    Games.subscribe_game(player)
+    subscribe_lobby()
+    drain_game("init")
+
+    Games.input(player, :left)
+
+    name = player.name
+    assert_receive %{type: :lobby, name: ^name, payload: %{piece: %{pos: {2, _y}}}}, 500
+  end
+
   test "hold moves the current piece into the hold slot", %{player: player} do
     start_allowed(player, 42)
     Games.subscribe_game(player)

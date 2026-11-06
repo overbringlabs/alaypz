@@ -86,6 +86,8 @@ defmodule AlaypzWeb do
       import Phoenix.HTML
       # Core UI components
       import AlaypzWeb.CoreComponents
+      import AlaypzWeb.StatusChip
+      import AlaypzWeb.ControlsLegend
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

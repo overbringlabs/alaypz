@@ -73,50 +73,77 @@ defmodule AlaypzWeb.FocusedGame do
     ~H"""
     <div
       id="focused-game"
-      class="flex flex-wrap gap-6 rounded-xl border border-slate-700 bg-slate-900/60 p-4"
+      class="flex flex-wrap gap-6 rounded-xl border border-cyan-500/30 bg-slate-900/60 p-5 shadow-[0_0_40px_rgba(0,229,255,0.07)]"
     >
-      <div class="flex items-start gap-4">
-        <div id="focused-board" class="alaypz-board rounded-lg border border-cyan-500/30 p-2">
-          <canvas
-            id="focused-canvas"
-            phx-hook="AlaypzCanvas"
-            phx-update="ignore"
-            data-cols="10"
-            data-rows="20"
-            class="block"
-          >
-            {AlaypzWeb.Board.text(@payload && @payload.board)}
-          </canvas>
+      <div
+        id="focused-board"
+        class="alaypz-board rounded-lg border border-cyan-400/40 p-2 shadow-[0_0_24px_rgba(0,229,255,0.15)]"
+      >
+        <canvas
+          id="focused-canvas"
+          phx-hook="AlaypzCanvas"
+          phx-update="ignore"
+          data-cols="10"
+          data-rows="20"
+          data-cell="28"
+          class="block"
+        >
+          {AlaypzWeb.Board.text(@payload && @payload.board)}
+        </canvas>
+      </div>
+
+      <div class="min-w-52 flex-1">
+        <div class="flex items-center justify-between gap-3">
+          <span id="focused-name" class="font-mono text-xl font-bold text-slate-100">
+            {@name}
+          </span>
+          <span class="flex items-center gap-2">
+            <.chip status={@status} />
+            <button
+              type="button"
+              id="unfocus-button"
+              phx-click="unfocus"
+              class="rounded-lg border border-slate-600 px-3 py-1 text-xs font-semibold text-slate-300 transition hover:border-rose-400/60 hover:text-rose-300"
+            >
+              Unfocus
+            </button>
+          </span>
         </div>
 
-        <dl class="space-y-1 text-sm">
-          <div class="flex gap-2">
-            <dt class="w-14 text-slate-500">name</dt>
-            <dd id="focused-name" class="font-semibold text-slate-100">{@name}</dd>
-          </div>
-          <div class="flex gap-2">
-            <dt class="text-slate-500">status</dt>
+        <dl class="mt-4 grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm">
+          <div class="flex justify-between gap-2">
+            <dt class="uppercase tracking-wider text-slate-500">status</dt>
             <dd id="focused-status" class="text-slate-300">{status_label(@status)}</dd>
           </div>
-          <div class="flex gap-2">
-            <dt class="text-slate-500">score</dt>
-            <dd id="focused-score" class="font-mono text-cyan-300">
+          <div class="flex justify-between gap-2">
+            <dt class="uppercase tracking-wider text-slate-500">score</dt>
+            <dd id="focused-score" class="font-mono font-semibold text-cyan-300">
               {(@payload && @payload.score) || 0}
             </dd>
           </div>
-          <div class="flex gap-2">
-            <dt class="text-slate-500">lines</dt>
+          <div class="flex justify-between gap-2">
+            <dt class="uppercase tracking-wider text-slate-500">lines</dt>
             <dd class="font-mono text-slate-300">{(@payload && @payload.lines) || 0}</dd>
           </div>
-          <div class="flex gap-2">
-            <dt class="text-slate-500">level</dt>
+          <div class="flex justify-between gap-2">
+            <dt class="uppercase tracking-wider text-slate-500">level</dt>
             <dd class="font-mono text-slate-300">{(@payload && @payload.level) || 1}</dd>
           </div>
-          <div class="flex gap-2">
-            <dt class="text-slate-500">piece</dt>
+          <div class="flex justify-between gap-2">
+            <dt class="uppercase tracking-wider text-slate-500">piece</dt>
             <dd id="focused-piece" class="font-mono text-slate-300">{piece_text(@payload)}</dd>
           </div>
         </dl>
+
+        <div class="mt-6 rounded-lg border border-slate-700/70 bg-slate-950/50 p-4">
+          <h3 class="mb-3 text-xs font-bold uppercase tracking-widest text-cyan-400">
+            Controls — act on this game
+          </h3>
+          <.rows />
+          <p class="mt-4 text-xs text-slate-500">
+            Click another card to switch; click this card or Unfocus to release it.
+          </p>
+        </div>
       </div>
     </div>
     """
@@ -124,9 +151,10 @@ defmodule AlaypzWeb.FocusedGame do
 
   # --- frame construction (JSON-safe: tuples become lists) ----------------
 
-  # A single frame for the canvas hook: absolute piece/ghost cells, box
+  # A single frame for the canvas hooks: absolute piece/ghost cells, box
   # position for the tween, queue/hold shapes, and the terminal status.
-  defp frame(nil, status) do
+  # Shared by the focused surface and the lobby cards.
+  def frame(nil, status) do
     %{
       board: nil,
       cells: nil,
@@ -140,7 +168,7 @@ defmodule AlaypzWeb.FocusedGame do
     }
   end
 
-  defp frame(payload, status) do
+  def frame(payload, status) do
     %{
       board: payload.board,
       cells: cells_list(payload.cells),

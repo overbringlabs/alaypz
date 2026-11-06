@@ -11,9 +11,11 @@ get here".
 
 ## In flight
 
-- none — the `plans/20261106_alaypz.md` plan is complete (all 7 steps committed 2026-11-06); `mix precommit` green.
+- none — UI redesign complete (all four steps of `plans/20261106_ui_redesign.md` committed 2026-11-06); `mix precommit` green.
 
 ## Last completed
+
+- 2026-11-06 — UI redesign (operator ask; `plans/20261106_ui_redesign.md`): every ongoing game renders **live on its lobby card** (100×200 mini-canvas via the `.AlaypzCanvas` hook's new card mode, fed by name-filtered `alaypz-card-frame` events; the `lobby` broadcast now carries the full payload) — no click needed to see a game. Card click toggles the focused session (280×616, `data-cell="28"` proper size) with controls panel + Unfocus button; `FocusedGame.frame/2` is now public and shared. Boilerplate stripped: phx.new header/theme-toggle/theme-script/light-theme gone; neon `ALAYPZ` wordmark, body glow, `.kbd` key-hint chips in the header (all pages) and the session panel; new `StatusChip` + `ControlsLegend` function components; `/leaderboard` rank glow + hover rows; names link to `/:player_name`. Bugs found: HEEx class lists need `]` before `}`; `@module_attr` is invisible inside `~H` (assigns shadow) — pass via `assign_new`; `attr` defaults are not injected at imported-function call sites — `Map.put_new` in the function; a `use AlaypzWeb, :html` self-import cycle — function components use `use Phoenix.Component` directly (as `CoreComponents` does). Browser smoke (two tabs): cards live without a click, spectator tab mirrors the live card, click-to-focus/unfocus (toggle + button), keys drive the focused game, finished cards keep their dimmed final board, history pages render, zero console errors. 3 new tests (card canvas, focus toggle, lobby payload), 61 repo-wide green; `mix precommit` green.
 
 - 2026-11-06 — Plan step 7 (polish + smoke — **plan complete**): lobby "No games yet" card made conditional on `@cards == []`, stale template comment updated, new lobby test for the three empty states. Two-tab browser smoke: player tab + spectator tab (separate name, `focus` event on the live card) show identical frames; player keys and a spectator hard-drop both propagate to both tabs. `/leaderboard` + `/:player_name` render with lit canvases; zero console errors. `mix precommit` green (58 tests, `ledger.budget` 9891/30000).
 

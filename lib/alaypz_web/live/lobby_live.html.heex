@@ -1,13 +1,14 @@
 <Layouts.app flash={@flash}>
-  <div class="mx-auto max-w-5xl px-4 py-8">
-    <h1 class="text-3xl font-bold tracking-tight text-slate-100">Alaypz</h1>
-    <p class="mt-1 text-sm text-slate-400">
-      Claim a name, start a game, and watch the live boards. Focused game: ← → move ·
-      ↓ soft drop · ↑ hard drop · Z/X rotate · C hold.
-    </p>
-
+  <div class="mx-auto max-w-6xl px-4 py-8">
     <%!-- name form + one-time access string --%>
-    <section id="identity" class="mt-6 rounded-xl border border-slate-700 bg-slate-800/40 p-4">
+    <section id="identity" class="rounded-xl border border-slate-700/80 bg-slate-900/60 p-4">
+      <div class="mb-3 flex items-baseline justify-between gap-3">
+        <h1 class="text-lg font-bold text-slate-100">Claim your name</h1>
+        <span class="text-xs text-slate-500">
+          your name is stored in this browser — the access string reclaims it elsewhere
+        </span>
+      </div>
+
       <.form for={@form} id="name-form" phx-change="validate" phx-submit="submit">
         <div class="flex flex-wrap items-center gap-2">
           <.input
@@ -36,6 +37,17 @@
           >
             {if @mode == :reclaim, do: "Reclaim name", else: "Claim name"}
           </button>
+
+          <button
+            type="button"
+            id="start-button"
+            phx-click="start"
+            phx-value-name={@form[:name].value || ""}
+            class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-40"
+            disabled={@form[:name].value in [nil, ""]}
+          >
+            Start game
+          </button>
         </div>
 
         <%= for {field, {message, _opts}} <- @form.errors do %>
@@ -60,48 +72,49 @@
       <%= if @notice do %>
         <p id="lobby-notice" class="mt-3 text-sm text-slate-300">{@notice}</p>
       <% end %>
-
-      <div class="mt-3">
-        <button
-          type="button"
-          id="start-button"
-          phx-click="start"
-          phx-value-name={@form[:name].value || ""}
-          class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500"
-          disabled={@form[:name].value in [nil, ""]}
-        >
-          Start game
-        </button>
-      </div>
     </section>
 
-    <%!-- live game cards --%>
+    <%!-- live game cards: every ongoing game renders its own live board --%>
     <section id="games" class="mt-8">
-      <h2 class="text-lg font-semibold text-slate-100">Live games</h2>
-      <div id="game-cards" class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+      <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h2 class="text-lg font-semibold text-slate-100">Live games</h2>
+        <span class="text-xs text-slate-500">click a card to take control</span>
+      </div>
+      <div id="game-cards" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <%= if @cards == [] do %>
           <div class="col-span-full rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-500">
             No games yet — claim a name and press Start.
           </div>
         <% end %>
         <%= for name <- @cards do %>
-          <.live_component module={GameCard} id={name} name={name} />
+          <.live_component
+            module={GameCard}
+            id={name}
+            name={name}
+            focused={name == @focused_name}
+          />
         <% end %>
       </div>
     </section>
 
-    <%!-- focused game surface (.AlaypzCanvas hook renders the pushed frames) --%>
+    <%!-- the focused session (.AlaypzCanvas hook renders the pushed frames) --%>
     <section id="focused-section" class="mt-8">
-      <h2 class="text-lg font-semibold text-slate-100">Focused game</h2>
+      <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h2 class="text-lg font-semibold text-slate-100">Session</h2>
+        <.compact class="hidden md:inline-flex" />
+      </div>
       <div class="mt-3">
         <%= if @focused_name do %>
           <div id="focused-keys" phx-hook="AlaypzKeys">
             <.live_component module={FocusedGame} id={:focused} name={@focused_name} />
           </div>
         <% else %>
-          <p class="rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-500">
+          <div class="rounded-xl border border-dashed border-slate-700 p-5 text-sm text-slate-500">
             Start a game or click a card to focus it here.
-          </p>
+            <span class="mt-3 block md:hidden">
+              <.compact />
+            </span>
+          </div>
         <% end %>
       </div>
     </section>
@@ -122,17 +135,24 @@
                 <th class="py-1 pr-4">score</th>
                 <th class="py-1 pr-4">lines</th>
                 <th class="py-1 pr-4">level</th>
-                <th class="py-1 pr-4">ended</th>
+                <th class="py-1">ended</th>
               </tr>
             </thead>
             <tbody class="font-mono text-slate-300">
               <%= for score <- @results do %>
                 <tr id={"result-#{score.id}"} class="border-t border-slate-800">
-                  <td class="py-1 pr-4">{score.player.name}</td>
+                  <td class="py-1 pr-4">
+                    <.link
+                      navigate={"/#{score.player.name}"}
+                      class="text-slate-100 transition hover:text-cyan-300"
+                    >
+                      {score.player.name}
+                    </.link>
+                  </td>
                   <td class="py-1 pr-4 text-cyan-300">{score.score}</td>
                   <td class="py-1 pr-4">{score.lines}</td>
                   <td class="py-1 pr-4">{score.level}</td>
-                  <td class="py-1 pr-4">{score.end_reason}</td>
+                  <td class="py-1">{score.end_reason}</td>
                 </tr>
               <% end %>
             </tbody>
