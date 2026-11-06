@@ -82,7 +82,7 @@ defmodule AlaypzWeb.FocusedGame do
     >
       <div
         id="focused-board"
-        class="alaypz-board rounded-lg border border-cyan-400/40 p-2 shadow-[0_0_24px_rgba(0,229,255,0.15)]"
+        class="alaypz-board rounded-lg border border-cyan-400/40 p-2 shadow-[0_0_24px_rgba(0,229,255,0.15)] max-lg:w-fit max-lg:self-center"
       >
         <canvas
           id="focused-canvas"

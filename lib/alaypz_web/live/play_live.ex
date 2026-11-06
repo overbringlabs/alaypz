@@ -42,7 +42,8 @@ defmodule AlaypzWeb.PlayLive do
      |> assign(:mode, :claim)
      |> assign(:access_string, nil)
      |> assign(:notice, nil)
-     |> assign(:focused_name, nil)}
+     |> assign(:focused_name, nil)
+     |> assign(:game_status, nil)}
   end
 
   # Track the form state so `phx-value-*` attributes stay in sync with the
@@ -102,6 +103,7 @@ defmodule AlaypzWeb.PlayLive do
           socket
           |> assign(:access_string, secret || nil)
           |> assign(:notice, nil)
+          |> assign(:game_status, nil)
           |> Focus.focus_on(player.name)
 
         {:error, changeset} ->
@@ -137,14 +139,22 @@ defmodule AlaypzWeb.PlayLive do
   # The focused game's topic: push every engine state to the surface.
   @impl true
   def handle_info(%{type: :game, status: status, payload: payload}, socket) do
-    if socket.assigns.focused_name do
-      send_update(FocusedGame, id: :focused, payload: payload, status: status)
-    end
+    socket =
+      if socket.assigns.focused_name do
+        send_update(FocusedGame, id: :focused, payload: payload, status: status)
+        assign(socket, :game_status, status)
+      else
+        socket
+      end
 
     {:noreply, socket}
   end
 
   # --- internals ---------------------------------------------------------
+
+  # Terminal states: on the game screen the claim form (Start = restart)
+  # comes back so a finished/interrupted game has a way forward.
+  defp game_over?(status), do: status in [:finished, :interrupted]
 
   # Inputs only reach the view's own game; the game process enforces the
   # same owner gate against the caller pid.
@@ -169,11 +179,19 @@ defmodule AlaypzWeb.PlayLive do
   defp maybe_attach(socket) do
     case Players.get_by_name(socket.assigns.form[:name].value) do
       player when is_struct(player, Players.Player) ->
-        if Games.state(player) do
-          Games.attach(player, self())
-          Focus.focus_on(socket, player.name)
-        else
-          socket
+        case Games.state(player) do
+          nil ->
+            socket
+
+          state ->
+            # A finished/interrupted game still has a state — attach to it
+            # and surface the status so the claim form (Start = restart)
+            # comes back on the game screen.
+            Games.attach(player, self())
+
+            socket
+            |> Focus.focus_on(player.name)
+            |> assign(:game_status, state.status)
         end
 
       _ ->

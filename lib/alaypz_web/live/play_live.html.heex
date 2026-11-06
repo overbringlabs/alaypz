@@ -7,7 +7,10 @@
          touch device (incl. tablets — lg, not md); the claim screen is a
          centered title-screen card --%>
     <div class={
-      if @focused_name, do: "hidden lg:block", else: "max-lg:mx-auto max-lg:mt-6 max-lg:max-w-sm"
+      cond do
+        @focused_name != nil and not game_over?(@game_status) -> "hidden lg:block"
+        true -> "max-lg:mx-auto max-lg:mt-6 max-lg:max-w-sm"
+      end
     }>
       <.identity_form
         form={@form}

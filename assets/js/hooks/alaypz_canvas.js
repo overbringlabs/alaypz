@@ -375,14 +375,17 @@ export default {
 
   drawGameOver(status) {
     const { ctx } = this
+    const text = status === "finished" ? "FINISHED" : "INTERRUPTED"
+    // Scale the label so it fits the canvas width (monospace char ≈ 0.6em)
+    const size = Math.min(34, Math.max(14, Math.floor(this.el.width / (text.length * 0.6))))
     ctx.save()
-    ctx.font = "bold 34px monospace"
+    ctx.font = `bold ${size}px monospace`
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
     ctx.shadowColor = status === "finished" ? this.palette.o : this.palette.z
     ctx.shadowBlur = 22
     ctx.fillStyle = status === "finished" ? this.palette.o : this.palette.z
-    ctx.fillText(status === "finished" ? "FINISHED" : "INTERRUPTED", this.el.width / 2, this.bandH + (this.rows * this.cell) / 2)
+    ctx.fillText(text, this.el.width / 2, this.bandH + (this.rows * this.cell) / 2)
     ctx.restore()
   },
 
