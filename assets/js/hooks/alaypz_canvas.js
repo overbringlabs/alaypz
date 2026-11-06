@@ -27,13 +27,19 @@ export default {
     this.rows = Number(this.el.dataset.rows) || 20
     this.static = this.el.dataset.static !== undefined
     this.fitHeight = this.el.dataset.fitHeight !== undefined
+    // Side gutter (the mobile play surface): the hold/next pieces live in
+    // visible #gutter-* canvases instead of the in-canvas band, so this
+    // canvas becomes the pure 10×20 playfield (room for a bigger cell).
+    this.gutterHoldCv = document.getElementById("gutter-hold")
+    this.gutterCvs = [0, 1, 2].map((i) => document.getElementById("gutter-next-" + i))
+    this.gutter = !!(this.gutterHoldCv && this.gutterHoldCv.offsetParent)
     this.fitCell()
-    // Height fit needs the settled layout (HUD strip + controls heights);
-    // re-measure after the first paint so the fit is exact (mobile only).
+    // Height fit needs the settled layout (HUD strip heights); re-measure
+    // after the first paint so the fit is exact (mobile only).
     if (this.fitHeight && window.matchMedia("(max-width: 1023px)").matches) {
       requestAnimationFrame(() => this.fitCell(true))
     }
-    this.bandH = this.card || this.static ? 0 : this.mini * 4 + 12
+    this.bandH = this.card || this.static || this.gutter ? 0 : this.mini * 4 + 12
     this.el.width = this.cols * this.cell
     this.el.height = this.rows * this.cell + this.bandH
     this.onResize = () => this.fitCell(true)
@@ -102,22 +108,24 @@ export default {
     // the board is the only content below the HUD, so fill the remaining
     // viewport height (minus the swipe-hint line) without scrolling.
     // Desktop keeps its natural board size (the page scrolls there).
-    // bandH is mini*4+12 ≈ 1.84*cell + 12; the board adds ~18px chrome.
+    // With the side gutter the canvas is the pure playfield (no band ≈
+    // 1.84*cell + 12); the board adds ~18px chrome (8 in the gutter
+    // layout, where the card padding is stripped on mobile).
     const mobile = window.matchMedia("(max-width: 1023px)").matches
     if (this.fitHeight && mobile) {
       const top = board.getBoundingClientRect().top
       // below the board: the swipe-hint line (16px margin, ~33px of text)
       // and the page's bottom padding (8px)
-      const bottom = 57
+      const bottom = 50
       const availH = window.innerHeight - top - bottom
-      const hCell = Math.floor((availH - 18) / (this.rows + 1.84))
+      const hCell = Math.floor((availH - (this.gutter ? 8 : 18)) / (this.rows + (this.gutter ? 0 : 1.84)))
       if (hCell < cell) cell = Math.max(8, hCell)
     }
     if (reapply && cell === this.cell) return
     this.cell = cell
     this.mini = Math.round(this.cell * 0.46)
     if (reapply) {
-      this.bandH = this.card || this.static ? 0 : this.mini * 4 + 12
+      this.bandH = this.card || this.static || this.gutter ? 0 : this.mini * 4 + 12
       this.el.width = this.cols * this.cell
       this.el.height = this.rows * this.cell + this.bandH
     }
@@ -214,7 +222,11 @@ export default {
       this.drawBoard(frame.board, frame.cells, frame.ghost, frame.status, piece)
 
       if (!this.card) {
-        this.drawBand(frame)
+        if (this.gutter) {
+          this.drawGutter(frame)
+        } else {
+          this.drawBand(frame)
+        }
 
         if (frame.lines > 0 && now < this.flashUntil) {
           const remain = this.flashUntil - now
@@ -235,6 +247,30 @@ export default {
       }
       ctx.restore()
     }
+  },
+
+  // The side gutter (mobile): the next queue (top) and the hold slot
+  // (bottom) in their own 56px canvases — the main canvas is the pure
+  // 10×20 playfield.
+  drawGutter(frame) {
+    const m = 13
+    const draw = (cv, piece) => {
+      if (!cv) return
+      const ctx = cv.getContext("2d")
+      ctx.clearRect(0, 0, cv.width, cv.height)
+      if (!piece) return
+      ctx.save()
+      ctx.shadowColor = this.color(piece.id)
+      ctx.shadowBlur = 6
+      ctx.fillStyle = this.color(piece.id)
+      for (const [x, y] of piece.cells) {
+        ctx.fillRect(3 + x * m, 3 + y * m, m - 1, m - 1)
+      }
+      ctx.restore()
+    }
+    const queue = frame.queue || []
+    for (let i = 0; i < 3; i++) draw(this.gutterCvs[i], queue[i])
+    draw(this.gutterHoldCv, frame.hold)
   },
 
   // The piece position currently on screen: mid-tween when the server moved

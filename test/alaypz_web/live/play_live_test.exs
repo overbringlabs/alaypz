@@ -37,6 +37,9 @@ defmodule AlaypzWeb.PlayLiveTest do
     assert has_element?(view, "#focused-canvas")
     # The board is the touch surface (swipes) — no button pad.
     assert has_element?(view, "#swipe-hint")
+    # Hold/next live in the side gutter next to the board.
+    assert has_element?(view, "#gutter-hold")
+    assert has_element?(view, "#gutter-next-0")
     refute has_element?(view, "#play-controls")
 
     on_exit(fn -> Games.stop(Players.get_by_name("alice-play")) end)

@@ -78,24 +78,47 @@ defmodule AlaypzWeb.FocusedGame do
     ~H"""
     <div
       id="focused-game"
-      class="flex flex-wrap gap-6 rounded-xl border border-cyan-500/30 bg-base-100 p-5 shadow-sm max-lg:flex-col-reverse max-lg:gap-4 max-lg:p-3"
+      class="flex flex-wrap gap-6 rounded-xl border border-cyan-500/30 bg-base-100 p-5 shadow-sm max-lg:flex-col-reverse max-lg:gap-4 max-lg:rounded-none max-lg:border-0 max-lg:bg-transparent max-lg:p-0 max-lg:shadow-none"
     >
-      <div
-        id="focused-board"
-        class="alaypz-board rounded-lg border border-cyan-400/40 p-2 shadow-[0_0_24px_rgba(0,229,255,0.15)] max-lg:w-fit max-lg:self-center"
-      >
-        <canvas
-          id="focused-canvas"
-          phx-hook="AlaypzCanvas"
-          phx-update="ignore"
-          data-cols="10"
-          data-rows="20"
-          data-cell="28"
-          data-fit-height={if @fit_height, do: "", else: nil}
-          class="block"
+      <%!-- board + the side gutter (next/hold): the mobile game screen is
+           full-bleed — no nested cards, the board sits on the page
+           background and the gutter fills the space beside it --%>
+      <div class="flex flex-wrap items-start justify-center gap-4 lg:gap-0">
+        <div
+          id="focused-board"
+          class="alaypz-board rounded-lg border border-cyan-400/40 p-2 shadow-[0_0_24px_rgba(0,229,255,0.15)] max-lg:w-fit max-lg:self-center max-lg:rounded-none max-lg:border-0 max-lg:p-1 max-lg:shadow-none"
         >
-          {AlaypzWeb.Board.text(@payload && @payload.board)}
-        </canvas>
+          <canvas
+            id="focused-canvas"
+            phx-hook="AlaypzCanvas"
+            phx-update="ignore"
+            data-cols="10"
+            data-rows="20"
+            data-cell="28"
+            data-fit-height={if @fit_height, do: "", else: nil}
+            class="block"
+          >
+            {AlaypzWeb.Board.text(@payload && @payload.board)}
+          </canvas>
+        </div>
+
+        <%!-- mobile only: the in-canvas piece band moves here, so the
+             canvas is the pure 10×20 playfield (room for a bigger cell) --%>
+        <div
+          id="play-gutter"
+          class="hidden max-lg:flex max-lg:flex-col max-lg:items-center max-lg:gap-4 max-lg:self-center"
+        >
+          <div class="flex flex-col items-center gap-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-base-content/50">Next</span>
+            <canvas id="gutter-next-0" phx-update="ignore" width="56" height="56" class="block" />
+            <canvas id="gutter-next-1" phx-update="ignore" width="56" height="56" class="block" />
+            <canvas id="gutter-next-2" phx-update="ignore" width="56" height="56" class="block" />
+          </div>
+          <div class="flex flex-col items-center gap-1.5">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-base-content/50">Hold</span>
+            <canvas id="gutter-hold" phx-update="ignore" width="56" height="56" class="block" />
+          </div>
+        </div>
       </div>
 
       <div class="min-w-52 flex-1">
@@ -164,8 +187,9 @@ defmodule AlaypzWeb.FocusedGame do
             </h3>
             <.rows />
             <p class="mt-4 text-xs text-base-content/60">
-              Arrows move and drop · Z/X rotate · C hold — the on-screen
-              buttons do the same.
+              Arrows move and drop · Z/X rotate · C hold — on touch, swipe
+              the board: slide to move, flick down to drop, flick up to
+              rotate, press and hold to hold.
             </p>
           </div>
         <% end %>
