@@ -36,7 +36,7 @@ defmodule AlaypzWeb.SessionDrawer do
             <h2 class="mt-1 flex items-baseline gap-2">
               <span :if={@rank} class="text-lg font-bold text-base-content/70">#{@rank}</span>
               <.link
-                navigate={"/#{@session.player.name}"}
+                navigate={"/u/#{@session.player.name}"}
                 class="truncate text-lg font-bold text-base-content transition hover:text-cyan-500"
               >
                 {@session.player.name}

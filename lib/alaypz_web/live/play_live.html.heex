@@ -1,0 +1,60 @@
+<Layouts.app flash={@flash}>
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <%!-- name form + one-time access string; the board below is yours only --%>
+    <.identity_form
+      form={@form}
+      mode={@mode}
+      access_string={@access_string}
+      notice={@notice}
+      input_prefix="play"
+    />
+
+    <section id="play-section" class="mt-8">
+      <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h2 class="text-lg font-semibold text-base-content">Play</h2>
+        <.compact class="hidden md:inline-flex" />
+      </div>
+      <div class="mt-3">
+        <%= if @focused_name do %>
+          <div id="play-keys" phx-hook="AlaypzKeys">
+            <.live_component module={FocusedGame} id={:focused} name={@focused_name} />
+          </div>
+
+          <%!-- on-screen touch controls: large targets for mobile (also
+               handy with a mouse); the keyboard hook coexists on desktop --%>
+          <div id="play-controls" class="mx-auto mt-4 grid w-full max-w-xs grid-cols-3 gap-2">
+            <%= for {action, glyph, hint} <- [
+                      {"ccw", "⟲", "Z"},
+                      {"soft", "↓", "soft"},
+                      {"cw", "⟳", "X"},
+                      {"left", "←", "left"},
+                      {"hard", "⤓", "drop"},
+                      {"right", "→", "right"},
+                      {"hold", "⇅", "C"}
+                    ] do %>
+              <button
+                type="button"
+                id={"ctrl-#{action}"}
+                phx-click="play-input"
+                phx-value-action={action}
+                class={[
+                  "min-h-12 select-none rounded-lg border border-base-300 bg-base-200 text-base-content transition touch-manipulation hover:border-cyan-400/60 active:scale-95 active:bg-cyan-400/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70",
+                  action == "hold" && "col-span-3"
+                ]}
+              >
+                <span class="block text-2xl leading-none">{glyph}</span>
+                <span class="block text-[10px] uppercase tracking-wider text-base-content/50">
+                  {hint}
+                </span>
+              </button>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="rounded-xl border border-dashed border-base-300 p-5 text-sm text-base-content/60">
+            Claim a name and start a game to play here.
+          </div>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</Layouts.app>

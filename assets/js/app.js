@@ -26,12 +26,13 @@ import {hooks as colocatedHooks} from "phoenix-colocated/alaypz"
 import topbar from "../vendor/topbar"
 import AlaypzCanvas from "./hooks/alaypz_canvas"
 import AlaypzKeys from "./hooks/alaypz_keys"
+import LocalName from "./hooks/local_name"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
-  hooks: {...colocatedHooks, AlaypzCanvas, AlaypzKeys},
+  hooks: {...colocatedHooks, AlaypzCanvas, AlaypzKeys, LocalName},
 })
 
 // Show progress bar on live navigation and form submits

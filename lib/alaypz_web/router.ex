@@ -20,6 +20,7 @@ defmodule AlaypzWeb.Router do
     live "/", LobbyLive
     live "/leaderboard", LeaderboardLive
     live "/replay/:id", ReplayLive
+    live "/play", PlayLive
 
     # Declared last under /u/: unknown names (and unknown /u/ paths) render
     # the not-found state.

@@ -1,0 +1,133 @@
+defmodule AlaypzWeb.PlayLiveTest do
+  use AlaypzWeb.ConnCase
+
+  require Phoenix.ConnTest
+  import Phoenix.LiveViewTest
+
+  alias Alaypz.Games
+  alias Alaypz.Players
+
+  # LV 1.2 element-based event simulation: the element's phx-change /
+  # phx-submit attribute names the handler, and the passed value (nested
+  # under the form's `as: :identity` prefix) is merged into the form's
+  # current DOM values.
+  defp set_name(view, name) do
+    render_change(element(view, "#name-form"), %{"identity" => %{"name" => name}})
+  end
+
+  defp submit_form(view) do
+    render_submit(element(view, "#name-form"))
+  end
+
+  test "claims a name, starts a game, and shows the play surface with controls",
+       %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/play")
+
+    set_name(view, "alice-play")
+    submit_form(view)
+
+    assert has_element?(view, "#access-string")
+    assert has_element?(view, "#access-string-value")
+    assert has_element?(view, "#play-name")
+    assert has_element?(view, "#play-section", "Claim a name and start a game")
+
+    render_click(element(view, "#start-button"))
+
+    assert has_element?(view, "#focused-name", "alice-play")
+    assert has_element?(view, "#focused-canvas")
+    # On-screen touch controls for mobile (and a mouse).
+    assert has_element?(view, "#ctrl-left")
+    assert has_element?(view, "#ctrl-right")
+    assert has_element?(view, "#ctrl-soft")
+    assert has_element?(view, "#ctrl-hard")
+    assert has_element?(view, "#ctrl-cw")
+    assert has_element?(view, "#ctrl-ccw")
+    assert has_element?(view, "#ctrl-hold")
+
+    on_exit(fn -> Games.stop(Players.get_by_name("alice-play")) end)
+  end
+
+  test "reloading /play re-attaches to a running game", %{conn: conn} do
+    {:ok, player, _secret} = Players.claim_name("reload-play")
+    on_exit(fn -> Games.stop(player) end)
+    Games.start_game(player, 5)
+
+    # The name is already claimed (the browser's own, saved in
+    # localStorage); submitting it re-attaches to the running game instead
+    # of starting a fresh one.
+    {:ok, view, _html} = live(conn, "/play")
+    set_name(view, "reload-play")
+    submit_form(view)
+
+    assert has_element?(view, "#focused-name", "reload-play")
+    assert has_element?(view, "#ctrl-left")
+  end
+
+  test "the unfocus button releases the surface", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/play")
+
+    set_name(view, "unfocus-play")
+    submit_form(view)
+    render_click(element(view, "#start-button"))
+    assert has_element?(view, "#focused-game")
+
+    render_click(element(view, "#unfocus-button"))
+    assert has_element?(view, "#play-section", "Claim a name and start a game")
+    refute has_element?(view, "#focused-game")
+
+    on_exit(fn -> Games.stop(Players.get_by_name("unfocus-play")) end)
+  end
+
+  test "play-input acts only on the view's own game" do
+    {:ok, player, _secret} = Players.claim_name("dora-play")
+    on_exit(fn -> Games.stop(player) end)
+    Games.start_game(player, 42)
+    Games.attach(player, self())
+    Games.subscribe_game(player)
+
+    # A view focused on dora's game but owning a different name: its inputs
+    # are skipped by the view gate (the piece keeps falling at x=3).
+    spectator = %Phoenix.LiveView.Socket{
+      assigns: %{
+        form:
+          Phoenix.Component.to_form(%{"name" => "victor-play", "access" => ""}, as: :identity),
+        focused_name: "dora-play"
+      }
+    }
+
+    {:noreply, _} =
+      AlaypzWeb.PlayLive.handle_event("play-input", %{"action" => "left"}, spectator)
+
+    refute_receive %{type: :game, payload: %{piece: %{pos: {2, _y}}}}, 400
+
+    # The owning view's inputs pass the view gate and the process gate.
+    owner = %Phoenix.LiveView.Socket{
+      assigns: %{
+        form:
+          Phoenix.Component.to_form(%{"name" => "dora-play", "access" => ""}, as: :identity),
+        focused_name: "dora-play"
+      }
+    }
+
+    {:noreply, _} = AlaypzWeb.PlayLive.handle_event("play-input", %{"action" => "left"}, owner)
+    assert_receive %{type: :game, payload: %{piece: %{pos: {2, _y}}}}, 500
+  end
+
+  test "an unknown action from a tampered client is ignored, not a crash" do
+    {:ok, player, _secret} = Players.claim_name("tamper-play")
+    on_exit(fn -> Games.stop(player) end)
+    Games.start_game(player, 42)
+    Games.attach(player, self())
+
+    owner = %Phoenix.LiveView.Socket{
+      assigns: %{
+        form:
+          Phoenix.Component.to_form(%{"name" => "tamper-play", "access" => ""}, as: :identity),
+        focused_name: "tamper-play"
+      }
+    }
+
+    {:noreply, _} =
+      AlaypzWeb.PlayLive.handle_event("play-input", %{"action" => "exploit"}, owner)
+  end
+end

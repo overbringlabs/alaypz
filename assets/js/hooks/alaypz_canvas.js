@@ -22,9 +22,12 @@ export default {
     this.cols = Number(this.el.dataset.cols) || 10
     this.rows = Number(this.el.dataset.rows) || 20
     this.static = this.el.dataset.static !== undefined
+    this.fitCell()
     this.bandH = this.card || this.static ? 0 : this.mini * 4 + 12
     this.el.width = this.cols * this.cell
     this.el.height = this.rows * this.cell + this.bandH
+    this.onResize = () => this.fitCell(true)
+    window.addEventListener("resize", this.onResize)
     this.ctx = this.el.getContext("2d")
     this.palette = this.readPalette()
     this.frame = null
@@ -55,6 +58,33 @@ export default {
 
   destroyed() {
     if (this.raf) cancelAnimationFrame(this.raf)
+    window.removeEventListener("resize", this.onResize)
+  },
+
+  // Keep the board inside its container (a 280 px board overflows a 320 px
+  // mobile viewport) and re-fit on window resizes such as device rotation.
+  // The board div's own width is inflated by the canvas element, so the
+  // available width comes from the nearest layout scope (section / max-w
+  // container / viewport minus the page padding). Only clamps when the
+  // board would actually overflow, so desktop sizes are untouched.
+  // `reapply` resizes the canvas element itself.
+  fitCell(reapply) {
+    const board = this.el.parentElement
+    if (!board) return
+    const scope = board.closest("section") || board.closest("[class*='max-w-']")
+    let avail = window.innerWidth - 32
+    if (scope && scope.clientWidth) avail = Math.min(avail, scope.clientWidth)
+
+    const content = this.cols * this.cell + 20 // board padding + border
+    const cell = content > avail ? Math.max(8, Math.floor((avail - 20) / this.cols)) : this.cell
+    if (reapply && cell === this.cell) return
+    this.cell = cell
+    this.mini = Math.round(this.cell * 0.46)
+    if (reapply) {
+      this.bandH = this.card || this.static ? 0 : this.mini * 4 + 12
+      this.el.width = this.cols * this.cell
+      this.el.height = this.rows * this.cell + this.bandH
+    }
   },
 
   onFrame(frame) {

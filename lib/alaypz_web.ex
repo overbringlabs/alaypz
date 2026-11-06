@@ -90,6 +90,7 @@ defmodule AlaypzWeb do
       import AlaypzWeb.ControlsLegend
       import AlaypzWeb.ScoreCard
       import AlaypzWeb.SessionDrawer
+      import AlaypzWeb.IdentityForm
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

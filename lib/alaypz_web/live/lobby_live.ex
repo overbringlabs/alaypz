@@ -1,25 +1,21 @@
 defmodule AlaypzWeb.LobbyLive do
   @moduledoc """
-  The lobby at `/`.
+  The lobby: claim or reclaim a name, watch every live game on its live card,
+  focus another player's session to spectate it, and open a top result's
+  session drawer.
 
-  Name flow (D-20261106-02): the form claims a name (the one-time access
-  string is shown exactly once) or, for a taken name, reclaims it with the
-  access string. Starting a game resolves (claiming if needed), starts the
-  server-authoritative game process, attaches the view as owner, and focuses
-  the game surface on it.
-
-  Live cards: components cannot subscribe to PubSub, so the view subscribes
-  to the `"lobby"` topic and `send_update`s each `GameCard`. The focused
-  game surface is a `FocusedGame` component fed from the focused game's
-  `game:<name>` topic.
+  Playing happens on `/play` — the owner's play session (keyboard and
+  on-screen controls) only exists there. The focused section here is a
+  spectating surface for other players' games; the Play button and your own
+  card navigate to `/play` instead of focusing in place.
   """
   use AlaypzWeb, :live_view
 
-  alias Alaypz.Games
-  alias Alaypz.Players
   alias Alaypz.Scores
   alias AlaypzWeb.FocusedGame
+  alias AlaypzWeb.Focus
   alias AlaypzWeb.GameCard
+  alias AlaypzWeb.Identity
 
   @impl true
   def mount(_params, _session, socket) do
@@ -53,48 +49,40 @@ defmodule AlaypzWeb.LobbyLive do
   def handle_event("submit", %{"identity" => %{"name" => name} = params}, socket) do
     access = params["access"] || ""
 
-    socket =
+    {_outcome, socket} =
       if access == "" do
-        claim(name, socket)
+        Identity.claim(name, socket)
       else
-        reclaim(name, access, socket)
+        Identity.reclaim(name, access, socket)
       end
 
     {:noreply, socket}
   end
 
-  # Start (or restart) the game for a name, attach the view as owner, and
-  # focus the game surface on it.
+  # The play session (and its controls) live on /play; this is the entry
+  # point to it.
   @impl true
-  def handle_event("start", %{"name" => name}, socket) do
-    socket =
-      case resolve_or_claim(name) do
-        {:ok, player, secret} ->
-          {:ok, _pid} = Games.start_game(player, System.unique_integer([:positive]))
-          Games.attach(player, self())
-
-          socket
-          |> assign(:access_string, secret || nil)
-          |> assign(:notice, nil)
-          |> focus_on(player.name)
-
-        {:error, changeset} ->
-          message = name_error_message(changeset) || "Could not claim that name."
-          assign(socket, :notice, message)
-      end
-
-    {:noreply, socket}
+  def handle_event("start", _params, socket) do
+    {:noreply, push_navigate(socket, to: "/play")}
   end
 
-  # Clicking a card focuses the session on it; clicking the focused card
-  # (or the Unfocus button) releases it.
+  # Clicking a card focuses the session on it (spectating); clicking the
+  # focused card (or the Unfocus button) releases it. Clicking your *own*
+  # card goes to /play — the play session only happens there.
   @impl true
   def handle_event("focus", %{"name" => name}, socket) do
+    own = socket.assigns.form[:name].value
+
     socket =
-      if socket.assigns.focused_name == name do
-        unfocus_on(socket)
-      else
-        focus_on(socket, name)
+      cond do
+        own && String.downcase(name) == String.downcase(own) ->
+          push_navigate(socket, to: "/play")
+
+        socket.assigns.focused_name == name ->
+          Focus.unfocus_on(socket)
+
+        true ->
+          Focus.focus_on(socket, name)
       end
 
     {:noreply, socket}
@@ -102,7 +90,7 @@ defmodule AlaypzWeb.LobbyLive do
 
   @impl true
   def handle_event("unfocus", _, socket) do
-    {:noreply, unfocus_on(socket)}
+    {:noreply, Focus.unfocus_on(socket)}
   end
 
   # Open the session drawer for a top-result card.
@@ -124,38 +112,6 @@ defmodule AlaypzWeb.LobbyLive do
   @impl true
   def handle_event("close-session", _, socket) do
     {:noreply, assign(socket, session: nil, session_rank: nil)}
-  end
-
-  # The `.AlaypzKeys` hook: arrow/letter keys act on the focused game.
-  @key_actions %{
-    "ArrowLeft" => :left,
-    "ArrowRight" => :right,
-    "ArrowDown" => :soft,
-    "ArrowUp" => :hard,
-    "z" => :ccw,
-    "Z" => :ccw,
-    "x" => :cw,
-    "X" => :cw,
-    "c" => :hold,
-    "C" => :hold
-  }
-
-  @impl true
-  def handle_event("game-key", %{"key" => key}, socket) do
-    action = Map.get(@key_actions, key)
-    name = socket.assigns.focused_name
-    own = socket.assigns.form[:name].value
-
-    # Spectators may watch any game, but only the owner's view may drive it
-    # (the game process enforces the same gate on its side).
-    if action && name && own && String.downcase(name) == String.downcase(own) do
-      case Players.get_by_name(name) do
-        nil -> :ok
-        player -> Games.input(player, action)
-      end
-    end
-
-    {:noreply, socket}
   end
 
   # Live cards: every game change broadcasts its summary and full payload
@@ -196,105 +152,5 @@ defmodule AlaypzWeb.LobbyLive do
     end
 
     {:noreply, socket}
-  end
-
-  # --- internals ---------------------------------------------------------
-
-  defp claim(name, socket) do
-    case Players.claim_name(name) do
-      {:ok, player, secret} ->
-        socket
-        |> assign(:access_string, secret)
-        |> assign(:mode, :claim)
-        |> assign(:notice, "Name claimed. Keep the access string — it is shown only once.")
-        |> put_name(player.name)
-
-      {:error, changeset} ->
-        # A taken name switches the form into reclaim mode; anything else is
-        # a plain validation error. changeset.errors is a keyword list.
-        if Keyword.get(changeset.errors, :name) do
-          socket
-          |> assign(:mode, :reclaim)
-          |> assign(:notice, "That name is taken. Submit its access string to reclaim it.")
-          |> put_name(name)
-        else
-          assign(socket, form: to_form(changeset, as: :identity))
-        end
-    end
-  end
-
-  defp reclaim(name, access, socket) do
-    case Players.reclaim_name(name, access) do
-      {:ok, player} ->
-        socket
-        |> assign(:mode, :claim)
-        |> assign(:notice, "Name reclaimed.")
-        |> put_name(player.name)
-
-      # The name is unknown, i.e. free: claim it instead.
-      {:error, :name_not_found} ->
-        claim(name, socket)
-
-      {:error, :secret_mismatch} ->
-        assign(
-          socket,
-          :notice,
-          "Access string does not match. Try again, or reclaim a different way."
-        )
-    end
-  end
-
-  defp put_name(socket, name) do
-    assign(socket, form: to_form(%{"name" => name, "access" => ""}, as: :identity))
-  end
-
-  # `start` needs the player: use the existing one, or claim it fresh.
-  defp resolve_or_claim(name) do
-    case Players.get_by_name(name) do
-      nil ->
-        case Players.claim_name(name) do
-          {:ok, player, secret} -> {:ok, player, secret}
-          {:error, changeset} -> {:error, changeset}
-        end
-
-      player ->
-        {:ok, player, nil}
-    end
-  end
-
-  defp name_error_message(changeset) do
-    changeset.errors
-    |> Keyword.get(:name)
-    |> then(fn
-      {message, _opts} -> message
-      _ -> nil
-    end)
-  end
-
-  defp focus_on(socket, name) do
-    case socket.assigns.focused_name do
-      nil ->
-        :ok
-
-      old ->
-        Phoenix.PubSub.unsubscribe(Alaypz.PubSub, "game:#{old}")
-    end
-
-    Phoenix.PubSub.subscribe(Alaypz.PubSub, "game:#{name}")
-
-    # The surface component self-hydrates on (re)mount for the new name;
-    # further states arrive via the game topic.
-    assign(socket, :focused_name, name)
-  end
-
-  defp unfocus_on(socket) do
-    case socket.assigns.focused_name do
-      nil ->
-        socket
-
-      old ->
-        Phoenix.PubSub.unsubscribe(Alaypz.PubSub, "game:#{old}")
-        assign(socket, :focused_name, nil)
-    end
   end
 end
