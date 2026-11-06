@@ -21,8 +21,8 @@ defmodule Alaypz.Games.Game do
     GenServer.start_link(__MODULE__, {name, player_id, seed})
   end
 
-  @doc "Sends an input: `:left`, `:right`, `:cw`, `:ccw`, `:soft`, `:hard`, `:hold`."
-  def input(pid, action), do: GenServer.cast(pid, {:input, action})
+  @doc "Sends an input on behalf of `caller`: `:left`, `:right`, `:cw`, `:ccw`, `:soft`, `:hard`, `:hold`. Only the process attached via `attach/2` is accepted — this is the owner gate."
+  def input(pid, action, caller), do: GenServer.cast(pid, {:input, action, caller})
 
   @doc "Attaches the owner connection (monitored; its death starts the grace window)."
   def attach(pid, owner), do: GenServer.cast(pid, {:attach, owner})
@@ -49,7 +49,10 @@ defmodule Alaypz.Games.Game do
   end
 
   @impl true
-  def handle_cast({:input, action}, %{status: :playing} = state) do
+  # Only the attached owner may drive the game: inputs cast by any other
+  # process (e.g. a spectator's lobby view) are dropped.
+  def handle_cast({:input, action, caller}, %{status: :playing, owner: caller} = state)
+      when caller != nil do
     game = apply_input(state.game, action)
 
     if game == state.game do
@@ -63,7 +66,7 @@ defmodule Alaypz.Games.Game do
     end
   end
 
-  def handle_cast({:input, _action}, state), do: {:noreply, state}
+  def handle_cast({:input, _action, _caller}, state), do: {:noreply, state}
 
   def handle_cast({:attach, owner}, state) do
     {:noreply, broadcast(monitor(clear_grace(state, true), owner))}

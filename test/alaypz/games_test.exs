@@ -15,6 +15,9 @@ defmodule Alaypz.GamesTest do
 
   defp start_allowed(player, seed) do
     {:ok, _pid} = Games.start_game(player, seed)
+    # The game only accepts input from its attached owner — attach this test
+    # process (tests that need a different owner re-attach one).
+    Games.attach(player, self())
     on_exit(fn -> Games.stop(player) end)
   end
 
@@ -94,6 +97,26 @@ defmodule Alaypz.GamesTest do
     after
       500 -> flunk("no hold broadcast")
     end
+  end
+
+  test "input from a non-owner is ignored", %{player: player} do
+    start_allowed(player, 42)
+    Games.subscribe_game(player)
+    drain_game("init")
+
+    owner = idle_owner()
+    Games.attach(player, owner)
+    drain_game("attach")
+
+    # This test process is no longer the owner: its input is dropped (the
+    # piece keeps falling at x=3; only an applied :left would move it to x=2).
+    Games.input(player, :left)
+    refute_receive %{type: :game, payload: %{piece: %{pos: {2, _y}}}}, 400
+
+    # The owner's same input is applied.
+    [{game_pid, _}] = Registry.lookup(Alaypz.Games.Registry, player.name)
+    Alaypz.Games.Game.input(game_pid, :left, owner)
+    assert_receive %{type: :game, payload: %{piece: %{pos: {2, _y}}}}, 500
   end
 
   test "gravity ticks move the piece to the floor", %{player: player} do

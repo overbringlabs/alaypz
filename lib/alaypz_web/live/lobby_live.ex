@@ -121,8 +121,11 @@ defmodule AlaypzWeb.LobbyLive do
   def handle_event("game-key", %{"key" => key}, socket) do
     action = Map.get(@key_actions, key)
     name = socket.assigns.focused_name
+    own = socket.assigns.form[:name].value
 
-    if action && name do
+    # Spectators may watch any game, but only the owner's view may drive it
+    # (the game process enforces the same gate on its side).
+    if action && name && own && String.downcase(name) == String.downcase(own) do
       case Players.get_by_name(name) do
         nil -> :ok
         player -> Games.input(player, action)

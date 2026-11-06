@@ -19,6 +19,18 @@ defmodule AlaypzWeb.LobbyLiveTest do
     render_submit(element(view, "#name-form"))
   end
 
+  # The card of a late-mounted view arrives via lobby broadcasts the view
+  # processes in real time; `render/1` flushes the pending diff to the DOM.
+  defp await_card(view, attempts) do
+    if attempts == 0 or has_element?(view, "#card-alice-spect") do
+      :ok
+    else
+      Process.sleep(25)
+      render(view)
+      await_card(view, attempts - 1)
+    end
+  end
+
   test "claims a new name, shows the access string, and starts a focused game", %{conn: conn} do
     {:ok, view, _html} = live(conn, "/")
 
@@ -138,7 +150,10 @@ defmodule AlaypzWeb.LobbyLiveTest do
     # Hard-drop a piece: the locked cells stay on the board, and the score
     # goes above zero once the piece locks, so poll the scoreboard until it
     # is nonzero (the canvas itself is driven by a pushed event, not the DOM).
+    # The view that started the game is the owner; re-attach this test
+    # process so it can drive the game.
     player = Players.get_by_name("erin-lobby")
+    Games.attach(player, self())
     Games.input(player, :hard)
 
     score =
@@ -155,5 +170,71 @@ defmodule AlaypzWeb.LobbyLiveTest do
       end)
 
     assert score =~ ~r/\d{2,}/
+  end
+
+  test "a spectator sees the spectating surface instead of the controls", %{conn: conn} do
+    on_exit(fn ->
+      for name <- ["alice-spect", "bob-spect"] do
+        case Players.get_by_name(name) do
+          nil -> :ok
+          player -> Games.stop(player)
+        end
+      end
+    end)
+
+    # The owner: claims a name and starts the game (the view attaches itself).
+    {:ok, owner_view, _html} = live(conn, "/")
+    set_name(owner_view, "alice-spect")
+    submit_form(owner_view)
+    render_click(element(owner_view, "#start-button"))
+    assert has_element?(owner_view, "#focused-game")
+    refute has_element?(owner_view, "#focused-game", ~r/Spectating/i)
+
+    # The spectator: claims its own name and focuses alice's card — the
+    # surface renders in spectating mode (the key hook stays unmounted).
+    # The card arrives via lobby broadcasts the view processes in real time.
+    {:ok, spect_view, _html} = live(conn, "/")
+    set_name(spect_view, "bob-spect")
+    submit_form(spect_view)
+
+    # Let the pending broadcasts land, then flush until the card renders.
+    await_card(spect_view, 20)
+
+    render_click(element(spect_view, "#card-alice-spect"))
+    assert has_element?(spect_view, "#focused-game", ~r/Spectating/i)
+  end
+
+  test "the game-key event only acts on the view's own game" do
+    {:ok, player, _secret} = Players.claim_name("dora-lobby")
+    on_exit(fn -> Games.stop(player) end)
+    Games.start_game(player, 42)
+    Games.attach(player, self())
+    Games.subscribe_game(player)
+
+    # A view focused on dora's game but owning a different name: its key
+    # events are skipped by the view gate (the piece keeps falling at x=3).
+    spectator = %Phoenix.LiveView.Socket{
+      assigns: %{
+        form:
+          Phoenix.Component.to_form(%{"name" => "victor-lobby", "access" => ""}, as: :identity),
+        focused_name: "dora-lobby"
+      }
+    }
+
+    {:noreply, _} =
+      AlaypzWeb.LobbyLive.handle_event("game-key", %{"key" => "ArrowLeft"}, spectator)
+
+    refute_receive %{type: :game, payload: %{piece: %{pos: {2, _y}}}}, 400
+
+    # The owning view's key events pass the view gate and the process gate.
+    owner = %Phoenix.LiveView.Socket{
+      assigns: %{
+        form: Phoenix.Component.to_form(%{"name" => "dora-lobby", "access" => ""}, as: :identity),
+        focused_name: "dora-lobby"
+      }
+    }
+
+    {:noreply, _} = AlaypzWeb.LobbyLive.handle_event("game-key", %{"key" => "ArrowLeft"}, owner)
+    assert_receive %{type: :game, payload: %{piece: %{pos: {2, _y}}}}, 500
   end
 end

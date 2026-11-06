@@ -8,8 +8,9 @@ stale and may be treated as released; whoever notices deletes the stale line.
 Edit only your own block; never another agent's.
 
 ## agent: main   since: 2026-11-06
-writing: (none — UI redesign committed)
-next:    — (plans/20261106_ui_redesign.md finished; no active plan)
+writing: (none — owner-only control + theme round committed)
+next:    — (no active plan)
+released: lib/alaypz/games/game.ex  lib/alaypz/games.ex  lib/alaypz_web/live/lobby_live.ex  lib/alaypz_web/live/lobby_live.html.heex  lib/alaypz_web/components/focused_game.ex  lib/alaypz_web/components/layouts.ex  lib/alaypz_web/components/layouts/root.html.heex  assets/css/app.css  test/alaypz/games_test.exs  test/alaypz_web/live/lobby_test.exs  knowledge/lean-agent-flow/  (committed owner-only control + theme round)
 released: lib/alaypz/games/game.ex  lib/alaypz_web/components/focused_game.ex  lib/alaypz_web/components/game_card.ex  lib/alaypz_web/components/status_chip.ex  lib/alaypz_web/components/controls_legend.ex  lib/alaypz_web/components/layouts.ex  lib/alaypz_web/components/layouts/root.html.heex  lib/alaypz_web/live/lobby_live.ex  lib/alaypz_web/live/lobby_live.html.heex  lib/alaypz_web/live/leaderboard_live.ex  lib/alaypz_web/live/leaderboard_live.html.heex  lib/alaypz_web/live/player_live.html.heex  lib/alaypz_web.ex  assets/js/hooks/alaypz_canvas.js  assets/css/app.css  test/alaypz_web/live/lobby_test.exs  test/alaypz/games_test.exs  knowledge/lean-agent-flow/  (committed UI redesign)
 released: lib/alaypz_web/live/lobby_live.html.heex  test/alaypz_web/live/lobby_test.exs  (committed step 7)
 released: assets/js/  assets/css/  lib/alaypz_web/components/focused_game.ex  lib/alaypz_web/live/lobby_live.ex  lib/alaypz_web/live/lobby_live.html.heex  lib/alaypz_web/live/leaderboard_live.html.heex  lib/alaypz_web/live/player_live.html.heex  lib/alaypz/game.ex  test/alaypz/game_test.exs  test/alaypz_web/live/lobby_test.exs  (committed step 6)

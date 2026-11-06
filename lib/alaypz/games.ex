@@ -49,10 +49,10 @@ defmodule Alaypz.Games do
     end
   end
 
-  @doc "Sends an input to the player's game (no-op if none is running)."
+  @doc "Sends an input on behalf of the calling process (no-op if none is running, or the caller is not the attached owner)."
   def input(player, action) do
     case Registry.lookup(Alaypz.Games.Registry, player.name) do
-      [{pid, _}] -> Game.input(pid, action)
+      [{pid, _}] -> Game.input(pid, action, self())
       [] -> :ok
     end
   end

@@ -27,7 +27,10 @@ defmodule AlaypzWeb.FocusedGame do
   end
 
   def update(%{name: name} = assigns, socket) do
-    socket = assign(socket, :name, name)
+    socket =
+      socket
+      |> assign(:name, name)
+      |> assign(:spectating, Map.get(assigns, :spectating, false))
 
     socket =
       if name != socket.assigns.last_name do
@@ -135,15 +138,27 @@ defmodule AlaypzWeb.FocusedGame do
           </div>
         </dl>
 
-        <div class="mt-6 rounded-lg border border-slate-700/70 bg-slate-950/50 p-4">
-          <h3 class="mb-3 text-xs font-bold uppercase tracking-widest text-cyan-400">
-            Controls — act on this game
-          </h3>
-          <.rows />
-          <p class="mt-4 text-xs text-slate-500">
-            Click another card to switch; click this card or Unfocus to release it.
-          </p>
-        </div>
+        <%= if @spectating do %>
+          <div class="mt-6 rounded-lg border border-amber-400/30 bg-slate-950/50 p-4">
+            <h3 class="mb-2 text-xs font-bold uppercase tracking-widest text-amber-400">
+              Spectating
+            </h3>
+            <p class="text-sm text-slate-400">
+              You can watch this game, but only its owner can play it. Claim
+              your own name and press Start to play your own game.
+            </p>
+          </div>
+        <% else %>
+          <div class="mt-6 rounded-lg border border-slate-700/70 bg-slate-950/50 p-4">
+            <h3 class="mb-3 text-xs font-bold uppercase tracking-widest text-cyan-400">
+              Controls — act on this game
+            </h3>
+            <.rows />
+            <p class="mt-4 text-xs text-slate-500">
+              Click another card to switch; click this card or Unfocus to release it.
+            </p>
+          </div>
+        <% end %>
       </div>
     </div>
     """
