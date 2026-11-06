@@ -46,6 +46,10 @@ defmodule AlaypzWeb.ReplayLive do
 
           replay ->
             engine = Game.new(replay["seed"])
+            # Inputs stamped 0 landed before the first gravity tick: apply
+            # them now so the first frame (and the tick-1 step) match
+            # Replay.run/3 exactly.
+            engine = Replay.apply_at(engine, replay["inputs"], 0)
 
             socket =
               base

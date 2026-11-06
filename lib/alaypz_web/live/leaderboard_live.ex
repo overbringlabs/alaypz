@@ -24,8 +24,15 @@ defmodule AlaypzWeb.LeaderboardLive do
   # Open the session drawer for a leaderboard card.
   @impl true
   def handle_event("open-session", %{"id" => id}, socket) do
-    score = Enum.find(socket.assigns.results, &(&1.id == String.to_integer(id)))
-    {:noreply, assign(socket, :session, score)}
+    # Client-controlled param: parse, don't raise.
+    case Integer.parse(id) do
+      {n, _} ->
+        score = Enum.find(socket.assigns.results, &(&1.id == n))
+        {:noreply, assign(socket, :session, score)}
+
+      :error ->
+        {:noreply, socket}
+    end
   end
 
   @impl true

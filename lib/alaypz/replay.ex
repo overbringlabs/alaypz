@@ -37,13 +37,20 @@ defmodule Alaypz.Replay do
   Applies every `inputs` entry stamped with exactly `tick` (in recording
   order) to `engine`. Malformed or unknown entries are ignored.
   """
-  def apply_at(engine, inputs, tick) do
-    for item <- inputs,
-        [t, action] = item,
-        t == tick,
-        action in action_strings(),
-        reduce: engine do
-      acc -> Game.apply(acc, String.to_existing_atom(action))
+  def apply_at(engine, inputs, tick) when is_list(inputs) do
+    valid = action_strings()
+
+    for item <- inputs, reduce: engine do
+      acc ->
+        case item do
+          [t, action] when is_integer(t) and t == tick ->
+            if action in valid,
+              do: Game.apply(acc, String.to_existing_atom(action)),
+              else: acc
+
+          _ ->
+            acc
+        end
     end
   end
 

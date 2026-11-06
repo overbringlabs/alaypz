@@ -89,6 +89,18 @@ defmodule AlaypzWeb.LobbyLiveTest do
     refute has_element?(view, "#session-drawer")
   end
 
+  test "a non-numeric id from a tampered client is ignored, not a crash", %{conn: conn} do
+    socket = %Phoenix.LiveView.Socket{
+      assigns: %{results: [], session: nil, session_rank: nil}
+    }
+
+    {:noreply, socket} =
+      AlaypzWeb.LobbyLive.handle_event("open-session", %{"id" => "garbage"}, socket)
+
+    assert socket.assigns.session == nil
+    assert socket.assigns.session_rank == nil
+  end
+
   test "a taken name switches to the reclaim form, then reclaims with the access string", %{
     conn: conn
   } do

@@ -108,15 +108,22 @@ defmodule AlaypzWeb.LobbyLive do
   # Open the session drawer for a top-result card.
   @impl true
   def handle_event("open-session", %{"id" => id}, socket) do
-    id = String.to_integer(id)
-    rank = Enum.find_index(socket.assigns.results, &(&1.id == id))
-    score = Enum.find(socket.assigns.results, &(&1.id == id))
-    {:noreply, assign(socket, session: score, session_rank: rank)}
+    # Client-controlled param: parse, don't raise.
+    case Integer.parse(id) do
+      {n, _} ->
+        id = n
+        rank = Enum.find_index(socket.assigns.results, &(&1.id == id))
+        score = Enum.find(socket.assigns.results, &(&1.id == id))
+        {:noreply, assign(socket, session: score, session_rank: rank)}
+
+      :error ->
+        {:noreply, socket}
+    end
   end
 
   @impl true
   def handle_event("close-session", _, socket) do
-    {:noreply, assign(socket, :session, nil)}
+    {:noreply, assign(socket, session: nil, session_rank: nil)}
   end
 
   # The `.AlaypzKeys` hook: arrow/letter keys act on the focused game.

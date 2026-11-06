@@ -107,4 +107,13 @@ defmodule AlaypzWeb.LeaderboardLiveTest do
     assert render(element(view, "#session-replay")) =~ ~r"href=\"/replay/#{recorded.id}\""
     refute has_element?(view, "#session-replay-unavailable")
   end
+
+  test "a non-numeric id from a tampered client is ignored, not a crash", %{conn: conn} do
+    socket = %Phoenix.LiveView.Socket{assigns: %{results: [], session: nil}}
+
+    {:noreply, socket} =
+      AlaypzWeb.LeaderboardLive.handle_event("open-session", %{"id" => "garbage"}, socket)
+
+    assert socket.assigns.session == nil
+  end
 end

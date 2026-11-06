@@ -58,19 +58,19 @@
                   id="replay-score"
                   class="mt-1 text-xl font-semibold text-cyan-600 dark:text-cyan-300"
                 >
-                  {Map.get(@frame || %{}, "score", 0)}
+                  {Map.get(@frame || %{}, :score, 0)}
                 </dd>
               </div>
               <div class="rounded-lg border border-base-300/60 bg-base-200/50 p-3">
                 <dt class="text-xs uppercase tracking-wider text-base-content/60">lines</dt>
                 <dd id="replay-lines" class="mt-1 text-xl font-semibold text-base-content">
-                  {Map.get(@frame || %{}, "lines", 0)}
+                  {Map.get(@frame || %{}, :lines, 0)}
                 </dd>
               </div>
               <div class="rounded-lg border border-base-300/60 bg-base-200/50 p-3">
                 <dt class="text-xs uppercase tracking-wider text-base-content/60">level</dt>
                 <dd id="replay-level" class="mt-1 text-xl font-semibold text-base-content">
-                  {Map.get(@frame || %{}, "level", 1)}
+                  {Map.get(@frame || %{}, :level, 1)}
                 </dd>
               </div>
             </dl>

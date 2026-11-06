@@ -26,6 +26,20 @@ defmodule Alaypz.ReplayTest do
     assert final.board == Replay.run(42, 3, []).board
   end
 
+  test "malformed entries are ignored without raising" do
+    # The documented contract: non-[tick, action] shapes and wrong-tick
+    # entries are skipped, the well-formed one still applies.
+    final =
+      Replay.run(42, 2, [
+        ["not", "a", "pair"],
+        [99, "left"],
+        %{"tick" => 0, "action" => "left"},
+        [0, "left"]
+      ])
+
+    assert final.board == Replay.run(42, 2, [[0, "left"]]).board
+  end
+
   test "a recording of all hard drops tops the game out before the clock ends" do
     inputs = Enum.map(0..29, fn n -> [n, "hard"] end)
     final = Replay.run(7, 500, inputs)

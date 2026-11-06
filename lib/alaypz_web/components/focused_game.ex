@@ -179,6 +179,8 @@ defmodule AlaypzWeb.FocusedGame do
       queue: [],
       hold: nil,
       lines: 0,
+      score: 0,
+      level: 1,
       status: status
     }
   end
@@ -193,6 +195,8 @@ defmodule AlaypzWeb.FocusedGame do
       queue: Enum.map(payload.queue, fn id -> %{id: to_string(id), cells: box_cells(id)} end),
       hold: if(payload.hold, do: %{id: to_string(payload.hold), cells: box_cells(payload.hold)}),
       lines: payload.lines || 0,
+      score: payload.score || 0,
+      level: payload.level || 1,
       status: status
     }
   end
