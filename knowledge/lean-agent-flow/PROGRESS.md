@@ -11,9 +11,11 @@ get here".
 
 ## In flight
 
-- Plan `plans/20261106_alaypz.md` (7 steps; resequenced for the persistence + views + name-uniqueness requirement) — step 7 (polish + `mix precommit` + two-tab smoke: player + spectator watching the live board; `/leaderboard` + `/:player_name` smoke) next. See IN_FLIGHT.md.
+- none — the `plans/20261106_alaypz.md` plan is complete (all 7 steps committed 2026-11-06); `mix precommit` green.
 
 ## Last completed
+
+- 2026-11-06 — Plan step 7 (polish + smoke — **plan complete**): lobby "No games yet" card made conditional on `@cards == []`, stale template comment updated, new lobby test for the three empty states. Two-tab browser smoke: player tab + spectator tab (separate name, `focus` event on the live card) show identical frames; player keys and a spectator hard-drop both propagate to both tabs. `/leaderboard` + `/:player_name` render with lit canvases; zero console errors. `mix precommit` green (58 tests, `ledger.budget` 9891/30000).
 
 - 2026-11-06 — Plan step 6 (canvas rendering): `.AlaypzCanvas` hook (rAF loop, 110 ms piece tween, neon glow, line-clear flash, game-over overlay, hold + next-3 band, static mode for the history boards) + `.AlaypzKeys` hook (document-level `keydown` → `pushEvent("game-key")` → `Games.input`); palette as `.alaypz-board` CSS custom properties; `Game.payload/1` gains `cells` + `ghost` (nil-piece guard after top-out), new `cells/2`; `FocusedGame` pushes `alaypz-frame` via `push_event` on state change only; static canvases on `/leaderboard` + `/:player_name`. Browser smoke: keys move/hard-drop the live board, score 0→14, static boards render, zero console errors. Key finding: LV 1.2 `handleEvent` is a subscription API (`this.handleEvent(name, cb)` on `phx:<name>` window events) — overriding it as a method receives nothing (lesson L-20261106-03). 57 repo-wide green.
 

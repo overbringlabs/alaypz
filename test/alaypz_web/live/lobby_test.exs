@@ -34,6 +34,14 @@ defmodule AlaypzWeb.LobbyLiveTest do
     assert render(view) =~ ~r/value="alice-lobby"/
   end
 
+  test "a fresh lobby shows the empty states", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/")
+
+    assert has_element?(view, "#games", "No games yet")
+    assert has_element?(view, "#focused-section", "Start a game or click a card")
+    assert has_element?(view, "#recent-results", "No finished games yet")
+  end
+
   test "a taken name switches to the reclaim form, then reclaims with the access string", %{
     conn: conn
   } do
