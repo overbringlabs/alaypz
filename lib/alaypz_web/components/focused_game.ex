@@ -64,7 +64,7 @@ defmodule AlaypzWeb.FocusedGame do
           id="focused-board"
           class="font-mono text-[11px] leading-[14px] text-slate-300"
         >
-          {board_text(@payload)}
+          {AlaypzWeb.Board.text(@payload && @payload.board)}
         </pre>
 
         <dl class="space-y-1 text-sm">
@@ -94,21 +94,6 @@ defmodule AlaypzWeb.FocusedGame do
 
   defp piece_text(%{piece: %{id: id, pos: {x, y}}}), do: "#{id} @ #{x},#{y}"
   defp piece_text(%{}), do: "—"
-
-  defp board_text(nil), do: ""
-
-  defp board_text(%{board: board}) do
-    board
-    |> Enum.map(fn row ->
-      row
-      |> Enum.map(fn
-        nil -> "·"
-        id -> Atom.to_string(id)
-      end)
-      |> Enum.join()
-    end)
-    |> Enum.join("\n")
-  end
 
   defp status_label(nil), do: "no game"
   defp status_label(status), do: to_string(status)

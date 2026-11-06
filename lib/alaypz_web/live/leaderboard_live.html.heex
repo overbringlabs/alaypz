@@ -1,0 +1,50 @@
+<Layouts.app flash={@flash}>
+  <div class="mx-auto max-w-5xl px-4 py-8">
+    <header class="mb-6 flex items-center justify-between gap-4">
+      <h1 class="text-2xl font-bold tracking-tight text-slate-100">Leaderboard</h1>
+      <.link navigate="/" class="text-sm text-cyan-400 transition hover:text-cyan-300">
+        ← lobby
+      </.link>
+    </header>
+
+    <%= if @results == [] do %>
+      <div
+        id="leaderboard-empty"
+        class="rounded-xl border border-dashed border-slate-700 p-6 text-sm text-slate-500"
+      >
+        No finished games yet.
+      </div>
+    <% else %>
+      <table id="leaderboard" class="w-full text-sm">
+        <thead class="text-left text-slate-500">
+          <tr>
+            <th class="py-1 pr-4">#</th>
+            <th class="py-1 pr-4">player</th>
+            <th class="py-1 pr-4">score</th>
+            <th class="py-1 pr-4">lines</th>
+            <th class="py-1 pr-4">level</th>
+            <th class="py-1 pr-4">ended</th>
+            <th class="py-1">final board</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for score <- @results do %>
+            <tr id={"lb-#{score.id}"} class="border-t border-slate-800">
+              <td class="py-1 pr-4 font-mono text-slate-500">{score.rank}</td>
+              <td class="py-1 pr-4 text-slate-100">{score.player.name}</td>
+              <td class="py-1 pr-4 font-mono text-cyan-300">{score.score}</td>
+              <td class="py-1 pr-4 font-mono text-slate-300">{score.lines}</td>
+              <td class="py-1 pr-4 font-mono text-slate-300">{score.level}</td>
+              <td class="py-1 pr-4 text-slate-300">{score.end_reason}</td>
+              <td class="py-1">
+                <pre class="font-mono text-[10px] leading-[12px] text-slate-300">
+                  {AlaypzWeb.Board.text(Alaypz.Scores.decode_board(score.board))}
+                </pre>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</Layouts.app>
