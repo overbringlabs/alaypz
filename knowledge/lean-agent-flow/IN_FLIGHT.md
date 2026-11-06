@@ -9,7 +9,8 @@ Edit only your own block; never another agent's.
 
 ## agent: main   since: 2026-11-06
 writing: knowledge/lean-agent-flow/
-next:    (round 2 + bugfix pass committed — awaiting operator)
+next:    (operator round committed — awaiting operator)
+released: lib/alaypz_web/  test/alaypz_web/  assets/js/  (operator round: /u/ rename 7165b65, replay speeds 001103d, /play + mobile controls 8527fdd)
 released: lib/alaypz/replay.ex  lib/alaypz_web/  test/alaypz/  test/alaypz_web/  (committed bugfix pass)
 released: knowledge/lean-agent-flow/  (UI round 2 ledger; plan steps marked done, 4 commits)
 released: lib/alaypz_web/components/score_card.ex  lib/alaypz_web/components/game_card.ex  lib/alaypz_web/components/session_drawer.ex  lib/alaypz_web/components/layouts.ex  lib/alaypz_web/live/lobby_live.html.heex  lib/alaypz_web/live/replay_live.html.heex  assets/css/app.css  (committed step 4)
