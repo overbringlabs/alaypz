@@ -9,5 +9,6 @@ Edit only your own block; never another agent's.
 
 ## agent: main   since: 2026-11-06
 writing: lib/alaypz_web/live/  lib/alaypz_web/router.ex  test/alaypz_web/live/
-next:    plan step 4 (lobby LiveView + router) — plans/20261106_alaypz.md
+next:    plan step 5 (/leaderboard + /:player_name views AND their router routes) — plans/20261106_alaypz.md
+released: lib/alaypz_web/live/  lib/alaypz_web/components/game_card.ex  lib/alaypz_web/components/focused_game.ex  lib/alaypz_web/router.ex  lib/alaypz/scores/scores.ex  test/alaypz_web/live/lobby_test.exs  (committed step 4)
 released: lib/alaypz/games/  lib/alaypz/games.ex  lib/alaypz/application.ex  config/test.exs  test/alaypz/games_test.exs  (committed step 3)

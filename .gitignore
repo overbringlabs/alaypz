@@ -39,3 +39,6 @@ npm-debug.log
 *.db
 *.db-*
 
+# ERTS history dir (created by `mix run`)
+.erl.history/
+

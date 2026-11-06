@@ -17,7 +17,7 @@ defmodule AlaypzWeb.Router do
   scope "/", AlaypzWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", LobbyLive
   end
 
   # Other scopes may use custom stacks.

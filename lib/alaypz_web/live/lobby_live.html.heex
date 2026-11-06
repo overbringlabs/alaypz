@@ -1,0 +1,155 @@
+<Layouts.app flash={@flash}>
+  <div class="mx-auto max-w-5xl px-4 py-8">
+    <h1 class="text-3xl font-bold tracking-tight text-slate-100">Alaypz</h1>
+    <p class="mt-1 text-sm text-slate-400">
+      Claim a name, start a game, and watch the live boards. Arrow keys rotate and move the
+      focused game.
+    </p>
+
+    <%!-- name form + one-time access string --%>
+    <section id="identity" class="mt-6 rounded-xl border border-slate-700 bg-slate-800/40 p-4">
+      <.form for={@form} id="name-form" phx-change="validate" phx-submit="submit">
+        <div class="flex flex-wrap items-center gap-2">
+          <.input
+            field={@form[:name]}
+            type="text"
+            placeholder="Your name"
+            id="lobby-name"
+            class="w-56"
+            phx-hook=".LocalName"
+          />
+
+          <%= if @mode == :reclaim do %>
+            <.input
+              field={@form[:access]}
+              type="text"
+              placeholder="Access string"
+              id="lobby-access"
+              class="w-64 font-mono"
+            />
+          <% end %>
+
+          <button
+            type="submit"
+            id="claim-button"
+            class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-500"
+          >
+            {if @mode == :reclaim, do: "Reclaim name", else: "Claim name"}
+          </button>
+        </div>
+
+        <%= for {field, {message, _opts}} <- @form.errors do %>
+          <p id={"form-error-#{field}"} class="mt-2 text-sm text-rose-400">{message}</p>
+        <% end %>
+      </.form>
+
+      <%= if @access_string do %>
+        <div id="access-string" class="mt-3 rounded-lg border border-amber-500/40 bg-amber-500/10 p-3">
+          <p class="text-sm font-semibold text-amber-300">
+            Access string — shown only once. Keep it to reclaim this name later:
+          </p>
+          <code id="access-string-value" class="font-mono text-lg tracking-widest text-amber-200">
+            {@access_string}
+          </code>
+        </div>
+      <% end %>
+
+      <%= if @notice do %>
+        <p id="lobby-notice" class="mt-3 text-sm text-slate-300">{@notice}</p>
+      <% end %>
+
+      <div class="mt-3">
+        <button
+          type="button"
+          id="start-button"
+          phx-click="start"
+          phx-value-name={@form[:name].value || ""}
+          class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500"
+          disabled={@form[:name].value in [nil, ""]}
+        >
+          Start game
+        </button>
+      </div>
+    </section>
+
+    <%!-- live game cards --%>
+    <section id="games" class="mt-8">
+      <h2 class="text-lg font-semibold text-slate-100">Live games</h2>
+      <div id="game-cards" class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <div class="col-span-full rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-500">
+          No games yet — claim a name and press Start.
+        </div>
+        <%= for name <- @cards do %>
+          <.live_component module={GameCard} id={name} name={name} />
+        <% end %>
+      </div>
+    </section>
+
+    <%!-- focused game surface (step 6 swaps the text grid for .AlaypzCanvas) --%>
+    <section id="focused-section" class="mt-8">
+      <h2 class="text-lg font-semibold text-slate-100">Focused game</h2>
+      <div class="mt-3">
+        <%= if @focused_name do %>
+          <.live_component module={FocusedGame} id={:focused} name={@focused_name} />
+        <% else %>
+          <p class="rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-500">
+            Start a game or click a card to focus it here.
+          </p>
+        <% end %>
+      </div>
+    </section>
+
+    <%!-- recent results --%>
+    <section id="recent-results" class="mt-8">
+      <h2 class="text-lg font-semibold text-slate-100">Recent results</h2>
+      <div class="mt-3">
+        <%= if @results == [] do %>
+          <p class="rounded-xl border border-dashed border-slate-700 p-4 text-sm text-slate-500">
+            No finished games yet.
+          </p>
+        <% else %>
+          <table class="w-full text-sm">
+            <thead class="text-left text-slate-500">
+              <tr>
+                <th class="py-1 pr-4">name</th>
+                <th class="py-1 pr-4">score</th>
+                <th class="py-1 pr-4">lines</th>
+                <th class="py-1 pr-4">level</th>
+                <th class="py-1 pr-4">ended</th>
+              </tr>
+            </thead>
+            <tbody class="font-mono text-slate-300">
+              <%= for score <- @results do %>
+                <tr id={"result-#{score.id}"} class="border-t border-slate-800">
+                  <td class="py-1 pr-4">{score.player.name}</td>
+                  <td class="py-1 pr-4 text-cyan-300">{score.score}</td>
+                  <td class="py-1 pr-4">{score.lines}</td>
+                  <td class="py-1 pr-4">{score.level}</td>
+                  <td class="py-1 pr-4">{score.end_reason}</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</Layouts.app>
+
+<script :type={Phoenix.LiveView.ColocatedHook} name=".LocalName">
+  export default {
+    mounted() {
+      const saved = localStorage.getItem("alaypz_name");
+      if (saved) {
+        this.el.value = saved;
+        this.el.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+
+      this.el.addEventListener("change", () => {
+        if (this.el.value) {
+          localStorage.setItem("alaypz_name", this.el.value);
+        }
+      });
+    }
+  };
+</script>

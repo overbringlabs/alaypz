@@ -23,6 +23,12 @@ defmodule Alaypz.Scores do
     |> Repo.all()
   end
 
+  @doc "The most recently finished or interrupted games, newest first."
+  def list_recent(limit \\ 5) do
+    from(s in Score, order_by: [desc: s.inserted_at, desc: s.id], limit: ^limit, preload: :player)
+    |> Repo.all()
+  end
+
   def record(attrs) do
     %Score{}
     |> Score.changeset(attrs)
