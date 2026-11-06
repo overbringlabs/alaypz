@@ -19,9 +19,15 @@ defmodule AlaypzWeb.LeaderboardLive do
     {:ok, assign(socket, results: rows)}
   end
 
-  # Top three ranks glow gold / silver / bronze.
-  def rank_class(1), do: "text-amber-300 [text-shadow:0_0_12px_rgba(252,211,77,0.5)]"
-  def rank_class(2), do: "text-slate-300 [text-shadow:0_0_10px_rgba(203,213,225,0.4)]"
-  def rank_class(3), do: "text-orange-400 [text-shadow:0_0_10px_rgba(251,146,60,0.4)]"
-  def rank_class(_), do: "text-slate-500"
+  # Top three ranks glow gold / silver / bronze (theme-aware).
+  def rank_class(1),
+    do: "text-amber-600 dark:text-amber-300 dark:[text-shadow:0_0_12px_rgba(252,211,77,0.5)]"
+
+  def rank_class(2),
+    do: "text-slate-500 dark:text-slate-300 dark:[text-shadow:0_0_10px_rgba(203,213,225,0.4)]"
+
+  def rank_class(3),
+    do: "text-orange-600 dark:text-orange-400 dark:[text-shadow:0_0_10px_rgba(251,146,60,0.4)]"
+
+  def rank_class(_), do: "text-base-content/50"
 end

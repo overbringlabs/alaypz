@@ -26,7 +26,7 @@ defmodule AlaypzWeb.ControlsLegend do
     <span class={[@class, "inline-flex flex-wrap items-center gap-x-4 gap-y-1"]}>
       <span :for={action <- @actions} class="inline-flex items-center gap-1.5">
         <span :for={key <- action.keys} class="kbd">{key}</span>
-        <span class="text-xs text-slate-500">{action.label}</span>
+        <span class="text-xs text-base-content/60">{action.label}</span>
       </span>
     </span>
     """
@@ -45,7 +45,7 @@ defmodule AlaypzWeb.ControlsLegend do
         <span class="flex w-16 justify-end gap-1">
           <span :for={key <- action.keys} class="kbd">{key}</span>
         </span>
-        <span class="text-sm text-slate-400">{action.label}</span>
+        <span class="text-sm text-base-content/70">{action.label}</span>
       </span>
     </span>
     """

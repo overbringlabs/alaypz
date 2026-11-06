@@ -35,16 +35,15 @@ defmodule AlaypzWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <header class="sticky top-0 z-10 border-b border-slate-800/80 bg-[#05070f]/85 backdrop-blur">
+    <header class="sticky top-0 z-10 border-b border-base-300/60 bg-base-100/85 backdrop-blur">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
-        <a href="/" class="alaypz-wordmark text-xl font-black tracking-[0.3em]">
-          ALAYPZ
+        <a href="/" class="extromino-wordmark text-xl font-black tracking-[0.3em]">
+          EXTROMINO
         </a>
-        <span class="hidden text-xs text-slate-500 lg:inline">classic alaypz · live boards</span>
-        <.compact class="hidden md:inline-flex" />
+        <span class="hidden text-xs text-base-content/60 lg:inline">classic alaypz · live boards</span>
         <nav class="ml-auto flex items-center gap-4 text-sm font-semibold">
-          <a href="/" class="text-slate-300 transition hover:text-cyan-300">Lobby</a>
-          <a href="/leaderboard" class="text-slate-300 transition hover:text-cyan-300">
+          <a href="/" class="text-base-content/70 transition hover:text-cyan-500">Lobby</a>
+          <a href="/leaderboard" class="text-base-content/70 transition hover:text-cyan-500">
             Leaderboard
           </a>
         </nav>

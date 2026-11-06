@@ -94,21 +94,21 @@ defmodule AlaypzWeb.GameCard do
         "relative flex flex-col gap-2.5 rounded-xl border p-3 text-left transition",
         if(@focused,
           do: "border-cyan-400/70 bg-cyan-400/10 shadow-[0_0_28px_rgba(0,229,255,0.22)]",
-          else: "border-slate-700/80 bg-slate-900/60 hover:border-cyan-400/50 hover:bg-slate-900"
+          else: "border-base-300 bg-base-100 hover:border-cyan-400/60 hover:bg-base-200/60"
         )
       ]}
     >
       <span class="flex items-center justify-between gap-2">
         <span
           id={"card-name-#{@name}"}
-          class="truncate font-mono text-sm font-semibold text-slate-100"
+          class="truncate text-sm font-semibold text-base-content"
         >
           {@name}
         </span>
         <.chip status={@status} reconnecting={@reconnecting} />
       </span>
 
-      <span class="alaypz-board overflow-hidden rounded-md border border-slate-700/60">
+      <span class="alaypz-board overflow-hidden rounded-md border border-base-300">
         <canvas
           id={"card-canvas-#{@name}"}
           phx-hook="AlaypzCanvas"
@@ -120,8 +120,11 @@ defmodule AlaypzWeb.GameCard do
       </span>
 
       <span class="flex items-baseline justify-between">
-        <span class="text-xs uppercase tracking-wider text-slate-500">score</span>
-        <span id={"card-score-#{@name}"} class="font-mono text-lg font-semibold text-cyan-300">
+        <span class="text-xs uppercase tracking-wider text-base-content/60">score</span>
+        <span
+          id={"card-score-#{@name}"}
+          class="text-lg font-semibold text-cyan-600 dark:text-cyan-300"
+        >
           {@score || 0}
         </span>
       </span>
@@ -129,8 +132,8 @@ defmodule AlaypzWeb.GameCard do
       <span class={[
         "absolute -top-1.5 right-3 rounded-full border px-2 py-px text-[10px] font-bold uppercase tracking-wider",
         if(@focused,
-          do: "border-cyan-400 bg-cyan-400/20 text-cyan-200",
-          else: "hidden border-slate-600 bg-slate-800 text-slate-300"
+          do: "border-cyan-400 bg-cyan-400/20 text-cyan-700 dark:text-cyan-200",
+          else: "hidden border-base-300 bg-base-200 text-base-content/60"
         )
       ]}>
         focused
