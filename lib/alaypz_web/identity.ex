@@ -31,9 +31,9 @@ defmodule AlaypzWeb.Identity do
            socket
            |> assign(:mode, :reclaim)
            |> assign(
-              :notice,
-              "That name is already claimed. Start a game with it, or submit its access string to reclaim it."
-            )
+             :notice,
+             "That name is already claimed. Start a game with it, or submit its access string to reclaim it."
+           )
            |> put_name(name)}
         else
           {:invalid, assign(socket, form: to_form(changeset, as: :identity))}
