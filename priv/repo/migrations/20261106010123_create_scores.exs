@@ -9,7 +9,7 @@ defmodule Alaypz.Repo.Migrations.CreateScores do
       add :level, :integer, null: false
       add :end_reason, :string, null: false
       add :board, :string, null: false
-      timestamps([datetime: {:inserted_at, type: :naive_datetime}])
+      timestamps(datetime: {:inserted_at, type: :naive_datetime})
     end
 
     create index(:scores, :player_id)

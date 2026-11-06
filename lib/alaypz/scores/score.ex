@@ -14,7 +14,7 @@ defmodule Alaypz.Scores.Score do
     field :end_reason, :string
     field :board, :string
 
-    timestamps([datetime: {:inserted_at, type: :naive_datetime}])
+    timestamps(datetime: {:inserted_at, type: :naive_datetime})
   end
 
   @end_reasons ~w(finished interrupted)

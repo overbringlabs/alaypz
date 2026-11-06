@@ -213,7 +213,8 @@ defmodule Alaypz.Game do
     if valid?(candidate, elem(@spawn_pos, 0), elem(@spawn_pos, 1)) do
       candidate
     else
-      %__MODULE__{status: :topped_out, current: nil}
+      # Keep the board and stats: the finished board must stay observable.
+      %{s | status: :topped_out, current: nil}
     end
   end
 

@@ -1,5 +1,8 @@
 import Config
 
+# Speed up game-process tests: 25 ms gravity ticks, 50 ms disconnect grace.
+config :alaypz, tick_interval_ms: 25, grace_ms: 50
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used

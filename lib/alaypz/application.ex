@@ -14,6 +14,8 @@ defmodule Alaypz.Application do
        repos: Application.fetch_env!(:alaypz, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:alaypz, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Alaypz.PubSub},
+      Alaypz.Games.Registry,
+      {DynamicSupervisor, child_spec: :dynamic, name: Alaypz.Games.Supervisor},
       # Start a worker by calling: Alaypz.Worker.start_link(arg)
       # {Alaypz.Worker, arg},
       # Start to serve requests, typically the last entry

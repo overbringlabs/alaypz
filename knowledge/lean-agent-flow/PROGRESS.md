@@ -11,10 +11,11 @@ get here".
 
 ## In flight
 
-- Plan `plans/20261106_alaypz.md` (7 steps; resequenced for the persistence + views + name-uniqueness requirement) — step 3 (game process) next. See IN_FLIGHT.md.
+- Plan `plans/20261106_alaypz.md` (7 steps; resequenced for the persistence + views + name-uniqueness requirement) — step 4 (lobby LiveView at `/` + router routes) next. See IN_FLIGHT.md.
 
 ## Last completed
 
+- 2026-11-06 — Plan step 3 (game process): `Alaypz.Games.Game` GenServer (one per game, registry-keyed by unique name), tick loop, engine input mapping, `game:<name>` + `lobby` broadcasts, 10 s owner-grace with `reconnecting` signal and re-attach cancel, finished-board retention, persist-on-end/interrupt via `Alaypz.Scores`; `Alaypz.Games` context API. Engine fix: top-out keeps board/stats. Key finding: `DynamicSupervisor` dynamic children default to `restart: :permanent` (auto-restart → ghost games → supervisor restart-intensity shutdown); child spec now `restart: :temporary`. 8 tests, 46 repo-wide green.
 - 2026-11-06 — Plan step 2 (identity & persistence): `Alaypz.Players` (unique `name_key`, salted SHA-256 access-string hash, claim/reclaim, 20-char generator, constant-time compare) + `Alaypz.Scores` (final-state rows, 200-char board encoding, top-10/per-player queries) + migrations; 12 tests, 38 repo-wide green; lesson L-20261106-01 (OTP 29/Ecto 3.14 API drift).
 - 2026-11-06 — Plan step 1 (engine core): `lib/alaypz/game/**` — SRS + 7-bag + hold + ghost + guideline gravity + scoring + top-out, 21 unit tests green, kick tables cross-checked against community SRS spec.
 - 2026-11-06 — Scope S1–S8 resolved by operator; ruling `decisions/20261106_alaypz_scope.md`; plan `plans/20261106_alaypz.md`.
