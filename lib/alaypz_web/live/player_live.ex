@@ -1,8 +1,8 @@
 defmodule AlaypzWeb.PlayerLive do
   @moduledoc """
-  `/:player_name`: that player's finished or interrupted games, score
+  `/u/:player_name`: that player's finished or interrupted games, score
   desc, each with its final board. The route is declared last in the
-  router, so any unknown single-segment path also lands here and renders
+  router, so any unknown `/u/<name>` path also lands here and renders
   the not-found state for the given name.
   """
   use AlaypzWeb, :live_view

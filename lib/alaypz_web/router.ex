@@ -21,9 +21,9 @@ defmodule AlaypzWeb.Router do
     live "/leaderboard", LeaderboardLive
     live "/replay/:id", ReplayLive
 
-    # Declared last: it also renders the not-found state for unknown
-    # single-segment paths.
-    live "/:player_name", PlayerLive
+    # Declared last under /u/: unknown names (and unknown /u/ paths) render
+    # the not-found state.
+    live "/u/:player_name", PlayerLive
   end
 
   # Other scopes may use custom stacks.

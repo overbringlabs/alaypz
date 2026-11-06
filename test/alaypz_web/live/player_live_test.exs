@@ -25,7 +25,7 @@ defmodule AlaypzWeb.PlayerLiveTest do
     {:ok, top} = record(player, 500)
     {:ok, low} = record(player, 200)
 
-    {:ok, view, _html} = live(conn, "/pl-one")
+    {:ok, view, _html} = live(conn, "/u/pl-one")
 
     assert has_element?(view, "#player-title", "pl-one")
 
@@ -39,13 +39,13 @@ defmodule AlaypzWeb.PlayerLiveTest do
     {:ok, player, _secret} = Players.claim_name("pl-two")
     {:ok, _row} = record(player, 40)
 
-    {:ok, view, _html} = live(conn, "/pl-TWO")
+    {:ok, view, _html} = live(conn, "/u/pl-TWO")
 
     assert has_element?(view, "#player-scores")
   end
 
   test "unknown names render the not-found state", %{conn: conn} do
-    {:ok, view, _html} = live(conn, "/no-such-player")
+    {:ok, view, _html} = live(conn, "/u/no-such-player")
 
     assert has_element?(view, "#player-not-found", "no-such-player")
     refute has_element?(view, "#player-scores")
