@@ -11,11 +11,12 @@ get here".
 
 ## In flight
 
-- Plan `plans/20261106_alaypz.md` (7 steps; resequenced for the persistence + views + name-uniqueness requirement) — step 1 (engine core) next. See IN_FLIGHT.md.
+- Plan `plans/20261106_alaypz.md` (7 steps; resequenced for the persistence + views + name-uniqueness requirement) — step 2 (identity & persistence) next. See IN_FLIGHT.md.
 
 ## Last completed
 
-- 2026-11-06 — Scope S1–S8 resolved by operator; ruling `decisions/20261106_alaypz_scope.md`; 6-step plan `plans/20261106_alaypz.md`.
+- 2026-11-06 — Plan step 1 (engine core): `lib/alaypz/game/**` — SRS + 7-bag + hold + ghost + guideline gravity + scoring + top-out, 21 unit tests green, kick tables cross-checked against community SRS spec.
+- 2026-11-06 — Scope S1–S8 resolved by operator; ruling `decisions/20261106_alaypz_scope.md`; plan `plans/20261106_alaypz.md`.
 - 2026-11-06 — `knowledge/lean-agent-flow/` initialized (ledgers, claim board, journal); AGENTS.md map section appended; `scripts/ledger_budget.sh` wired into `mix precommit` (`ledger.budget` task; gate green, cold start 8.3k / 30k tokens); LiveView 1.2 footguns researched (`research/20261106_liveview12_footguns.md`).
 
 ## Needs a decision

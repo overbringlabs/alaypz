@@ -8,6 +8,6 @@ stale and may be treated as released; whoever notices deletes the stale line.
 Edit only your own block; never another agent's.
 
 ## agent: main   since: 2026-11-06
-writing: lib/alaypz/game/  test/alaypz/game/
-next:    plan step 1 (engine core) — plans/20261106_alaypz.md
-released: knowledge/lean-agent-flow/**  AGENTS.md  mix.exs  lib/tasks/  scripts/ (committed d01a830)
+writing: lib/alaypz/players/  lib/alaypz/scores/  priv/repo/migrations/  test/alaypz/{players,scores}/
+next:    plan step 2 (identity & persistence) — plans/20261106_alaypz.md
+released: lib/alaypz/game/  test/alaypz/game/  (committed this step)
