@@ -78,7 +78,7 @@ defmodule AlaypzWeb.FocusedGame do
     ~H"""
     <div
       id="focused-game"
-      class="flex flex-wrap gap-6 rounded-xl border border-cyan-500/30 bg-base-100 p-5 shadow-sm max-md:flex-col-reverse max-md:gap-4 max-md:p-3"
+      class="flex flex-wrap gap-6 rounded-xl border border-cyan-500/30 bg-base-100 p-5 shadow-sm max-lg:flex-col-reverse max-lg:gap-4 max-lg:p-3"
     >
       <div
         id="focused-board"
@@ -100,7 +100,7 @@ defmodule AlaypzWeb.FocusedGame do
 
       <div class="min-w-52 flex-1">
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <span id="focused-name" class="text-base font-bold text-base-content md:text-xl">
+          <span id="focused-name" class="text-base font-bold text-base-content lg:text-xl">
             {@name}
           </span>
           <span class="flex items-center gap-2">
@@ -118,10 +118,10 @@ defmodule AlaypzWeb.FocusedGame do
           </span>
         </div>
 
-        <dl class="mt-4 grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm max-md:grid-cols-3 max-md:gap-x-4 max-md:gap-y-0.5">
+        <dl class="mt-4 grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm max-lg:grid-cols-3 max-lg:gap-x-4 max-lg:gap-y-0.5">
           <%!-- status + piece rows stay on desktop; mobile keeps the
                compact score/lines/level rows only --%>
-          <div class="hidden justify-between gap-2 md:flex">
+          <div class="hidden justify-between gap-2 lg:flex">
             <dt class="uppercase tracking-wider text-base-content/60">status</dt>
             <dd id="focused-status" class="text-base-content/80">{status_label(@status)}</dd>
           </div>
@@ -139,7 +139,7 @@ defmodule AlaypzWeb.FocusedGame do
             <dt class="uppercase tracking-wider text-base-content/60">level</dt>
             <dd class="text-base-content/80">{(@payload && @payload.level) || 1}</dd>
           </div>
-          <div class="hidden justify-between gap-2 md:flex">
+          <div class="hidden justify-between gap-2 lg:flex">
             <dt class="uppercase tracking-wider text-base-content/60">piece</dt>
             <dd id="focused-piece" class="text-base-content/80">{piece_text(@payload)}</dd>
           </div>
@@ -158,7 +158,7 @@ defmodule AlaypzWeb.FocusedGame do
         <% else %>
           <%!-- desktop only: the mobile play screen is the board + the
                on-screen touch controls, no legend --%>
-          <div class="mt-6 hidden rounded-lg border border-base-300/60 bg-base-200/60 p-4 md:block">
+          <div class="mt-6 hidden rounded-lg border border-base-300/60 bg-base-200/60 p-4 lg:block">
             <h3 class="mb-3 text-xs font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
               Controls
             </h3>

@@ -204,10 +204,11 @@ body {
   --tet-ghost: rgba(0, 229, 255, 0.35);
 }
 
-/* /play on mobile: while a game is focused the page becomes a full-viewport
-   game screen — the app header recedes so the board + touch controls fill
-   the screen like a native mobile game (desktop keeps the chrome). */
-@media (max-width: 767px) {
+/* /play on touch devices (phones AND portrait tablets): while a game is
+   focused the page becomes a full-viewport game screen — the app header
+   recedes so the board + touch controls fill the screen like a native game.
+   Desktop (lg and up) keeps the chrome. */
+@media (max-width: 1023px) {
   body:has([data-mobile-game]) #app-header {
     display: none;
   }

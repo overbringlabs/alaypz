@@ -30,7 +30,7 @@ export default {
     this.fitCell()
     // Height fit needs the settled layout (HUD strip + controls heights);
     // re-measure after the first paint so the fit is exact (mobile only).
-    if (this.fitHeight && window.matchMedia("(max-width: 767px)").matches) {
+    if (this.fitHeight && window.matchMedia("(max-width: 1023px)").matches) {
       requestAnimationFrame(() => this.fitCell(true))
     }
     this.bandH = this.card || this.static ? 0 : this.mini * 4 + 12
@@ -98,11 +98,12 @@ export default {
     let cell =
       this.cols * this.cell > avail ? Math.max(8, Math.floor(avail / this.cols)) : this.cell
 
-    // Height fit (the /play mobile game screen): shrink the cell so the
-    // board + touch controls fill the viewport without scrolling. Desktop
-    // keeps its natural board size (the page scrolls there). bandH is
-    // mini*4+12 ≈ 1.84*cell + 12; the board adds ~18px of padding/border.
-    const mobile = window.matchMedia("(max-width: 767px)").matches
+    // Height fit (the /play game screen — phones and portrait tablets):
+    // shrink the cell so the board + touch controls fill the viewport
+    // without scrolling. Desktop keeps its natural board size (the page
+    // scrolls there). bandH is mini*4+12 ≈ 1.84*cell + 12; the board adds
+    // ~18px of padding/border.
+    const mobile = window.matchMedia("(max-width: 1023px)").matches
     if (this.fitHeight && mobile) {
       const rect = board.getBoundingClientRect()
       let controlsH = 160

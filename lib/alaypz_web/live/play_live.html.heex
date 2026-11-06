@@ -3,7 +3,12 @@
     <%!-- the identity form stays in the DOM (it drives the server-side
          resolve/attach), but while a game is focused the mobile screen is
          the game itself — the form is a desktop-only sidebar there --%>
-    <div class={if @focused_name, do: "hidden md:block", else: nil}>
+    <%!-- game screen: while a game is focused, the form recedes on every
+         touch device (incl. tablets — lg, not md); the claim screen is a
+         centered title-screen card --%>
+    <div class={
+      if @focused_name, do: "hidden lg:block", else: "max-lg:mx-auto max-lg:mt-6 max-lg:max-w-sm"
+    }>
       <.identity_form
         form={@form}
         mode={@mode}
@@ -14,9 +19,9 @@
     </div>
 
     <section id="play-section" class="mt-8">
-      <div class="mb-3 hidden flex-wrap items-center justify-between gap-2 md:flex">
+      <div class="mb-3 hidden flex-wrap items-center justify-between gap-2 lg:flex">
         <h2 class="text-lg font-semibold text-base-content">Play</h2>
-        <.compact class="hidden md:inline-flex" />
+        <.compact class="hidden lg:inline-flex" />
       </div>
       <div class="mt-3">
         <%= if @focused_name do %>
@@ -34,7 +39,7 @@
                handy with a mouse); the keyboard hook coexists on desktop --%>
           <div
             id="play-controls"
-            class="mx-auto mt-4 grid w-full max-w-xs grid-cols-3 gap-2 md:mt-6"
+            class="mx-auto mt-4 grid w-full max-w-xs grid-cols-3 gap-2 lg:mt-6"
           >
             <%= for {action, glyph, hint} <- [
                       {"ccw", "⟲", "Z"},
@@ -65,7 +70,7 @@
         <% else %>
           <%!-- mobile: the form above is the whole claim screen; the
                empty-state box is desktop-only filler --%>
-          <div class="hidden rounded-xl border border-dashed border-base-300 p-5 text-sm text-base-content/60 md:block">
+          <div class="hidden rounded-xl border border-dashed border-base-300 p-5 text-sm text-base-content/60 lg:block">
             Claim a name and start a game to play here.
           </div>
         <% end %>
