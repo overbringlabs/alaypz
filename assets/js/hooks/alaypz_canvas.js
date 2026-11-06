@@ -33,6 +33,7 @@ export default {
     this.gutterHoldCv = document.getElementById("gutter-hold")
     this.gutterCvs = [0, 1, 2].map((i) => document.getElementById("gutter-next-" + i))
     this.gutter = !!(this.gutterHoldCv && this.gutterHoldCv.offsetParent)
+    this.gutterEl = document.getElementById("play-gutter")
     this.fitCell()
     // Height fit needs the settled layout: the surrounding diff (the claim
     // form hiding, the hint landing) can move the board after this hook has
@@ -43,8 +44,13 @@ export default {
       if (window.matchMedia("(max-width: 1023px)").matches) {
         requestAnimationFrame(() => this.fitCell(true))
       }
+      // Observe the play page (not the body — the body is pinned to the
+      // viewport size by the overflow lock and never changes): the claim
+      // form hiding, the hint or gutter wrapping all change its height,
+      // which re-runs the fit against the settled layout.
+      const target = document.querySelector(".play-page") || document.body
       this.ro = new ResizeObserver(() => this.fitCell(true))
-      this.ro.observe(document.body)
+      this.ro.observe(target)
     }
     this.bandH = this.card || this.static || this.gutter ? 0 : this.mini * 4 + 12
     this.el.width = this.cols * this.cell
@@ -101,7 +107,6 @@ export default {
     // Always start from the default cell, not the previous fit: the
     // surrounding layout (claim form hiding, gutter wrapping) changes what
     // fits, so a stale smaller cell must be allowed to grow back.
-    let cell = Number(this.el.dataset.cell) || 28
     // Subtract the horizontal padding + border of every element between the
     // scope and the canvas, so the canvas fits the board's actual box at any
     // viewport (no guessed padding).
@@ -113,30 +118,33 @@ export default {
         parseFloat(cs.borderLeftWidth) +
         parseFloat(cs.borderRightWidth)
     }
-    // Only clamps when the board would actually overflow, so desktop sizes
-    // are untouched.
-    if (this.cols * cell > avail) cell = Math.max(8, Math.floor(avail / this.cols))
 
     // Height fit (the /play game screen — phones and portrait tablets):
-    // fill the remaining viewport height without scrolling. Desktop keeps
-    // its natural board size (the page scrolls there). With the side
-    // gutter the canvas is the pure playfield (no band ≈ 1.84*cell + 12);
-    // the board adds ~18px chrome (8 in the gutter layout, where the card
-    // padding is stripped on mobile).
+    // the tower is as BIG as the viewport allows — bounded by the width
+    // (never overflowing) and by the remaining height (never scrolling).
+    // Desktop keeps its natural board size (the page scrolls there). With
+    // the side gutter the canvas is the pure playfield (no band ≈
+    // 1.84*cell + 12); the board adds ~18px chrome (8 in the gutter
+    // layout, where the card padding is stripped on mobile).
     const mobile = window.matchMedia("(max-width: 1023px)").matches
+    let cell
     if (this.fitHeight && mobile) {
       const top = board.getBoundingClientRect().top
       // Measure everything below the board in the settled layout (the
-      // swipe-hint line, and the gutter when the row wraps under the
-      // board) instead of guessing, so the fit is exact on any device.
+      // swipe-hint line, and the gutter when it sits under the board)
+      // instead of guessing, so the fit is exact on any device.
       const hint = document.getElementById("swipe-hint")
       const below = hint
         ? Math.max(16, hint.getBoundingClientRect().bottom - board.getBoundingClientRect().bottom)
         : 40
       const availH = window.innerHeight - top - below
-      const hCell = Math.floor((availH - (this.gutter ? 8 : 18)) / (this.rows + (this.gutter ? 0 : 1.84)))
-      if (hCell < cell) cell = Math.max(8, hCell)
+      cell = Math.max(8, Math.floor((availH - (this.gutter ? 8 : 18)) / (this.rows + (this.gutter ? 0 : 1.84))))
+    } else {
+      cell = Number(this.el.dataset.cell) || 28
     }
+    // Never let the board overflow the available width (desktop sizes are
+    // only clamped when they actually would).
+    if (this.cols * cell > avail) cell = Math.max(8, Math.floor(avail / this.cols))
     const apply = () => {
       this.mini = Math.round(this.cell * 0.46)
       this.bandH = this.card || this.static || this.gutter ? 0 : this.mini * 4 + 12
@@ -146,11 +154,27 @@ export default {
     if (reapply) {
       this.cell = cell
       apply()
-      // The game screen must never scroll: if the settled content (board,
-      // gutter, hint) is still below the viewport (gutter wrap, hint wrap,
-      // rounding), step the cell down until it fits. Measured from the
-      // elements themselves so the result is exact on any device.
       if (this.fitHeight && mobile) {
+        // Gutter placement: the tower stays centered and maximized; the
+        // gutter sits in the dead space beside it, or centers under the
+        // board when the side space can't hold it (narrow screens).
+        const placeGutter = () => {
+          if (!this.gutterEl) return
+          const row = this.el.closest("#board-row")
+          const side = (row ? row.clientWidth : window.innerWidth) - board.offsetWidth
+          // The gutter needs its own width (48px) of side space; the board
+          // is centered and the gutter hugs the row's right edge, so no
+          // extra slack is needed — this keeps the tower as big as the
+          // gutter still fits beside it.
+          const below = side / 2 < 48
+          this.gutterEl.classList.toggle("gutter-below", below)
+          if (row) row.classList.toggle("board-row-below", below)
+        }
+        placeGutter()
+        // The game screen must never scroll: if the settled content
+        // (board, gutter, hint) still runs below the viewport, step the
+        // cell down until it fits — measured from the elements themselves
+        // so the result is exact on any device.
         const contentBottom = () => {
           const els = [board]
           for (const id of ["swipe-hint", "play-gutter"]) {
@@ -164,6 +188,7 @@ export default {
           if (this.cell <= 8) break
           this.cell -= 1
           apply()
+          placeGutter()
         }
       }
       return
@@ -295,7 +320,7 @@ export default {
   // (bottom) in their own 56px canvases — the main canvas is the pure
   // 10×20 playfield.
   drawGutter(frame) {
-    const m = 13
+    const m = 11 // 4 cells × 11 + 2px padding = 46 ≤ the 48px canvas
     const draw = (cv, piece) => {
       if (!cv) return
       const ctx = cv.getContext("2d")
@@ -303,10 +328,10 @@ export default {
       if (!piece) return
       ctx.save()
       ctx.shadowColor = this.color(piece.id)
-      ctx.shadowBlur = 6
+      ctx.shadowBlur = 5
       ctx.fillStyle = this.color(piece.id)
       for (const [x, y] of piece.cells) {
-        ctx.fillRect(3 + x * m, 3 + y * m, m - 1, m - 1)
+        ctx.fillRect(2 + x * m, 2 + y * m, m - 1, m - 1)
       }
       ctx.restore()
     }

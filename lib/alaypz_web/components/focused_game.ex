@@ -80,13 +80,19 @@ defmodule AlaypzWeb.FocusedGame do
       id="focused-game"
       class="flex flex-wrap gap-6 rounded-xl border border-cyan-500/30 bg-base-100 p-5 shadow-sm max-lg:flex-col-reverse max-lg:gap-4 max-lg:rounded-none max-lg:border-0 max-lg:bg-transparent max-lg:p-0 max-lg:shadow-none"
     >
-      <%!-- board + the side gutter (next/hold): the mobile game screen is
-           full-bleed — no nested cards, the board sits on the page
-           background and the gutter fills the space beside it --%>
-      <div class="flex flex-wrap items-start justify-center gap-4 lg:gap-0">
+      <%!-- the tower (board) is centered and maximized; on mobile the
+           next/hold gutter lives absolutely positioned in the dead space
+           beside it (zero width cost — the board fit uses the full
+           width). When the side space can't hold the gutter, the hook
+           toggles .gutter-below / .board-row-below and it centers under
+           the board instead. --%>
+      <div
+        id="board-row"
+        class="relative flex flex-wrap items-start justify-center gap-4 lg:gap-0 max-lg:block"
+      >
         <div
           id="focused-board"
-          class="alaypz-board rounded-lg border border-cyan-400/40 p-2 shadow-[0_0_24px_rgba(0,229,255,0.15)] max-lg:w-fit max-lg:self-center max-lg:rounded-none max-lg:border-0 max-lg:p-1 max-lg:shadow-none"
+          class="alaypz-board rounded-lg border border-cyan-400/40 p-2 shadow-[0_0_24px_rgba(0,229,255,0.15)] max-lg:mx-auto max-lg:w-fit max-lg:rounded-none max-lg:border-0 max-lg:p-1 max-lg:shadow-none"
         >
           <canvas
             id="focused-canvas"
@@ -106,22 +112,24 @@ defmodule AlaypzWeb.FocusedGame do
              canvas is the pure 10×20 playfield (room for a bigger cell) --%>
         <div
           id="play-gutter"
-          class="hidden max-lg:flex max-lg:flex-col max-lg:items-center max-lg:gap-4 max-lg:self-center"
+          class="hidden max-lg:absolute max-lg:top-1/2 max-lg:right-0 max-lg:flex max-lg:flex-col max-lg:items-center max-lg:gap-4 max-lg:-translate-y-1/2"
         >
           <div class="flex flex-col items-center gap-1.5">
             <span class="text-[10px] font-bold uppercase tracking-widest text-base-content/50">Next</span>
-            <canvas id="gutter-next-0" phx-update="ignore" width="56" height="56" class="block" />
-            <canvas id="gutter-next-1" phx-update="ignore" width="56" height="56" class="block" />
-            <canvas id="gutter-next-2" phx-update="ignore" width="56" height="56" class="block" />
+            <canvas id="gutter-next-0" phx-update="ignore" width="48" height="48" class="block" />
+            <canvas id="gutter-next-1" phx-update="ignore" width="48" height="48" class="block" />
+            <canvas id="gutter-next-2" phx-update="ignore" width="48" height="48" class="block" />
           </div>
           <div class="flex flex-col items-center gap-1.5">
             <span class="text-[10px] font-bold uppercase tracking-widest text-base-content/50">Hold</span>
-            <canvas id="gutter-hold" phx-update="ignore" width="56" height="56" class="block" />
+            <canvas id="gutter-hold" phx-update="ignore" width="48" height="48" class="block" />
           </div>
         </div>
       </div>
 
-      <div class="min-w-52 flex-1">
+      <%!-- mobile: one compact row (name + status · score/lines/level) so
+           the board gets every pixel of height; desktop keeps the column --%>
+      <div class="min-w-52 flex-1 max-lg:flex max-lg:flex-row max-lg:flex-wrap max-lg:items-center max-lg:justify-between max-lg:gap-x-2 max-lg:gap-y-1">
         <div class="flex flex-wrap items-center justify-between gap-3">
           <span id="focused-name" class="text-base font-bold text-base-content lg:text-xl">
             {@name}
@@ -141,7 +149,7 @@ defmodule AlaypzWeb.FocusedGame do
           </span>
         </div>
 
-        <dl class="mt-4 grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm max-lg:grid-cols-3 max-lg:gap-x-4 max-lg:gap-y-0.5">
+        <dl class="mt-4 grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm max-lg:mt-0 max-lg:grid-cols-3 max-lg:gap-x-2 max-lg:gap-y-0.5">
           <%!-- status + piece rows stay on desktop; mobile keeps the
                compact score/lines/level rows only --%>
           <div class="hidden justify-between gap-2 lg:flex">
