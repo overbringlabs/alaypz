@@ -90,25 +90,27 @@ defmodule AlaypzWeb.LobbyLiveTest do
     render_click(element(view, "#start-button"))
 
     assert has_element?(view, "#focused-game")
+    assert has_element?(view, "#focused-canvas")
 
-    # Hard-drop a piece: its locked cells stay on the board, so poll the
-    # focused board until a piece character (i/j/l/o/s/t/z) appears.
+    # Hard-drop a piece: the locked cells stay on the board, and the score
+    # goes above zero once the piece locks, so poll the scoreboard until it
+    # is nonzero (the canvas itself is driven by a pushed event, not the DOM).
     player = Players.get_by_name("erin-lobby")
     Games.input(player, :hard)
 
-    board =
+    score =
       Enum.reduce_while(1..40, nil, fn _, _ ->
         Process.sleep(50)
 
-        html = render(element(view, "#focused-board"))
+        html = render(element(view, "#focused-score"))
 
-        if String.match?(html, ~r/[ijklostz]/) do
+        if String.match?(html, ~r/\d{2,}/) do
           {:halt, html}
         else
           {:cont, nil}
         end
       end)
 
-    assert board =~ ~r/[ijklostz]/
+    assert score =~ ~r/\d{2,}/
   end
 end

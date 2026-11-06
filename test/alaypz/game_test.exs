@@ -221,9 +221,28 @@ defmodule Alaypz.GameTest do
     assert p.queue == Enum.take(@ids, 3)
     assert p.status == :playing
 
+    # The piece cells sit at the spawn position, 4 cells, and the ghost is
+    # at or below the current position.
+    assert length(p.cells) == 4
+    assert p.cells == for({dx, dy} <- Pieces.cells(:t, 0), do: {3 + dx, 0 + dy})
+    assert p.ghost != nil
+    assert Enum.all?(p.ghost, fn {gx, gy} -> gx >= 0 and gy >= 0 end)
+
     blocked = empty() |> List.replace_at(0, List.duplicate(:z, 10))
     t = Game.hold(game(board: blocked, current: :t, hold: :j))
     assert t.status == :topped_out
     assert Game.payload(t).piece == nil
+    assert Game.payload(t).cells == nil
+  end
+
+  test "cells/2 offsets the piece shape at a given box position" do
+    s = game()
+    {x, y} = s.pos
+    assert Game.cells(s, {x, y}) == for({dx, dy} <- Pieces.cells(:t, 0), do: {x + dx, y + dy})
+
+    assert Game.cells(s, {x + 2, y + 3}) ==
+             for({dx, dy} <- Pieces.cells(:t, 0), do: {x + 2 + dx, y + 3 + dy})
+
+    assert Game.cells(%{s | current: nil}, {x, y}) == nil
   end
 end

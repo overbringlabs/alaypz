@@ -37,9 +37,14 @@
               <td class="py-1 pr-4 font-mono text-slate-300">{score.level}</td>
               <td class="py-1 pr-4 text-slate-300">{score.end_reason}</td>
               <td class="py-1">
-                <pre class="font-mono text-[10px] leading-[12px] text-slate-300">
-                  {AlaypzWeb.Board.text(Alaypz.Scores.decode_board(score.board))}
-                </pre>
+                <canvas
+                  id={"lb-board-#{score.id}"}
+                  phx-hook="AlaypzCanvas"
+                  phx-update="ignore"
+                  data-static
+                  data-board={score.board}
+                  class="alaypz-board block"
+                ></canvas>
               </td>
             </tr>
           <% end %>

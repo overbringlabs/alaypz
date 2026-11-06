@@ -10,7 +10,10 @@
     </header>
 
     <%= if @player == nil do %>
-      <div id="player-not-found" class="rounded-xl border border-dashed border-slate-700 p-6 text-sm text-slate-500">
+      <div
+        id="player-not-found"
+        class="rounded-xl border border-dashed border-slate-700 p-6 text-sm text-slate-500"
+      >
         No player named {@name}.
         <.link navigate="/" class="text-cyan-400 transition hover:text-cyan-300">
           Claim the name in the lobby
@@ -48,9 +51,14 @@
                   {Calendar.strftime(score.inserted_at, "%Y-%m-%d %H:%M")}
                 </td>
                 <td class="py-1">
-                  <pre class="font-mono text-[10px] leading-[12px] text-slate-300">
-                    {AlaypzWeb.Board.text(Alaypz.Scores.decode_board(score.board))}
-                  </pre>
+                  <canvas
+                    id={"ps-board-#{score.id}"}
+                    phx-hook="AlaypzCanvas"
+                    phx-update="ignore"
+                    data-static
+                    data-board={score.board}
+                    class="alaypz-board block"
+                  ></canvas>
                 </td>
               </tr>
             <% end %>

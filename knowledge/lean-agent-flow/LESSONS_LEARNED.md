@@ -8,6 +8,7 @@ time. **The row is the rule, not the story** — the body carries the evidence.
 
 | **OTP/Ecto API drift** (2026-11-06) | elixir, otp, ecto, testing | Verify OTP/Ecto APIs against the installed version before calling — OTP 29 + Ecto 3.14 removed `:crypto.timing_safe_match`, `:binary.splattolist`, `validate_unique`, `>=:` options. | `lessons_learned/20261106_otp29_ecto314_api_drift.md` |
 | **DynamicSupervisor restart default** (2026-11-06) | elixir, otp, supervision, testing | Pass `restart: :temporary` in dynamic child specs for explicitly-stopped workers — the default `:permanent` restarts them on every stop (ghosts) and rapid cycles shut the supervisor down. | `lessons_learned/20261106_dynamicsupervisor_restart_default.md` |
+| **LV 1.2 `handleEvent` is a subscription** (2026-11-06) | liveview, javascript, hooks | Subscribe with `this.handleEvent(name, cb)` — server `push_event` arrives as a `phx:<name>` window event; overriding `handleEvent` as a method receives nothing, silently. | `lessons_learned/20261106_lv12_handleevent_subscription.md` |
 
 ## Row shape
 

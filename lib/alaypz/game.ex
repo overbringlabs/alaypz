@@ -141,9 +141,15 @@ defmodule Alaypz.Game do
 
   @doc "Wire-ready state for the client (everything a renderer needs)."
   def payload(s) do
+    # `current` is nil after a top-out: `ghost_pos/1` needs the current piece,
+    # so the piece-derived fields are nil in terminal states.
+    piece = if(s.current, do: %{id: s.current, state: s.current_state, pos: s.pos})
+
     %{
       board: s.board,
-      piece: if(s.current, do: %{id: s.current, state: s.current_state, pos: s.pos}),
+      piece: piece,
+      cells: if(s.current, do: cells(s, s.pos)),
+      ghost: if(s.current, do: cells(s, ghost_pos(s))),
       score: s.score,
       lines: s.lines,
       level: s.level,
@@ -151,6 +157,18 @@ defmodule Alaypz.Game do
       queue: Enum.take(s.queue, 3),
       status: s.status
     }
+  end
+
+  @doc """
+  Absolute board cells `{x, y}` of `s`'s current piece at box position `pos`
+  (the 4×4 box origin), or `nil` when there is no current piece.
+  """
+  def cells(s, {x, y}) do
+    if s.current do
+      for {dx, dy} <- Pieces.cells(s.current, s.current_state) do
+        {x + dx, y + dy}
+      end
+    end
   end
 
   # --- internals ---------------------------------------------------------

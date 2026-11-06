@@ -1,9 +1,10 @@
 defmodule AlaypzWeb.FocusedGame do
   @moduledoc """
-  The focused game surface: a compact text rendering of the last engine
-  state pushed by the lobby view. Step 6 replaces the `<pre>` grid with the
-  `.AlaypzCanvas` hook; the component contract (payload + status assigns)
-  stays the same.
+  The focused game surface: a `.AlaypzCanvas` canvas (neon, tweened, glow)
+  fed by server-computed frames via `push_event/3`, plus a text scoreboard.
+  Every engine state change (view `send_update`) pushes a JSON-safe frame to
+  the canvas hook; the hook tweens between the last two frames so players
+  and spectators see the same authoritative state.
 
   LV 1.2 lifecycle: `mount/1` runs before the parent's assigns arrive —
   `@name` comes from the parent (render/update); `@payload`/`@status` from
@@ -12,6 +13,7 @@ defmodule AlaypzWeb.FocusedGame do
   use AlaypzWeb, :live_component
 
   alias Alaypz.Game
+  alias Alaypz.Game.Pieces
   alias Alaypz.Games
   alias Alaypz.Players
 
@@ -20,13 +22,14 @@ defmodule AlaypzWeb.FocusedGame do
      socket
      |> assign(:payload, nil)
      |> assign(:status, nil)
+     |> assign(:last_frame, nil)
      |> assign(:last_name, nil)}
   end
 
   def update(%{name: name} = assigns, socket) do
     socket = assign(socket, :name, name)
 
-    new =
+    socket =
       if name != socket.assigns.last_name do
         # A newly focused game: read the game process once.
         payload =
@@ -43,54 +46,125 @@ defmodule AlaypzWeb.FocusedGame do
         assign(socket, Map.drop(assigns, [:name]))
       end
 
-    {:ok, new}
+    {:ok, push_if_changed(socket)}
   end
 
-  # Pushes from the lobby view for the already-focused game.
-  def update(assigns, socket), do: {:ok, assign(socket, Map.delete(assigns, :name))}
+  # `send_update` pushes (payload/status from the lobby view) arrive without
+  # the parent's assigns — they carry only the pushed keys.
+  def update(assigns, socket) do
+    {:ok, push_if_changed(assign(socket, Map.delete(assigns, :name)))}
+  end
+
+  # Feed the canvas when the state actually changed, so no-op renders don't
+  # re-push the same frame.
+  defp push_if_changed(socket) do
+    frame_key = {socket.assigns.payload, socket.assigns.status}
+
+    if frame_key != socket.assigns.last_frame do
+      socket
+      |> push_event("alaypz-frame", frame(socket.assigns.payload, socket.assigns.status))
+      |> assign(:last_frame, frame_key)
+    else
+      socket
+    end
+  end
 
   def render(assigns) do
     ~H"""
-    <div id="focused-game" class="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
-      <div class="mb-2 flex items-center justify-between gap-2">
-        <h3 id="focused-name" class="font-semibold text-slate-100">{@name}</h3>
-        <span id="focused-status" class="text-sm text-slate-400">
-          {status_label(@status)}
-        </span>
-      </div>
-
-      <div class="flex gap-6">
-        <pre
-          id="focused-board"
-          class="font-mono text-[11px] leading-[14px] text-slate-300"
-        >
-          {AlaypzWeb.Board.text(@payload && @payload.board)}
-        </pre>
+    <div
+      id="focused-game"
+      class="flex flex-wrap gap-6 rounded-xl border border-slate-700 bg-slate-900/60 p-4"
+    >
+      <div class="flex items-start gap-4">
+        <div id="focused-board" class="alaypz-board rounded-lg border border-cyan-500/30 p-2">
+          <canvas
+            id="focused-canvas"
+            phx-hook="AlaypzCanvas"
+            phx-update="ignore"
+            data-cols="10"
+            data-rows="20"
+            class="block"
+          >
+            {AlaypzWeb.Board.text(@payload && @payload.board)}
+          </canvas>
+        </div>
 
         <dl class="space-y-1 text-sm">
           <div class="flex gap-2">
-            <dt class="w-14 text-slate-500">score</dt>
+            <dt class="w-14 text-slate-500">name</dt>
+            <dd id="focused-name" class="font-semibold text-slate-100">{@name}</dd>
+          </div>
+          <div class="flex gap-2">
+            <dt class="text-slate-500">status</dt>
+            <dd id="focused-status" class="text-slate-300">{status_label(@status)}</dd>
+          </div>
+          <div class="flex gap-2">
+            <dt class="text-slate-500">score</dt>
             <dd id="focused-score" class="font-mono text-cyan-300">
               {(@payload && @payload.score) || 0}
             </dd>
           </div>
           <div class="flex gap-2">
             <dt class="text-slate-500">lines</dt>
-            <dd class="font-mono">{(@payload && @payload.lines) || 0}</dd>
+            <dd class="font-mono text-slate-300">{(@payload && @payload.lines) || 0}</dd>
           </div>
           <div class="flex gap-2">
             <dt class="text-slate-500">level</dt>
-            <dd class="font-mono">{(@payload && @payload.level) || 1}</dd>
+            <dd class="font-mono text-slate-300">{(@payload && @payload.level) || 1}</dd>
           </div>
           <div class="flex gap-2">
             <dt class="text-slate-500">piece</dt>
-            <dd id="focused-piece" class="font-mono">{piece_text(@payload)}</dd>
+            <dd id="focused-piece" class="font-mono text-slate-300">{piece_text(@payload)}</dd>
           </div>
         </dl>
       </div>
     </div>
     """
   end
+
+  # --- frame construction (JSON-safe: tuples become lists) ----------------
+
+  # A single frame for the canvas hook: absolute piece/ghost cells, box
+  # position for the tween, queue/hold shapes, and the terminal status.
+  defp frame(nil, status) do
+    %{
+      board: nil,
+      cells: nil,
+      ghost: nil,
+      piece: nil,
+      piece_id: nil,
+      queue: [],
+      hold: nil,
+      lines: 0,
+      status: status
+    }
+  end
+
+  defp frame(payload, status) do
+    %{
+      board: payload.board,
+      cells: cells_list(payload.cells),
+      ghost: cells_list(payload.ghost),
+      piece: piece_pos_list(payload.piece),
+      piece_id: payload.piece && to_string(payload.piece.id),
+      queue: Enum.map(payload.queue, fn id -> %{id: to_string(id), cells: box_cells(id)} end),
+      hold: if(payload.hold, do: %{id: to_string(payload.hold), cells: box_cells(payload.hold)}),
+      lines: payload.lines || 0,
+      status: status
+    }
+  end
+
+  defp cells_list(nil), do: nil
+  defp cells_list(cells), do: Enum.map(cells, fn {x, y} -> [x, y] end)
+
+  defp piece_pos_list(nil), do: nil
+  defp piece_pos_list(%{pos: {x, y}}), do: [x, y]
+
+  defp box_cells(id) do
+    Enum.map(Pieces.cells(id, 0), fn {x, y} -> [x, y] end)
+  end
+
+  # --- text fallbacks ------------------------------------------------------
 
   defp piece_text(%{piece: %{id: id, pos: {x, y}}}), do: "#{id} @ #{x},#{y}"
   defp piece_text(%{}), do: "—"

@@ -103,3 +103,18 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+
+/* Neon palette for the .AlaypzCanvas hook (assets/js/hooks/alaypz_canvas.js)
+   reads these custom properties. */
+.alaypz-board {
+  --tet-i: #00e5ff;
+  --tet-j: #448aff;
+  --tet-l: #ff9e40;
+  --tet-o: #ffea00;
+  --tet-s: #00e676;
+  --tet-t: #e040fb;
+  --tet-z: #ff5252;
+  --tet-bg: #0b1020;
+  --tet-grid: rgba(120, 200, 255, 0.08);
+  --tet-ghost: rgba(0, 229, 255, 0.35);
+}

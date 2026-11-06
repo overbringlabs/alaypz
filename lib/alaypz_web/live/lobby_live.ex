@@ -90,6 +90,35 @@ defmodule AlaypzWeb.LobbyLive do
     {:noreply, focus_on(socket, name)}
   end
 
+  # The `.AlaypzKeys` hook: arrow/letter keys act on the focused game.
+  @key_actions %{
+    "ArrowLeft" => :left,
+    "ArrowRight" => :right,
+    "ArrowDown" => :soft,
+    "ArrowUp" => :hard,
+    "z" => :ccw,
+    "Z" => :ccw,
+    "x" => :cw,
+    "X" => :cw,
+    "c" => :hold,
+    "C" => :hold
+  }
+
+  @impl true
+  def handle_event("game-key", %{"key" => key}, socket) do
+    action = Map.get(@key_actions, key)
+    name = socket.assigns.focused_name
+
+    if action && name do
+      case Players.get_by_name(name) do
+        nil -> :ok
+        player -> Games.input(player, action)
+      end
+    end
+
+    {:noreply, socket}
+  end
+
   # Live cards: every game change broadcasts a summary here.
   @impl true
   def handle_info(%{type: :lobby, name: name} = msg, socket) do
