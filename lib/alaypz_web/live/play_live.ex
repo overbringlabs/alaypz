@@ -70,7 +70,22 @@ defmodule AlaypzWeb.PlayLive do
     # `:taken` means the name is already claimed (typically by this browser
     # before a reload): a running game for it gets re-attached instead of
     # left orphaned. `:invalid`/`:mismatch` do not.
-    socket = if outcome in [:ok, :taken], do: maybe_attach(socket), else: socket
+    socket =
+      if outcome in [:ok, :taken] do
+        socket = maybe_attach(socket)
+
+        # The name is already claimed and the surface came up: that is
+        # usually this browser's own saved name — drop the reclaim-mode
+        # ceremony (access input + notice) for it.
+        if outcome == :taken and socket.assigns.focused_name do
+          socket |> assign(:mode, :claim) |> assign(:notice, nil)
+        else
+          socket
+        end
+      else
+        socket
+      end
+
     {:noreply, socket}
   end
 

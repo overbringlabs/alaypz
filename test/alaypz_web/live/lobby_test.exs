@@ -113,7 +113,7 @@ defmodule AlaypzWeb.LobbyLiveTest do
 
     # Taken: the form offers the access string input.
     assert has_element?(view, "#lobby-access")
-    assert has_element?(view, "#lobby-notice", ~r/taken/i)
+    assert has_element?(view, "#lobby-notice", ~r/already claimed/i)
 
     render_change(element(view, "#name-form"), %{"identity" => %{"access" => secret}})
     submit_form(view)
@@ -196,6 +196,7 @@ defmodule AlaypzWeb.LobbyLiveTest do
     submit_form(view)
 
     assert has_element?(view, "#card-erin-lobby")
+
     assert {:error, {:live_redirect, %{to: "/play"}}} =
              render_click(element(view, "#card-erin-lobby"))
   end

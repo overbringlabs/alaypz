@@ -61,21 +61,25 @@ defmodule AlaypzWeb.PlayLiveTest do
 
     assert has_element?(view, "#focused-name", "reload-play")
     assert has_element?(view, "#ctrl-left")
+
+    # The name is this browser's own (already claimed) and the surface is
+    # up: no reclaim-mode ceremony (access input) or notice.
+    refute has_element?(view, "#play-access")
+    refute has_element?(view, "#lobby-notice")
   end
 
-  test "the unfocus button releases the surface", %{conn: conn} do
+  test "the play surface has no unfocus button (the player's game can't be released in place)", %{
+    conn: conn
+  } do
     {:ok, view, _html} = live(conn, "/play")
 
-    set_name(view, "unfocus-play")
+    set_name(view, "noleave-play")
     submit_form(view)
     render_click(element(view, "#start-button"))
     assert has_element?(view, "#focused-game")
+    refute has_element?(view, "#unfocus-button")
 
-    render_click(element(view, "#unfocus-button"))
-    assert has_element?(view, "#play-section", "Claim a name and start a game")
-    refute has_element?(view, "#focused-game")
-
-    on_exit(fn -> Games.stop(Players.get_by_name("unfocus-play")) end)
+    on_exit(fn -> Games.stop(Players.get_by_name("noleave-play")) end)
   end
 
   test "play-input acts only on the view's own game" do
@@ -103,8 +107,7 @@ defmodule AlaypzWeb.PlayLiveTest do
     # The owning view's inputs pass the view gate and the process gate.
     owner = %Phoenix.LiveView.Socket{
       assigns: %{
-        form:
-          Phoenix.Component.to_form(%{"name" => "dora-play", "access" => ""}, as: :identity),
+        form: Phoenix.Component.to_form(%{"name" => "dora-play", "access" => ""}, as: :identity),
         focused_name: "dora-play"
       }
     }

@@ -11,8 +11,12 @@
 //
 // Colors come from the .alaypz-board CSS custom properties (assets/css/app.css).
 
+import { play as sfx } from "../sfx"
+
 const TWEEN_MS = 110
 const FLASH_MS = 350
+const SHAKE_MS = 280
+const SHAKE_AMP = 4
 
 export default {
   mounted() {
@@ -22,7 +26,13 @@ export default {
     this.cols = Number(this.el.dataset.cols) || 10
     this.rows = Number(this.el.dataset.rows) || 20
     this.static = this.el.dataset.static !== undefined
+    this.fitHeight = this.el.dataset.fitHeight !== undefined
     this.fitCell()
+    // Height fit needs the settled layout (HUD strip + controls heights);
+    // re-measure after the first paint so the fit is exact (mobile only).
+    if (this.fitHeight && window.matchMedia("(max-width: 767px)").matches) {
+      requestAnimationFrame(() => this.fitCell(true))
+    }
     this.bandH = this.card || this.static ? 0 : this.mini * 4 + 12
     this.el.width = this.cols * this.cell
     this.el.height = this.rows * this.cell + this.bandH
@@ -74,9 +84,40 @@ export default {
     const scope = board.closest("section") || board.closest("[class*='max-w-']")
     let avail = window.innerWidth - 32
     if (scope && scope.clientWidth) avail = Math.min(avail, scope.clientWidth)
+    // Subtract the horizontal padding + border of every element between the
+    // scope and the canvas, so the canvas fits the board's actual box at any
+    // viewport (no guessed padding).
+    for (let el = board; el && el !== scope; el = el.parentElement) {
+      const cs = getComputedStyle(el)
+      avail -=
+        parseFloat(cs.paddingLeft) +
+        parseFloat(cs.paddingRight) +
+        parseFloat(cs.borderLeftWidth) +
+        parseFloat(cs.borderRightWidth)
+    }
+    let cell =
+      this.cols * this.cell > avail ? Math.max(8, Math.floor(avail / this.cols)) : this.cell
 
-    const content = this.cols * this.cell + 20 // board padding + border
-    const cell = content > avail ? Math.max(8, Math.floor((avail - 20) / this.cols)) : this.cell
+    // Height fit (the /play mobile game screen): shrink the cell so the
+    // board + touch controls fill the viewport without scrolling. Desktop
+    // keeps its natural board size (the page scrolls there). bandH is
+    // mini*4+12 ≈ 1.84*cell + 12; the board adds ~18px of padding/border.
+    const mobile = window.matchMedia("(max-width: 767px)").matches
+    if (this.fitHeight && mobile) {
+      const rect = board.getBoundingClientRect()
+      let controlsH = 160
+      let gap = 47
+      const controls = document.querySelector("#play-controls")
+      if (controls) {
+        controlsH = controls.getBoundingClientRect().height
+        gap = Math.max(0, controls.getBoundingClientRect().top - rect.bottom)
+      }
+      // board bottom (chrome = 18px padding/border) + gap + controls ≤ viewport
+      // bandH = mini*4 + 12 ≈ 1.84*cell + 12
+      const availH = window.innerHeight - rect.top - gap - controlsH
+      const hCell = Math.floor((availH - 18 - 12) / (this.rows + 1.84))
+      if (hCell < cell) cell = Math.max(8, hCell)
+    }
     if (reapply && cell === this.cell) return
     this.cell = cell
     this.mini = Math.round(this.cell * 0.46)
@@ -98,9 +139,35 @@ export default {
       return
     }
 
+    // Sound events, derived from what changed between frames:
+    //  rotate — same piece id, different orientation
+    //  lock   — the board gained cells without lines being cleared (the
+    //           engine locks and spawns the next piece in one frame, so a
+    //           nil piece is never observed; the board diff is the signal)
+    const ended = frame.status === "finished" || frame.status === "interrupted"
+    const prev = this.prevFrame
+    if (prev && !ended) {
+      if (
+        frame.piece &&
+        prev.piece &&
+        frame.piece_id === prev.piece_id &&
+        frame.piece_state != null &&
+        frame.piece_state !== prev.piece_state
+      ) {
+        sfx("rotate")
+      }
+      const boardChanged =
+        JSON.stringify(frame.board || []) !== JSON.stringify(prev.board || [])
+      if (boardChanged && frame.lines === prev.lines && prev.piece) sfx("lock")
+    }
+    this.prevFrame = frame
+
     if (frame.lines > this.lastLines) {
       this.lastLines = frame.lines
-      this.flashUntil = performance.now() + FLASH_MS
+      const now = performance.now()
+      this.flashUntil = now + FLASH_MS
+      this.shakeUntil = now + SHAKE_MS
+      sfx("clear")
     }
 
     const piece = frame.piece
@@ -133,19 +200,36 @@ export default {
     const frame = this.frame
     const { ctx } = this
 
+    const now = performance.now()
     ctx.clearRect(0, 0, this.el.width, this.el.height)
     ctx.fillStyle = this.palette.bg
     ctx.fillRect(0, 0, this.el.width, this.el.height)
 
     if (frame) {
       const piece = this.card ? frame.piece : this.piecePosition(frame)
+
+      // Line-clear impact: the board content jitters for SHAKE_MS.
+      ctx.save()
+      if (!this.card && now < this.shakeUntil) {
+        const t = (this.shakeUntil - now) / SHAKE_MS
+        const amp = SHAKE_AMP * t
+        ctx.translate((Math.random() - 0.5) * 2 * amp, (Math.random() - 0.5) * 2 * amp)
+      }
+
       this.drawBoard(frame.board, frame.cells, frame.ghost, frame.status, piece)
 
       if (!this.card) {
         this.drawBand(frame)
 
-        if (frame.lines > 0 && performance.now() < this.flashUntil) {
-          const t = (this.flashUntil - performance.now()) / FLASH_MS
+        if (frame.lines > 0 && now < this.flashUntil) {
+          const remain = this.flashUntil - now
+          const t = remain / FLASH_MS
+          // white impact core in the first 120ms, then the cyan glow fades
+          const core = Math.max(0, (remain - (FLASH_MS - 120)) / 120)
+          if (core > 0) {
+            ctx.fillStyle = `rgba(255, 255, 255, ${0.5 * core})`
+            ctx.fillRect(-8, this.bandH - 2, this.el.width + 16, this.rows * this.cell + 4)
+          }
           ctx.fillStyle = `rgba(160, 240, 255, ${0.55 * t})`
           ctx.fillRect(0, this.bandH, this.el.width, this.rows * this.cell)
         }
@@ -154,6 +238,7 @@ export default {
           this.drawGameOver(frame.status)
         }
       }
+      ctx.restore()
     }
   },
 

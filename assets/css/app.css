@@ -203,3 +203,29 @@ body {
   --tet-grid: rgba(120, 200, 255, 0.08);
   --tet-ghost: rgba(0, 229, 255, 0.35);
 }
+
+/* /play on mobile: while a game is focused the page becomes a full-viewport
+   game screen — the app header recedes so the board + touch controls fill
+   the screen like a native mobile game (desktop keeps the chrome). */
+@media (max-width: 767px) {
+  body:has([data-mobile-game]) #app-header {
+    display: none;
+  }
+
+  body:has([data-mobile-game]) main {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  body:has([data-mobile-game]) .play-page {
+    padding: 0.5rem 0.5rem 0;
+  }
+
+  body:has([data-mobile-game]) #play-section {
+    margin-top: 0.5rem;
+  }
+
+  body:has([data-mobile-game]) .play-page > div + #play-section > div {
+    margin-top: 0.75rem;
+  }
+}

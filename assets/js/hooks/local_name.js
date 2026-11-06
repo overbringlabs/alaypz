@@ -9,6 +9,10 @@ export default {
     if (saved) {
       this.el.value = saved;
       this.el.dispatchEvent(new Event("input", { bubbles: true }));
+      // The saved name is already claimed: resolve it server-side right
+      // away (a running game re-attaches and the play surface appears)
+      // instead of making the user re-claim it by hand.
+      this.el.form.requestSubmit();
     }
 
     this.el.addEventListener("change", () => {

@@ -31,6 +31,8 @@ defmodule AlaypzWeb.FocusedGame do
       socket
       |> assign(:name, name)
       |> assign(:spectating, Map.get(assigns, :spectating, false))
+      |> assign(:show_unfocus, Map.get(assigns, :show_unfocus, true))
+      |> assign(:fit_height, Map.get(assigns, :fit_height, false))
 
     socket =
       if name != socket.assigns.last_name do
@@ -76,7 +78,7 @@ defmodule AlaypzWeb.FocusedGame do
     ~H"""
     <div
       id="focused-game"
-      class="flex flex-wrap gap-6 rounded-xl border border-cyan-500/30 bg-base-100 p-5 shadow-sm"
+      class="flex flex-wrap gap-6 rounded-xl border border-cyan-500/30 bg-base-100 p-5 shadow-sm max-md:flex-col-reverse max-md:gap-4 max-md:p-3"
     >
       <div
         id="focused-board"
@@ -89,6 +91,7 @@ defmodule AlaypzWeb.FocusedGame do
           data-cols="10"
           data-rows="20"
           data-cell="28"
+          data-fit-height={if @fit_height, do: "", else: nil}
           class="block"
         >
           {AlaypzWeb.Board.text(@payload && @payload.board)}
@@ -97,24 +100,28 @@ defmodule AlaypzWeb.FocusedGame do
 
       <div class="min-w-52 flex-1">
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <span id="focused-name" class="text-xl font-bold text-base-content">
+          <span id="focused-name" class="text-base font-bold text-base-content md:text-xl">
             {@name}
           </span>
           <span class="flex items-center gap-2">
             <.chip status={@status} />
-            <button
-              type="button"
-              id="unfocus-button"
-              phx-click="unfocus"
-              class="rounded-lg border border-base-300 px-3 py-1 text-xs font-semibold text-base-content/80 transition hover:border-rose-400/60 hover:text-rose-500"
-            >
-              Unfocus
-            </button>
+            <%= if @show_unfocus do %>
+              <button
+                type="button"
+                id="unfocus-button"
+                phx-click="unfocus"
+                class="cursor-pointer rounded-lg border border-base-300 px-3 py-1 text-xs font-semibold text-base-content/80 transition hover:border-rose-400/60 hover:text-rose-500"
+              >
+                Unfocus
+              </button>
+            <% end %>
           </span>
         </div>
 
-        <dl class="mt-4 grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm">
-          <div class="flex justify-between gap-2">
+        <dl class="mt-4 grid grid-cols-2 gap-x-8 gap-y-1.5 text-sm max-md:grid-cols-3 max-md:gap-x-4 max-md:gap-y-0.5">
+          <%!-- status + piece rows stay on desktop; mobile keeps the
+               compact score/lines/level rows only --%>
+          <div class="hidden justify-between gap-2 md:flex">
             <dt class="uppercase tracking-wider text-base-content/60">status</dt>
             <dd id="focused-status" class="text-base-content/80">{status_label(@status)}</dd>
           </div>
@@ -132,7 +139,7 @@ defmodule AlaypzWeb.FocusedGame do
             <dt class="uppercase tracking-wider text-base-content/60">level</dt>
             <dd class="text-base-content/80">{(@payload && @payload.level) || 1}</dd>
           </div>
-          <div class="flex justify-between gap-2">
+          <div class="hidden justify-between gap-2 md:flex">
             <dt class="uppercase tracking-wider text-base-content/60">piece</dt>
             <dd id="focused-piece" class="text-base-content/80">{piece_text(@payload)}</dd>
           </div>
@@ -149,13 +156,16 @@ defmodule AlaypzWeb.FocusedGame do
             </p>
           </div>
         <% else %>
-          <div class="mt-6 rounded-lg border border-base-300/60 bg-base-200/60 p-4">
+          <%!-- desktop only: the mobile play screen is the board + the
+               on-screen touch controls, no legend --%>
+          <div class="mt-6 hidden rounded-lg border border-base-300/60 bg-base-200/60 p-4 md:block">
             <h3 class="mb-3 text-xs font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
-              Controls — act on this game
+              Controls
             </h3>
             <.rows />
             <p class="mt-4 text-xs text-base-content/60">
-              Click another card to switch; click this card or Unfocus to release it.
+              Arrows move and drop · Z/X rotate · C hold — the on-screen
+              buttons do the same.
             </p>
           </div>
         <% end %>
@@ -176,6 +186,7 @@ defmodule AlaypzWeb.FocusedGame do
       ghost: nil,
       piece: nil,
       piece_id: nil,
+      piece_state: nil,
       queue: [],
       hold: nil,
       lines: 0,
@@ -192,6 +203,7 @@ defmodule AlaypzWeb.FocusedGame do
       ghost: cells_list(payload.ghost),
       piece: piece_pos_list(payload.piece),
       piece_id: payload.piece && to_string(payload.piece.id),
+      piece_state: payload.piece && payload.piece.state,
       queue: Enum.map(payload.queue, fn id -> %{id: to_string(id), cells: box_cells(id)} end),
       hold: if(payload.hold, do: %{id: to_string(payload.hold), cells: box_cells(payload.hold)}),
       lines: payload.lines || 0,

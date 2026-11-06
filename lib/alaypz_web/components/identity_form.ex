@@ -56,7 +56,7 @@ defmodule AlaypzWeb.IdentityForm do
           <button
             type="submit"
             id="claim-button"
-            class="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-500 hover:shadow-[0_0_20px_rgba(0,229,255,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70"
+            class="cursor-pointer rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-500 hover:shadow-[0_0_20px_rgba(0,229,255,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70"
           >
             {if @mode == :reclaim, do: "Reclaim name", else: "Claim name"}
           </button>
@@ -66,7 +66,7 @@ defmodule AlaypzWeb.IdentityForm do
             id="start-button"
             phx-click={@start_action}
             phx-value-name={@form[:name].value || ""}
-            class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500 hover:shadow-[0_0_20px_rgba(52,211,153,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70 disabled:cursor-not-allowed disabled:opacity-40"
+            class="cursor-pointer rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500 hover:shadow-[0_0_20px_rgba(52,211,153,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70 disabled:cursor-not-allowed disabled:opacity-40"
             disabled={@form[:name].value in [nil, ""]}
           >
             {@start_label}
