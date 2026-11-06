@@ -6,7 +6,7 @@ time. **The row is the rule, not the story** — the body carries the evidence.
 
 ## Entries
 
-(no entries yet)
+| **OTP/Ecto API drift** (2026-11-06) | elixir, otp, ecto, testing | Verify OTP/Ecto APIs against the installed version before calling — OTP 29 + Ecto 3.14 removed `:crypto.timing_safe_match`, `:binary.splattolist`, `validate_unique`, `>=:` options. | `lessons_learned/20261106_otp29_ecto314_api_drift.md` |
 
 ## Row shape
 
