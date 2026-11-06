@@ -16,7 +16,7 @@ defmodule AlaypzWeb.ReplayLive do
   alias Alaypz.{Game, Replay, Scores}
   alias AlaypzWeb.FocusedGame
 
-  @speeds [1, 2, 5, 10]
+  @speeds [1, 2, 5, 10, 20, 50, 100]
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -31,6 +31,7 @@ defmodule AlaypzWeb.ReplayLive do
       |> assign(:tick, 0)
       |> assign(:total, 0)
       |> assign(:done, true)
+      |> assign(:speeds, @speeds)
       |> assign(:frame, nil)
       |> assign(:not_found, false)
       |> assign(:unrecorded, false)

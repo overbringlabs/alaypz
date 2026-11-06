@@ -5,7 +5,7 @@
       <p class="mt-1 text-sm text-base-content/60">
         <%= if @score do %>
           <span>
-            <.link navigate={"/#{@score.player.name}"} class="text-cyan-600 dark:text-cyan-300">
+            <.link navigate={"/u/#{@score.player.name}"} class="text-cyan-600 dark:text-cyan-300">
               {@score.player.name}
             </.link>
             &nbsp;· {@score.end_reason}
@@ -96,14 +96,14 @@
 
             <div class="mt-5 flex flex-wrap items-center gap-2">
               <span class="text-xs uppercase tracking-wider text-base-content/60">speed</span>
-              <%= for speed <- [1, 2, 5, 10] do %>
+              <%= for speed <- @speeds do %>
                 <button
                   type="button"
                   id={"speed-#{speed}"}
                   phx-click="speed"
                   phx-value-speed={speed}
                   class={[
-                    "rounded-lg border px-3 py-1 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70",
+                    "rounded-lg border px-3 py-1 text-sm font-semibold transition hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70",
                     if(@speed == speed,
                       do: "border-cyan-400/70 bg-cyan-400/10 text-cyan-700 dark:text-cyan-300",
                       else: "border-base-300 text-base-content/70 hover:border-cyan-400/50"
