@@ -11,7 +11,7 @@ get here".
 
 ## In flight
 
-- Plan `plans/20261106_alaypz.md` — step 1 (engine core) next. See IN_FLIGHT.md.
+- Plan `plans/20261106_alaypz.md` (7 steps; resequenced for the persistence + views + name-uniqueness requirement) — step 1 (engine core) next. See IN_FLIGHT.md.
 
 ## Last completed
 
