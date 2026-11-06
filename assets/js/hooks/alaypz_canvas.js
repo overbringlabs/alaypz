@@ -34,10 +34,17 @@ export default {
     this.gutterCvs = [0, 1, 2].map((i) => document.getElementById("gutter-next-" + i))
     this.gutter = !!(this.gutterHoldCv && this.gutterHoldCv.offsetParent)
     this.fitCell()
-    // Height fit needs the settled layout (HUD strip heights); re-measure
-    // after the first paint so the fit is exact (mobile only).
-    if (this.fitHeight && window.matchMedia("(max-width: 1023px)").matches) {
-      requestAnimationFrame(() => this.fitCell(true))
+    // Height fit needs the settled layout: the surrounding diff (the claim
+    // form hiding, the hint landing) can move the board after this hook has
+    // mounted, so re-fit after the first paint AND whenever the page's
+    // content size changes (ResizeObserver) — the fit grows and shrinks to
+    // whatever the settled layout actually is.
+    if (this.fitHeight) {
+      if (window.matchMedia("(max-width: 1023px)").matches) {
+        requestAnimationFrame(() => this.fitCell(true))
+      }
+      this.ro = new ResizeObserver(() => this.fitCell(true))
+      this.ro.observe(document.body)
     }
     this.bandH = this.card || this.static || this.gutter ? 0 : this.mini * 4 + 12
     this.el.width = this.cols * this.cell
@@ -74,6 +81,7 @@ export default {
 
   destroyed() {
     if (this.raf) cancelAnimationFrame(this.raf)
+    if (this.ro) this.ro.disconnect()
     window.removeEventListener("resize", this.onResize)
   },
 
@@ -90,6 +98,10 @@ export default {
     const scope = board.closest("section") || board.closest("[class*='max-w-']")
     let avail = window.innerWidth - 32
     if (scope && scope.clientWidth) avail = Math.min(avail, scope.clientWidth)
+    // Always start from the default cell, not the previous fit: the
+    // surrounding layout (claim form hiding, gutter wrapping) changes what
+    // fits, so a stale smaller cell must be allowed to grow back.
+    let cell = Number(this.el.dataset.cell) || 28
     // Subtract the horizontal padding + border of every element between the
     // scope and the canvas, so the canvas fits the board's actual box at any
     // viewport (no guessed padding).
@@ -101,34 +113,64 @@ export default {
         parseFloat(cs.borderLeftWidth) +
         parseFloat(cs.borderRightWidth)
     }
-    let cell =
-      this.cols * this.cell > avail ? Math.max(8, Math.floor(avail / this.cols)) : this.cell
+    // Only clamps when the board would actually overflow, so desktop sizes
+    // are untouched.
+    if (this.cols * cell > avail) cell = Math.max(8, Math.floor(avail / this.cols))
 
     // Height fit (the /play game screen — phones and portrait tablets):
-    // the board is the only content below the HUD, so fill the remaining
-    // viewport height (minus the swipe-hint line) without scrolling.
-    // Desktop keeps its natural board size (the page scrolls there).
-    // With the side gutter the canvas is the pure playfield (no band ≈
-    // 1.84*cell + 12); the board adds ~18px chrome (8 in the gutter
-    // layout, where the card padding is stripped on mobile).
+    // fill the remaining viewport height without scrolling. Desktop keeps
+    // its natural board size (the page scrolls there). With the side
+    // gutter the canvas is the pure playfield (no band ≈ 1.84*cell + 12);
+    // the board adds ~18px chrome (8 in the gutter layout, where the card
+    // padding is stripped on mobile).
     const mobile = window.matchMedia("(max-width: 1023px)").matches
     if (this.fitHeight && mobile) {
       const top = board.getBoundingClientRect().top
-      // below the board: the swipe-hint line (16px margin, ~33px of text)
-      // and the page's bottom padding (8px)
-      const bottom = 50
-      const availH = window.innerHeight - top - bottom
+      // Measure everything below the board in the settled layout (the
+      // swipe-hint line, and the gutter when the row wraps under the
+      // board) instead of guessing, so the fit is exact on any device.
+      const hint = document.getElementById("swipe-hint")
+      const below = hint
+        ? Math.max(16, hint.getBoundingClientRect().bottom - board.getBoundingClientRect().bottom)
+        : 40
+      const availH = window.innerHeight - top - below
       const hCell = Math.floor((availH - (this.gutter ? 8 : 18)) / (this.rows + (this.gutter ? 0 : 1.84)))
       if (hCell < cell) cell = Math.max(8, hCell)
     }
-    if (reapply && cell === this.cell) return
-    this.cell = cell
-    this.mini = Math.round(this.cell * 0.46)
-    if (reapply) {
+    const apply = () => {
+      this.mini = Math.round(this.cell * 0.46)
       this.bandH = this.card || this.static || this.gutter ? 0 : this.mini * 4 + 12
       this.el.width = this.cols * this.cell
       this.el.height = this.rows * this.cell + this.bandH
     }
+    if (reapply) {
+      this.cell = cell
+      apply()
+      // The game screen must never scroll: if the settled content (board,
+      // gutter, hint) is still below the viewport (gutter wrap, hint wrap,
+      // rounding), step the cell down until it fits. Measured from the
+      // elements themselves so the result is exact on any device.
+      if (this.fitHeight && mobile) {
+        const contentBottom = () => {
+          const els = [board]
+          for (const id of ["swipe-hint", "play-gutter"]) {
+            const el = document.getElementById(id)
+            if (el && el.offsetParent) els.push(el)
+          }
+          return Math.max(...els.map((el) => el.getBoundingClientRect().bottom))
+        }
+        for (let i = 0; i < 12; i++) {
+          if (contentBottom() <= window.innerHeight) break
+          if (this.cell <= 8) break
+          this.cell -= 1
+          apply()
+        }
+      }
+      return
+    }
+    if (cell === this.cell) return
+    this.cell = cell
+    this.mini = Math.round(this.cell * 0.46)
   },
 
   onFrame(frame) {

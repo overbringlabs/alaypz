@@ -226,6 +226,12 @@ body {
     margin-top: 0.5rem;
   }
 
+  /* The game screen IS the viewport: the height fit sizes the board to
+     fill it exactly; this guarantees the page can never scroll. */
+  html:has([data-mobile-game]) {
+    overflow: hidden;
+  }
+
   body:has([data-mobile-game]) .play-page > div + #play-section > div {
     margin-top: 0.75rem;
   }
