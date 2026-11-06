@@ -6,6 +6,7 @@ defmodule AlaypzWeb.LobbyLiveTest do
 
   alias Alaypz.Games
   alias Alaypz.Players
+  alias Alaypz.Scores
 
   # LV 1.2 element-based event simulation: the element's phx-change /
   # phx-submit / phx-click attribute names the handler, and the passed value
@@ -52,6 +53,40 @@ defmodule AlaypzWeb.LobbyLiveTest do
     assert has_element?(view, "#games", "No games yet")
     assert has_element?(view, "#focused-section", "Start a game or click a card")
     assert has_element?(view, "#recent-results", "No finished games yet")
+  end
+
+  defp top_row_board, do: List.duplicate(List.duplicate(nil, 10), 20)
+
+  defp record(player, score) do
+    Scores.record(%{
+      player_id: player.id,
+      score: score,
+      lines: 1,
+      level: 1,
+      end_reason: "finished",
+      board: Scores.encode_board(top_row_board())
+    })
+  end
+
+  test "top results are listed by score desc and open the session drawer", %{conn: conn} do
+    {:ok, p1, _secret} = Players.claim_name("top-one")
+    {:ok, p2, _secret} = Players.claim_name("top-two")
+    {:ok, low} = record(p1, 50)
+    {:ok, high} = record(p2, 900)
+
+    {:ok, view, _html} = live(conn, "/")
+
+    # Score desc: the 900 card precedes the 50 card.
+    html = render(view)
+    {high_pos, _size} = :binary.match(html, "result-#{high.id}")
+    {low_pos, _size} = :binary.match(html, "result-#{low.id}")
+    assert high_pos < low_pos
+
+    render_click(element(view, "#result-#{high.id}"))
+    assert has_element?(view, "#session-drawer", "top-two")
+
+    render_click(element(view, "#session-close"))
+    refute has_element?(view, "#session-drawer")
   end
 
   test "a taken name switches to the reclaim form, then reclaims with the access string", %{

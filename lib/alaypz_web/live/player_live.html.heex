@@ -4,7 +4,9 @@
       <h1 id="player-title" class="text-2xl font-bold tracking-tight text-base-content">
         <span class="text-cyan-600 dark:text-cyan-300">{@name}</span>&nbsp;· games
       </h1>
-      <p class="mt-1 text-sm text-base-content/60">finished and interrupted games, newest first</p>
+      <p class="mt-1 text-sm text-base-content/60">
+        finished and interrupted games, newest first
+      </p>
     </header>
 
     <%= if @player == nil do %>
@@ -27,46 +29,16 @@
           No finished games yet.
         </div>
       <% else %>
-        <table id="player-scores" class="w-full text-sm">
-          <thead class="text-left text-xs uppercase tracking-wider text-base-content/60">
-            <tr>
-              <th class="py-2 pr-4">score</th>
-              <th class="py-2 pr-4">lines</th>
-              <th class="py-2 pr-4">level</th>
-              <th class="py-2 pr-4">ended</th>
-              <th class="py-2 pr-4">when</th>
-              <th class="py-2">final board</th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= for score <- @results do %>
-              <tr
-                id={"ps-#{score.id}"}
-                class="border-t border-base-300/60 transition hover:bg-cyan-400/5"
-              >
-                <td class="py-2 pr-4 text-cyan-600 dark:text-cyan-300">{score.score}</td>
-                <td class="py-2 pr-4 text-base-content/80">{score.lines}</td>
-                <td class="py-2 pr-4 text-base-content/80">{score.level}</td>
-                <td class="py-2 pr-4 text-base-content/70">{score.end_reason}</td>
-                <td class="py-2 pr-4 text-base-content/60">
-                  {Calendar.strftime(score.inserted_at, "%Y-%m-%d %H:%M")}
-                </td>
-                <td class="py-2">
-                  <span class="alaypz-board block overflow-hidden rounded-md border border-base-300">
-                    <canvas
-                      id={"ps-board-#{score.id}"}
-                      phx-hook="AlaypzCanvas"
-                      phx-update="ignore"
-                      data-static
-                      data-board={score.board}
-                      class="block"
-                    ></canvas>
-                  </span>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <div id="player-scores" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <%= for score <- @results do %>
+            <.score_card
+              score={score}
+              board_id={"ps-board-#{score.id}"}
+              id={"ps-#{score.id}"}
+              clickable={false}
+            />
+          <% end %>
+        </div>
       <% end %>
     <% end %>
   </div>

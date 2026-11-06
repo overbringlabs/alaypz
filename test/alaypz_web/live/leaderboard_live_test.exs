@@ -65,4 +65,46 @@ defmodule AlaypzWeb.LeaderboardLiveTest do
     assert has_element?(view, "#leaderboard-empty")
     refute has_element?(view, "#leaderboard")
   end
+
+  test "clicking a card opens the session drawer; close removes it", %{conn: conn} do
+    {:ok, player, _secret} = Players.claim_name("lb-drawer")
+    {:ok, row} = record(player, 300)
+
+    {:ok, view, _html} = live(conn, "/leaderboard")
+    refute has_element?(view, "#session-drawer")
+
+    render_click(element(view, "#lb-#{row.id}"))
+
+    assert has_element?(view, "#session-drawer", "lb-drawer")
+    assert has_element?(view, "#session-board")
+    # Recorded before replay existed: no replay action, a note instead.
+    assert has_element?(view, "#session-replay-unavailable")
+    refute has_element?(view, "#session-replay")
+
+    render_click(element(view, "#session-close"))
+    refute has_element?(view, "#session-drawer")
+  end
+
+  test "the drawer offers the replay action for recorded sessions", %{conn: conn} do
+    {:ok, player, _secret} = Players.claim_name("lb-replay")
+
+    {:ok, recorded} =
+      Scores.record(%{
+        player_id: player.id,
+        score: 500,
+        lines: 3,
+        level: 2,
+        end_reason: "finished",
+        board: Scores.encode_board(top_row_board()),
+        seed: 7,
+        replay: %{"seed" => 7, "ticks" => 3, "inputs" => [[0, "hard"]]}
+      })
+
+    {:ok, view, _html} = live(conn, "/leaderboard")
+    render_click(element(view, "#lb-#{recorded.id}"))
+
+    assert has_element?(view, "#session-drawer", "lb-replay")
+    assert render(element(view, "#session-replay")) =~ ~r"href=\"/replay/#{recorded.id}\""
+    refute has_element?(view, "#session-replay-unavailable")
+  end
 end

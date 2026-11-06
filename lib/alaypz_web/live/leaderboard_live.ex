@@ -3,7 +3,9 @@ defmodule AlaypzWeb.LeaderboardLive do
   `/leaderboard`: the top 10 finished or interrupted games (score desc,
   ties broken by most recent), each with its final board. Static — the
   leaderboard is history, so it only changes when the page is visited;
-  new games show up on the next load.
+  new games show up on the next load. Clicking a card opens the session
+  drawer (complete data + the replay action); it is a view-local overlay,
+  not a route.
   """
   use AlaypzWeb, :live_view
 
@@ -16,18 +18,18 @@ defmodule AlaypzWeb.LeaderboardLive do
       |> Enum.with_index(1)
       |> Enum.map(fn {score, rank} -> Map.put(score, :rank, rank) end)
 
-    {:ok, assign(socket, results: rows)}
+    {:ok, assign(socket, results: rows, session: nil)}
   end
 
-  # Top three ranks glow gold / silver / bronze (theme-aware).
-  def rank_class(1),
-    do: "text-amber-600 dark:text-amber-300 dark:[text-shadow:0_0_12px_rgba(252,211,77,0.5)]"
+  # Open the session drawer for a leaderboard card.
+  @impl true
+  def handle_event("open-session", %{"id" => id}, socket) do
+    score = Enum.find(socket.assigns.results, &(&1.id == String.to_integer(id)))
+    {:noreply, assign(socket, :session, score)}
+  end
 
-  def rank_class(2),
-    do: "text-slate-500 dark:text-slate-300 dark:[text-shadow:0_0_10px_rgba(203,213,225,0.4)]"
-
-  def rank_class(3),
-    do: "text-orange-600 dark:text-orange-400 dark:[text-shadow:0_0_10px_rgba(251,146,60,0.4)]"
-
-  def rank_class(_), do: "text-base-content/50"
+  @impl true
+  def handle_event("close-session", _, socket) do
+    {:noreply, assign(socket, :session, nil)}
+  end
 end

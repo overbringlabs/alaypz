@@ -19,13 +19,11 @@ defmodule Alaypz.Scores do
   end
 
   def list_for_player(player) do
-    from(s in Score, where: s.player_id == ^player.id, order_by: [desc: s.score])
-    |> Repo.all()
-  end
-
-  @doc "The most recently finished or interrupted games, newest first."
-  def list_recent(limit \\ 5) do
-    from(s in Score, order_by: [desc: s.inserted_at, desc: s.id], limit: ^limit, preload: :player)
+    from(s in Score,
+      where: s.player_id == ^player.id,
+      order_by: [desc: s.score],
+      preload: :player
+    )
     |> Repo.all()
   end
 
@@ -54,6 +52,18 @@ defmodule Alaypz.Scores do
     |> Enum.join()
   end
 
+  # Board cells are single piece ids; the lookup map keeps decoding free of
+  # dynamic atom creation (stored data must never mint atoms).
+  @piece_chars %{
+    "i" => :i,
+    "j" => :j,
+    "l" => :l,
+    "o" => :o,
+    "s" => :s,
+    "t" => :t,
+    "z" => :z
+  }
+
   @doc "Decodes a 200-char board string back into a 20×10 board."
   def decode_board(str) when is_binary(str) do
     str
@@ -62,7 +72,7 @@ defmodule Alaypz.Scores do
     |> Enum.map(fn row ->
       Enum.map(row, fn
         "." -> nil
-        letter -> String.to_existing_atom(letter)
+        letter -> Map.get(@piece_chars, letter)
       end)
     end)
   end

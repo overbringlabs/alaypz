@@ -9,7 +9,8 @@ defmodule Alaypz.Replay do
   final board equals the persisted final board.
 
   Inputs are stored JSON-safe (`[tick, "left"]` — strings, not atoms) and are
-  validated against the known action set before use.
+  validated against the known action set before use. `AlaypzWeb.ReplayLive`
+  steps games with `apply_at/3` one tick at a time.
   """
   alias Alaypz.Game
 
@@ -27,35 +28,35 @@ defmodule Alaypz.Replay do
   clock limit; a game that top-outed early stops as soon as the engine ends).
   """
   def run(seed, ticks, inputs) do
-    by_tick =
-      inputs
-      |> Enum.filter(fn item ->
-        is_list(item) and length(item) == 2 and
-          Enum.at(item, 1) in action_strings()
-      end)
-      |> Enum.group_by(fn [t, _a] -> t end, fn [_t, a] -> a end)
-
     engine = Game.new(seed)
-    engine = apply_actions(engine, by_tick, 0)
-    do_run(engine, by_tick, 0, ticks)
+    engine = apply_at(engine, inputs, 0)
+    do_run(engine, inputs, 0, ticks)
+  end
+
+  @doc """
+  Applies every `inputs` entry stamped with exactly `tick` (in recording
+  order) to `engine`. Malformed or unknown entries are ignored.
+  """
+  def apply_at(engine, inputs, tick) do
+    for item <- inputs,
+        [t, action] = item,
+        t == tick,
+        action in action_strings(),
+        reduce: engine do
+      acc -> Game.apply(acc, String.to_existing_atom(action))
+    end
   end
 
   defp action_strings, do: Enum.map(@actions, &to_string/1)
 
-  defp do_run(engine, by_tick, tick, total) do
+  defp do_run(engine, inputs, tick, total) do
     if Game.playing?(engine) and tick < total do
       # An input stamped with `n` landed after the n-th tick.
       engine = Game.tick(engine)
-      engine = apply_actions(engine, by_tick, tick + 1)
-      do_run(engine, by_tick, tick + 1, total)
+      engine = apply_at(engine, inputs, tick + 1)
+      do_run(engine, inputs, tick + 1, total)
     else
       engine
-    end
-  end
-
-  defp apply_actions(engine, by_tick, tick) do
-    for action <- Map.get(by_tick, tick, []), reduce: engine do
-      acc -> Game.apply(acc, String.to_existing_atom(action))
     end
   end
 end

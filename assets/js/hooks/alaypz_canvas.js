@@ -43,6 +43,10 @@ export default {
         this.handleEvent("alaypz-card-frame", (msg) => {
           if (msg && msg.name === this.el.dataset.name) this.onFrame(msg.frame)
         })
+      } else if (this.el.dataset.replay !== undefined) {
+        // The replay page owns exactly one canvas: ReplayLive pushes a
+        // "replay-frame" event per stepped tick.
+        this.handleEvent("replay-frame", (frame) => this.onFrame(frame))
       } else {
         this.handleEvent("alaypz-frame", (frame) => this.onFrame(frame))
       }

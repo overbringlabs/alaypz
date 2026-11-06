@@ -19,6 +19,7 @@ defmodule AlaypzWeb.Router do
 
     live "/", LobbyLive
     live "/leaderboard", LeaderboardLive
+    live "/replay/:id", ReplayLive
 
     # Declared last: it also renders the not-found state for unknown
     # single-segment paths.

@@ -63,7 +63,10 @@
           <p class="text-sm font-semibold text-amber-600 dark:text-amber-300">
             Access string — shown only once. Keep it to reclaim this name later:
           </p>
-          <p id="access-string-value" class="mt-1 text-lg font-semibold tracking-widest text-amber-600 dark:text-amber-200">
+          <p
+            id="access-string-value"
+            class="mt-1 text-lg font-semibold tracking-widest text-amber-600 dark:text-amber-200"
+          >
             {@access_string}
           </p>
         </div>
@@ -129,48 +132,37 @@
       </div>
     </section>
 
-    <%!-- recent results --%>
+    <%!-- top results: score desc — click a card for the full session --%>
     <section id="recent-results" class="mt-8">
-      <h2 class="text-lg font-semibold text-base-content">Recent results</h2>
-      <div class="mt-3">
-        <%= if @results == [] do %>
-          <p class="rounded-xl border border-dashed border-base-300 p-4 text-sm text-base-content/60">
-            No finished games yet.
-          </p>
-        <% else %>
-          <table class="w-full text-sm">
-            <thead class="text-left text-base-content/60">
-              <tr>
-                <th class="py-1 pr-4">name</th>
-                <th class="py-1 pr-4">score</th>
-                <th class="py-1 pr-4">lines</th>
-                <th class="py-1 pr-4">level</th>
-                <th class="py-1">ended</th>
-              </tr>
-            </thead>
-            <tbody class="text-base-content/80">
-              <%= for score <- @results do %>
-                <tr id={"result-#{score.id}"} class="border-t border-base-300/60">
-                  <td class="py-1 pr-4">
-                    <.link
-                      navigate={"/#{score.player.name}"}
-                      class="text-base-content transition hover:text-cyan-500"
-                    >
-                      {score.player.name}
-                    </.link>
-                  </td>
-                  <td class="py-1 pr-4 text-cyan-600 dark:text-cyan-300">{score.score}</td>
-                  <td class="py-1 pr-4">{score.lines}</td>
-                  <td class="py-1 pr-4">{score.level}</td>
-                  <td class="py-1">{score.end_reason}</td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% end %>
+      <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h2 class="text-lg font-semibold text-base-content">Top scores</h2>
+        <span class="text-xs text-base-content/60">click a card for the full session</span>
       </div>
+
+      <%= if @results == [] do %>
+        <p class="rounded-xl border border-dashed border-base-300 p-4 text-sm text-base-content/60">
+          No finished games yet.
+        </p>
+      <% else %>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <%= for {score, rank} <- Enum.with_index(@results, 1) do %>
+            <.score_card
+              score={score}
+              rank={rank}
+              board_id={"result-board-#{score.id}"}
+              id={"result-#{score.id}"}
+              phx-click="open-session"
+              phx-value-id={score.id}
+            />
+          <% end %>
+        </div>
+      <% end %>
     </section>
   </div>
+
+  <%= if @session do %>
+    <.session_drawer session={@session} rank={if @session_rank, do: @session_rank + 1} />
+  <% end %>
 </Layouts.app>
 
 <script :type={Phoenix.LiveView.ColocatedHook} name=".LocalName">

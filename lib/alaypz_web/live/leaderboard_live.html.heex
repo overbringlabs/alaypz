@@ -3,7 +3,9 @@
     <header class="mb-6 flex items-baseline justify-between gap-4">
       <div>
         <h1 class="text-2xl font-bold tracking-tight text-base-content">Leaderboard</h1>
-        <p class="mt-1 text-sm text-base-content/60">top 10 finished games</p>
+        <p class="mt-1 text-sm text-base-content/60">
+          top 10 finished games — click one for the full session
+        </p>
       </div>
     </header>
 
@@ -15,55 +17,22 @@
         No finished games yet.
       </div>
     <% else %>
-      <table id="leaderboard" class="w-full text-sm">
-        <thead class="text-left text-xs uppercase tracking-wider text-base-content/60">
-          <tr>
-            <th class="py-2 pr-4">#</th>
-            <th class="py-2 pr-4">player</th>
-            <th class="py-2 pr-4">score</th>
-            <th class="py-2 pr-4">lines</th>
-            <th class="py-2 pr-4">level</th>
-            <th class="py-2 pr-4">ended</th>
-            <th class="py-2">final board</th>
-          </tr>
-        </thead>
-        <tbody>
-          <%= for score <- @results do %>
-            <tr
-              id={"lb-#{score.id}"}
-              class="border-t border-base-300/60 transition hover:bg-cyan-400/5"
-            >
-              <td class="py-2 pr-4">
-                <span class={["font-bold", rank_class(score.rank)]}>{score.rank}</span>
-              </td>
-              <td class="py-2 pr-4">
-                <.link
-                  navigate={"/#{score.player.name}"}
-                  class="font-semibold text-base-content transition hover:text-cyan-500"
-                >
-                  {score.player.name}
-                </.link>
-              </td>
-              <td class="py-2 pr-4 text-cyan-600 dark:text-cyan-300">{score.score}</td>
-              <td class="py-2 pr-4 text-base-content/80">{score.lines}</td>
-              <td class="py-2 pr-4 text-base-content/80">{score.level}</td>
-              <td class="py-2 pr-4 text-base-content/70">{score.end_reason}</td>
-              <td class="py-2">
-                <span class="alaypz-board block overflow-hidden rounded-md border border-base-300">
-                  <canvas
-                    id={"lb-board-#{score.id}"}
-                    phx-hook="AlaypzCanvas"
-                    phx-update="ignore"
-                    data-static
-                    data-board={score.board}
-                    class="block"
-                  ></canvas>
-                </span>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <div id="leaderboard" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <%= for score <- @results do %>
+          <.score_card
+            score={score}
+            rank={score.rank}
+            board_id={"lb-board-#{score.id}"}
+            id={"lb-#{score.id}"}
+            phx-click="open-session"
+            phx-value-id={score.id}
+          />
+        <% end %>
+      </div>
     <% end %>
   </div>
+
+  <%= if @session do %>
+    <.session_drawer session={@session} rank={@session.rank} />
+  <% end %>
 </Layouts.app>

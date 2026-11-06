@@ -1,0 +1,130 @@
+<Layouts.app flash={@flash}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <header class="mb-6">
+      <h1 class="text-2xl font-bold tracking-tight text-base-content">Replay</h1>
+      <p class="mt-1 text-sm text-base-content/60">
+        <%= if @score do %>
+          <span>
+            <.link navigate={"/#{@score.player.name}"} class="text-cyan-600 dark:text-cyan-300">
+              {@score.player.name}
+            </.link>
+            &nbsp;· {@score.end_reason}
+          </span>
+        <% end %>
+        <%= if @not_found do %>
+          <span>unknown session</span>
+        <% end %>
+      </p>
+    </header>
+
+    <%= if @not_found do %>
+      <div
+        id="replay-not-found"
+        class="rounded-xl border border-dashed border-base-300 p-6 text-sm text-base-content/60"
+      >
+        Unknown session.
+        <.link navigate="/" class="text-cyan-600 transition hover:text-cyan-500">Back to the lobby</.link>
+      </div>
+    <% else %>
+      <%= if @unrecorded do %>
+        <div
+          id="replay-unrecorded"
+          class="rounded-xl border border-dashed border-base-300 p-6 text-sm text-base-content/60"
+        >
+          This session was recorded before replay recording existed — there is no input
+          recording to play back.
+        </div>
+      <% else %>
+        <div class="flex flex-wrap gap-6">
+          <div
+            id="replay-board"
+            class="alaypz-board rounded-lg border border-cyan-400/40 p-2 shadow-[0_0_24px_rgba(0,229,255,0.15)]"
+          >
+            <canvas
+              id="replay-canvas"
+              phx-hook="AlaypzCanvas"
+              phx-update="ignore"
+              data-replay
+              data-cell="26"
+              class="block"
+            ></canvas>
+          </div>
+
+          <div class="min-w-48 flex-1">
+            <dl class="grid grid-cols-3 gap-3 text-sm">
+              <div class="rounded-lg border border-base-300/60 bg-base-200/50 p-3">
+                <dt class="text-xs uppercase tracking-wider text-base-content/60">score</dt>
+                <dd
+                  id="replay-score"
+                  class="mt-1 text-xl font-semibold text-cyan-600 dark:text-cyan-300"
+                >
+                  {Map.get(@frame || %{}, "score", 0)}
+                </dd>
+              </div>
+              <div class="rounded-lg border border-base-300/60 bg-base-200/50 p-3">
+                <dt class="text-xs uppercase tracking-wider text-base-content/60">lines</dt>
+                <dd id="replay-lines" class="mt-1 text-xl font-semibold text-base-content">
+                  {Map.get(@frame || %{}, "lines", 0)}
+                </dd>
+              </div>
+              <div class="rounded-lg border border-base-300/60 bg-base-200/50 p-3">
+                <dt class="text-xs uppercase tracking-wider text-base-content/60">level</dt>
+                <dd id="replay-level" class="mt-1 text-xl font-semibold text-base-content">
+                  {Map.get(@frame || %{}, "level", 1)}
+                </dd>
+              </div>
+            </dl>
+
+            <div class="mt-5">
+              <div class="flex items-baseline justify-between text-xs text-base-content/60">
+                <span>progress</span>
+                <span id="replay-progress-text">
+                  {@tick} / {@total} ticks
+                </span>
+              </div>
+              <div
+                id="replay-progress"
+                class="mt-1 h-1.5 w-full overflow-hidden rounded bg-base-200"
+              >
+                <div
+                  class="h-full rounded bg-cyan-500 transition-all duration-200"
+                  style={"width: #{if @total > 0, do: min(100, div(@tick * 100, @total)), else: 0}%"}
+                >
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-5 flex flex-wrap items-center gap-2">
+              <span class="text-xs uppercase tracking-wider text-base-content/60">speed</span>
+              <%= for speed <- [1, 2, 5, 10] do %>
+                <button
+                  type="button"
+                  id={"speed-#{speed}"}
+                  phx-click="speed"
+                  phx-value-speed={speed}
+                  class={[
+                    "rounded-lg border px-3 py-1 text-sm font-semibold transition",
+                    if(@speed == speed,
+                      do: "border-cyan-400/70 bg-cyan-400/10 text-cyan-700 dark:text-cyan-300",
+                      else: "border-base-300 text-base-content/70 hover:border-cyan-400/50"
+                    )
+                  ]}
+                >
+                  {speed}x
+                </button>
+              <% end %>
+            </div>
+
+            <p
+              :if={@done}
+              id="replay-complete"
+              class="mt-5 text-sm font-semibold text-violet-700 dark:text-violet-300"
+            >
+              Replay complete.
+            </p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</Layouts.app>

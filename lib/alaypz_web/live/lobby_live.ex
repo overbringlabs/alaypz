@@ -35,7 +35,9 @@ defmodule AlaypzWeb.LobbyLive do
      |> assign(:notice, nil)
      |> assign(:cards, [])
      |> assign(:focused_name, nil)
-     |> assign(:results, Scores.list_recent(5))}
+     |> assign(:session, nil)
+     |> assign(:session_rank, nil)
+     |> assign(:results, Scores.list_top(5))}
   end
 
   # Track the form state so `phx-value-*` attributes stay in sync with the
@@ -103,6 +105,20 @@ defmodule AlaypzWeb.LobbyLive do
     {:noreply, unfocus_on(socket)}
   end
 
+  # Open the session drawer for a top-result card.
+  @impl true
+  def handle_event("open-session", %{"id" => id}, socket) do
+    id = String.to_integer(id)
+    rank = Enum.find_index(socket.assigns.results, &(&1.id == id))
+    score = Enum.find(socket.assigns.results, &(&1.id == id))
+    {:noreply, assign(socket, session: score, session_rank: rank)}
+  end
+
+  @impl true
+  def handle_event("close-session", _, socket) do
+    {:noreply, assign(socket, :session, nil)}
+  end
+
   # The `.AlaypzKeys` hook: arrow/letter keys act on the focused game.
   @key_actions %{
     "ArrowLeft" => :left,
@@ -154,10 +170,10 @@ defmodule AlaypzWeb.LobbyLive do
         assign(socket, :cards, socket.assigns.cards ++ [name])
       end
 
-    # A game ended: refresh the recent results.
+    # A game ended: refresh the top results.
     socket =
       if msg[:status] in [:finished, :interrupted] do
-        assign(socket, :results, Scores.list_recent(5))
+        assign(socket, :results, Scores.list_top(5))
       else
         socket
       end
