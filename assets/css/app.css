@@ -146,6 +146,13 @@
 
 /* --- Alaypz design system -------------------------------------------- */
 
+/* Base size — the one central knob: everything rem-based (Tailwind font
+   + spacing utilities, daisyUI field/selector sizes, .history-prose)
+   scales from this root. */
+html {
+  font-size: 17px;
+}
+
 /* The design system follows the daisyUI theme (data-theme on <html>):
    light is the default theme, dark is the neon night theme. The board
    surface (.alaypz-board) stays dark in both — it is a screen. */

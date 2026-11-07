@@ -115,13 +115,13 @@ defmodule AlaypzWeb.FocusedGame do
           class="hidden max-lg:absolute max-lg:top-1/2 max-lg:right-0 max-lg:flex max-lg:flex-col max-lg:items-center max-lg:gap-4 max-lg:-translate-y-1/2"
         >
           <div class="flex flex-col items-center gap-1.5">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-base-content/50">Next</span>
+            <span class="text-[0.625rem] font-bold uppercase tracking-widest text-base-content/50">Next</span>
             <canvas id="gutter-next-0" phx-update="ignore" width="48" height="48" class="block" />
             <canvas id="gutter-next-1" phx-update="ignore" width="48" height="48" class="block" />
             <canvas id="gutter-next-2" phx-update="ignore" width="48" height="48" class="block" />
           </div>
           <div class="flex flex-col items-center gap-1.5">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-base-content/50">Hold</span>
+            <span class="text-[0.625rem] font-bold uppercase tracking-widest text-base-content/50">Hold</span>
             <canvas id="gutter-hold" phx-update="ignore" width="48" height="48" class="block" />
           </div>
         </div>

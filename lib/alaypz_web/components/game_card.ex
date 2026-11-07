@@ -132,7 +132,7 @@ defmodule AlaypzWeb.GameCard do
       </span>
 
       <span class={[
-        "absolute -top-1.5 right-3 rounded-full border px-2 py-px text-[10px] font-bold uppercase tracking-wider",
+        "absolute -top-1.5 right-3 rounded-full border px-2 py-px text-[0.625rem] font-bold uppercase tracking-wider",
         if(@focused,
           do: "border-cyan-400 bg-cyan-400/20 text-cyan-700 dark:text-cyan-200",
           else: "hidden border-base-300 bg-base-200 text-base-content/60"

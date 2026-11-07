@@ -99,7 +99,7 @@ defmodule AlaypzWeb.ScoreCard do
         <span class="text-base-content/80">{@score.level}</span>
       </span>
       <span class={[
-        "ml-auto rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider",
+        "ml-auto rounded-full border px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider",
         end_class(@score.end_reason)
       ]}>
         {@score.end_reason}

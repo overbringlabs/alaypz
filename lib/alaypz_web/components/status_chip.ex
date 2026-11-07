@@ -40,7 +40,7 @@ defmodule AlaypzWeb.StatusChip do
     ~H"""
     <span class={[
       @class,
-      "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider",
+      "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider",
       @kind == :live && "border-cyan-400/40 bg-cyan-400/10 text-cyan-700 dark:text-cyan-300",
       @kind == :warning && "border-amber-400/40 bg-amber-400/10 text-amber-700 dark:text-amber-300",
       @kind == :done && "border-violet-400/40 bg-violet-400/10 text-violet-700 dark:text-violet-300",

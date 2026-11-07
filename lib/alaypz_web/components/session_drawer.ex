@@ -75,7 +75,7 @@ defmodule AlaypzWeb.SessionDrawer do
 
         <div class="flex items-center justify-between gap-3">
           <span class={[
-            "rounded-full border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider",
+            "rounded-full border px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider",
             if(@session.end_reason == "finished",
               do: "border-violet-400/40 bg-violet-400/10 text-violet-700 dark:text-violet-300",
               else: "border-rose-400/40 bg-rose-400/10 text-rose-700 dark:text-rose-300"
