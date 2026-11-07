@@ -1,6 +1,7 @@
 defmodule AlaypzWeb.Markdown do
   @moduledoc """
-  Markdown → HEEx via :mdex, for the static history page.
+  Markdown → HEEx via :mdex, for the static prose pages (/history,
+  /manifesto).
 
   `document/1` returns an `MDEx.Document`; the caller renders it in a
   template with `MDEx.to_heex!/1`, so template assigns stay in the

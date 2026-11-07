@@ -95,6 +95,13 @@ defmodule AlaypzWeb.Layouts do
           >
             how it was built
           </a>
+          ·
+          <a
+            href="/manifesto"
+            class="underline decoration-base-300 underline-offset-2 transition hover:text-cyan-500"
+          >
+            manifesto
+          </a>
         </p>
       </div>
     </footer>

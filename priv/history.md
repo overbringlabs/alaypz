@@ -5,6 +5,31 @@ engine, server-authoritative game processes, identity, leaderboards,
 replays, a mobile-first interface — developed end-to-end with **Qwen
 3.8-27B running on local hardware**, one operator round at a time.
 
+## Why
+
+People who have spent the past year and a half using cloud frontier models
+exclusively have a badly distorted picture of what local models can do
+now — Plato's cave, mistaking shadows for the world. And the usual way of
+settling the argument — "build me a clone of that popular game" in one
+underspecified prompt — does not measure coding ability at all: it
+measures how much of the training data you are paying to get
+regurgitated, with the operator reduced to a meat proxy.
+
+The real value of a local model is an experienced collaborator, with the
+operator in the driver's seat: requirements, specification, architecture,
+many rounds. In this codebase the game matters less than the system
+around it — the lobby, the leaderboard, live-spectating any user's game,
+replaying any game. That is where the model's architectural judgment gets
+evaluated.
+
+This was built as a rebuttal: someone on LinkedIn claimed that Qwen
+3.8-27B cannot code. Since May (Qwen 3.6), and since August with Qwen
+3.8, multiple codebases have been developed this way — the operator in
+the driver's seat, not hoping the model reads their mind. If you want to
+understand the stakes behind that, read
+[The Cave](https://overbring.com/books/cave/); if you want the
+unfiltered version of this section, [read the manifesto](/manifesto).
+
 ## The concept
 
 A neon block-stacker with a deliberately tight product surface: play your
@@ -60,5 +85,3 @@ Elixir + Phoenix LiveView · one GenServer per active game · a pure engine
 shared by the game processes and the replays · SQLite through Ecto ·
 esbuild + Tailwind (no npm) · custom canvas hooks (tweened pieces, neon
 glow, line flash, sound) · the board is the touch surface.
-
-*Placeholder chronicle — the final text is coming.*

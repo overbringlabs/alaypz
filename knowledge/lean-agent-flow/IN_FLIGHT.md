@@ -8,6 +8,8 @@ stale and may be treated as released; whoever notices deletes the stale line.
 Edit only your own block; never another agent's.
 
 ## agent: main   since: 2026-11-06
+released: priv/  lib/alaypz_web/  test/alaypz_web/  (/history final text — motivation write-up, placeholder gone — and /manifesto: the local AI manifesto dead view, cave book + footer links)
+released: assets/css/  lib/alaypz_web/components/  lib/alaypz_web/live/  (base font size 16→17px root via the central knob; px-literal micro-labels → rem so they scale)
 released: assets/css/  priv/static/fonts/  (font swap: Fredoka replaces Arsenal as the UI face — variable 300–700, 2 vendored faces)
 released: assets/css/  lib/alaypz_web/live/  priv/static/fonts/  (Arsenal vendored as the UI face — @theme remap, no exceptions; /play: form hidden while a game runs, "Play again" on game over)
 released: lib/alaypz_web/  assets/css/  priv/  test/alaypz_web/  mix.exs  mix.lock  (brand round: Overbring footer + logo, ALAYPZ wordmark/title, /history dead view via :mdex from hex, mobile footer hide)
