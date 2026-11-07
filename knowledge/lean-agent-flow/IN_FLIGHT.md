@@ -8,6 +8,7 @@ stale and may be treated as released; whoever notices deletes the stale line.
 Edit only your own block; never another agent's.
 
 ## agent: main   since: 2026-11-06
+released: assets/css/  priv/static/fonts/  (font swap: Fredoka replaces Arsenal as the UI face — variable 300–700, 2 vendored faces)
 released: assets/css/  lib/alaypz_web/live/  priv/static/fonts/  (Arsenal vendored as the UI face — @theme remap, no exceptions; /play: form hidden while a game runs, "Play again" on game over)
 released: lib/alaypz_web/  assets/css/  priv/  test/alaypz_web/  mix.exs  mix.lock  (brand round: Overbring footer + logo, ALAYPZ wordmark/title, /history dead view via :mdex from hex, mobile footer hide)
 released: (whole-repo)  (Alaypz sweep + namespace rename Alaypz→Alaypz: 86 code/config/doc files, dirs+hooks+docs renamed via git mv, db files mv'd, plan/decision slugs, .gitignore, README)
