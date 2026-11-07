@@ -213,6 +213,12 @@ body {
     display: none;
   }
 
+  /* Same for the footer: the game screen is the whole viewport, chrome
+     (header AND footer) is gone, so the never-scroll invariant holds. */
+  body:has([data-mobile-game]) #site-footer {
+    display: none;
+  }
+
   body:has([data-mobile-game]) main {
     padding-top: 0;
     padding-bottom: 0;
@@ -249,4 +255,121 @@ body {
   body:has([data-mobile-game]) .play-page > div + #play-section > div {
     margin-top: 0.75rem;
   }
+}
+
+/* ── /history: the markdown body ────────────────────────────────────
+   Theme-safe: only currentColor-derived tints + the cyan accent, so it
+   reads on both the light and the dark base. */
+.history-prose h1 {
+  font-size: 1.875rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+
+.history-prose h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 2rem 0 0.75rem;
+}
+
+.history-prose h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.history-prose p,
+.history-prose li {
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+.history-prose p {
+  margin: 0.75rem 0;
+}
+
+.history-prose ul,
+.history-prose ol {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.history-prose ul {
+  list-style: disc;
+}
+
+.history-prose ol {
+  list-style: decimal;
+}
+
+.history-prose li {
+  margin: 0.375rem 0;
+}
+
+.history-prose a {
+  color: #06b6d4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 150ms;
+}
+
+.history-prose a:hover {
+  color: #0891b2;
+}
+
+.history-prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+  background: color-mix(in oklab, currentColor 8%, transparent);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+}
+
+.history-prose pre {
+  background: rgba(8, 15, 26, 0.92);
+  color: #cfe8ff;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.history-prose pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.history-prose blockquote {
+  border-left: 3px solid color-mix(in oklab, #00e5ff 50%, transparent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  opacity: 0.8;
+}
+
+.history-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.925rem;
+}
+
+.history-prose th,
+.history-prose td {
+  border: 1px solid color-mix(in oklab, currentColor 15%, transparent);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.history-prose th {
+  font-weight: 700;
+}
+
+.history-prose hr {
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, currentColor 15%, transparent);
+  margin: 2rem 0;
 }

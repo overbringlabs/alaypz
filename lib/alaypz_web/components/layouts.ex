@@ -41,9 +41,9 @@ defmodule AlaypzWeb.Layouts do
     >
       <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
         <a href="/" class="extromino-wordmark text-xl font-black tracking-[0.3em]">
-          EXTROMINO
+          ALAYPZ
         </a>
-        <span class="hidden text-xs text-base-content/60 lg:inline">classic alaypz · live boards</span>
+        <span class="hidden text-xs text-base-content/60 lg:inline">live boards</span>
         <nav class="ml-auto flex items-center gap-4 text-sm font-semibold">
           <a
             href="/"
@@ -67,6 +67,37 @@ defmodule AlaypzWeb.Layouts do
         {render_slot(@inner_block)}
       </div>
     </main>
+
+    <%!-- marketing footer: the Overbring logo links home; the app itself
+         is the demonstration --%>
+    <footer
+      id="site-footer"
+      class="border-t border-base-300/60"
+    >
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-4 py-6 sm:px-6">
+        <a
+          href="https://overbring.com"
+          target="_blank"
+          rel="noopener"
+          class="flex items-center rounded transition hover:opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+        >
+          <img
+            src="/images/overbring.webp"
+            alt="OVERBRING Labs"
+            class="h-6 w-auto dark:invert dark:brightness-0"
+          />
+        </a>
+        <p class="text-xs leading-relaxed text-base-content/50">
+          a local AI experiment — built with Qwen 3.8-27B on local hardware ·
+          <a
+            href="/history"
+            class="underline decoration-base-300 underline-offset-2 transition hover:text-cyan-500"
+          >
+            how it was built
+          </a>
+        </p>
+      </div>
+    </footer>
 
     <.flash_group flash={@flash} />
     """
