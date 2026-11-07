@@ -1,14 +1,14 @@
 <Layouts.app flash={@flash}>
   <div class="play-page mx-auto max-w-6xl px-4 py-8">
     <%!-- the identity form stays in the DOM (it drives the server-side
-         resolve/attach), but while a game is focused the mobile screen is
-         the game itself — the form is a desktop-only sidebar there --%>
-    <%!-- game screen: while a game is focused, the form recedes on every
-         touch device (incl. tablets — lg, not md); the claim screen is a
-         centered title-screen card --%>
+         resolve/attach). While a game is running it is hidden on EVERY
+         screen — the game surface stands alone; on the terminal state
+         (finished/interrupted) it re-surfaces as the restart card, and
+         with no game focused it is the claim screen (a centered
+         title-screen card on touch devices) --%>
     <div class={
       cond do
-        @focused_name != nil and not game_over?(@game_status) -> "hidden lg:block"
+        @focused_name != nil and not game_over?(@game_status) -> "hidden"
         true -> "max-lg:mx-auto max-lg:mt-6 max-lg:max-w-sm"
       end
     }>
@@ -18,6 +18,7 @@
         access_string={@access_string}
         notice={@notice}
         input_prefix="play"
+        start_label={if @focused_name != nil, do: "Play again", else: "Start game"}
       />
     </div>
 
