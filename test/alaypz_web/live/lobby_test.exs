@@ -51,7 +51,7 @@ defmodule AlaypzWeb.LobbyLiveTest do
   test "the hero carries the experiment title and the two prose buttons", %{conn: conn} do
     {:ok, view, _html} = live(conn, "/")
 
-    assert has_element?(view, "#lobby-hero", "A local AI experiment with Qwen3.8-27B")
+    assert has_element?(view, "#lobby-hero h1", "A local AI experiment with Qwen3.8-27B")
     assert has_element?(view, "#lobby-hero a[href=\"/why\"]", "Why does this exist?")
 
     assert has_element?(

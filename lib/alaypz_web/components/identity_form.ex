@@ -22,11 +22,19 @@ defmodule AlaypzWeb.IdentityForm do
   attr :start_label, :string, default: "Start game"
   attr :start_action, :string, default: "start"
 
+  # The "Claim your name" heading level: 1 on /play (the form is the page's
+  # primary content), 2 on the lobby (the page h1 is the hero title).
+  attr :title_level, :integer, default: 1
+
   def identity_form(assigns) do
     ~H"""
     <section id="identity" class="rounded-xl border border-base-300/60 bg-base-100 p-4 shadow-sm">
       <div class="mb-3 flex flex-wrap items-baseline justify-between gap-3">
-        <h1 class="text-lg font-bold text-base-content">Claim your name</h1>
+        <%= if @title_level == 1 do %>
+          <h1 class="text-lg font-bold text-base-content">Claim your name</h1>
+        <% else %>
+          <h2 class="text-lg font-bold text-base-content">Claim your name</h2>
+        <% end %>
         <span class="text-xs text-base-content/60">
           your name is stored in this browser — the access string reclaims it elsewhere
         </span>

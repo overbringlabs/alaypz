@@ -1,11 +1,10 @@
 <Layouts.app flash={@flash}>
   <div class="mx-auto max-w-6xl px-4 py-8">
-    <%!-- hero: the experiment title (display text — the claim form keeps
-         the page's single h1) + the two prose pages --%>
+    <%!-- hero: the page title (the single h1) + the two prose pages --%>
     <div id="lobby-hero" class="mb-8">
-      <div class="text-center text-3xl font-black tracking-tight sm:text-4xl">
+      <h1 class="text-center text-3xl font-black tracking-tight sm:text-4xl">
         A local AI experiment with Qwen3.8-27B
-      </div>
+      </h1>
       <div class="mt-6 grid gap-3 sm:grid-cols-2">
         <.link
           navigate="/why"
@@ -30,6 +29,7 @@
       notice={@notice}
       input_prefix="lobby"
       start_label="Play"
+      title_level={2}
     />
 
     <%!-- live game cards: every ongoing game renders its own live board --%>
