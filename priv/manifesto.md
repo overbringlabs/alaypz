@@ -131,15 +131,24 @@ card.
 On 32 GB of VRAM you can hold a 256k-token context, which is
 workable, and if you actually *use* that whole window you pay in
 throughput. One session, maybe two, depending on how you split the
-card into slots. Agentic flows — take this document, call an API or
-an MCP tool, do something, call something else — want about 64k as a
-floor, so a native 256k model gives you four slots if you are
-disciplined, or two slots at 128k if you want a main and a
-delegate. Two different models co-resident is a hassle. Swapping
-models costs wall-clock: load time, then prefill of whatever the
-previous session had built up. Cloud does not make you care about
-any of that. You burn tokens, you spawn sub-agents, capacity is
-their problem until the invoice arrives.
+card into slots. In llama-swap that is just another profile: four
+slots at 64k, or two slots at 128k (a main that does the work and a
+slot you delegate to), or one slot at the full 256k. Agentic flows —
+take this document, call an API or an MCP tool, do something, call
+something else — want about 64k as a floor, so a native 256k model
+gives you four concurrent jobs if you are disciplined. Two different
+models co-resident is a hassle; you are fighting VRAM by hand.
+Swapping models costs wall-clock: load time, then prefill of
+whatever the previous session had built up. Cloud does not make you
+care about any of that. You burn tokens, the harness dispatches
+sub-agents, you get there faster and you also empty the weekly pool
+faster. Capacity is their problem until the invoice arrives. If your
+job is to code all day and you need that kind of fan-out, you buy a
+second box and you start building a small fleet, which is a real
+barrier for anyone who is not an enthusiast. Most people will not
+put up with the orchestration. That does not make the single-box
+case fake. It means coding-at-cloud-laxity is a different
+requirement than "a family PC that thinks."
 
 That is a genuine trade-off. For some work it is limiting. For a lot
 of work it is just slower, which means you wait, which means you
@@ -157,7 +166,11 @@ tokens — and whose quality, if you listen to people who actually
 use Claude hard, starts falling over well before that, so they start
 new sessions anyway — is a category error. Use cases have
 requirements. A million-token carrot that auto-compacts and bills
-you for the reprocessing is a meter, not a gift.
+you for the reprocessing is a meter, not a gift. The advertised
+window is how they get you to stay in one session until compaction
+fires; compaction is how they sell you the next tier. The harness
+that "just works" by spawning sub-agents is the same meter with a
+friendlier face.
 
 Setup knowledge is a barrier. llama-swap, slot counts, KV cache,
 which quant fits. We are early in a boom; of course the UX is still
@@ -170,9 +183,19 @@ heavy cloud plan is already in the neighbourhood of a mid-range
 local box. Year two, year three, year four, you keep paying. Locally
 you paid once, plus electricity. Models keep getting better for a
 while yet, even as we are in diminishing-returns territory for any
-given size: you bought the card, the card got more useful. For a
-business there is also the invoice circus — another vendor, another
-seat, another person whose usage you cannot predict.
+given size: you bought the card, the card got more useful.
+
+The inverse math is ugly in a useful way. Say you run Qwen 3.8-27B
+at NVFP4 on 32 GB and you see something like 50 tokens per second
+when it is generating. You will not run it 24/7, but if you did, you
+could count the tokens a week of wall-clock would produce and put
+that next to a SuperGrok or Claude weekly allowance. The local
+number is "always on, nothing left the room." The plan number is
+"pace yourself until Friday." You cannot spend the local box down to
+zero on Tuesday. You can only wait.
+
+For a business there is also the invoice circus — another vendor,
+another seat, another person whose usage you cannot predict.
 
 I would rather have a limit on how many sessions I can run at once,
 and a machine that is always there, than a weekly token pool I have
@@ -194,16 +217,22 @@ that a personal computer will cost the equivalent of a hundred euros
 a month, and that Microsoft Word will refuse a sentence because it
 breaches a safety policy, and that you may not search for a topic
 because it breaches terms of service. Whose job is it to tell me
-what I do with my computer? The machine, and what you type into it,
-is an extension of what you have in your mind. Nobody has managed to
-censor that. Vendors are reducing legal liability by putting an
-imperfect classifier between your fingers and the input box. There
-is no perfect classifier for human language. Sessions that stop
-responding because a nanny decided you were doing "cybersecurity"
-research, or something merely adjacent to a banned category, are
-the point. This is not a brief for doing shady things in private. I
-do not want a nanny state overhead on thinking, including boring,
-legal, personal thinking.
+what I do with my computer? It is my computer. I will do what I want
+with it. That is not a brief for doing shady things. It is about
+who gets to classify the contents of your head as they pass through
+a keyboard.
+
+The machine, and what you type into it, is an extension of what you
+have in your mind. Nobody has managed to censor that. Vendors are
+reducing legal liability by putting an imperfect classifier between
+your fingers and the input box. There is no perfect classifier for
+human language. Sessions that stop responding because a nanny
+decided you were doing "cybersecurity" research, or something merely
+adjacent to a banned category, are the point. How did we inch
+backwards into something this illiberal — the wrong-think of 1984,
+except the telescreen is a ToS and a model that is covering the
+vendor's ass? I do not want a nanny state overhead on thinking,
+including boring, legal, personal thinking.
 
 ## Why people stay in the cave
 
@@ -270,6 +299,12 @@ Most of the good open weights are coming from China, because China
 is playing exactly to the weakness the incumbents are displaying.
 Anyone who already owns compute, or is willing to buy a single 12 GB
 or 16 GB card second-hand, already has their card out of the bag.
+Gaming is still a huge industry even while wafer capacity leans
+toward HBM. I cannot picture a future where consumer GPUs stay
+permanently out of reach. The drought is a detour. When it ends, a
+64 GB card will look like the 8 GB flagship did, and the people who
+spent those years insisting you had to rent a mind from a landlord
+will have been selling a delay.
 
 The moral hazard is the fanboy who paid for the fanciest model
 telling the rest of the world that local AI cannot code, cannot
