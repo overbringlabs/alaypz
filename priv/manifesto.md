@@ -30,6 +30,8 @@ Microsoft (and Intel and AMD and Cyrix, remember Cyrix?) brought personal comput
 During the 1990s and the early 2000s, knowing how to operate a Windows machine became commonsensical
 in the advanced economies. _That_ is **democratization** of personal computing and the skills it requires; it is not John Doe rewriting something in Rust on four concurrent Claude Code sessions, or Isaak using Qwen3.8-27B to extend a three-codebase SaaS with a strangler-fig pattern moving functionality from a legacy REST API to an Elixir/Phoenix backend.
 
+### Personal computing stopped being personal
+
 Since then, the world of personal computing has actually *regressed*. "My Computer" has become "This Computer". 
 Operating systems that snoop on you. Vendors who [handicap their own
 hardware through firmware](https://github.com/zagitta/gpu-unlock). Young people who barely have a concept of
@@ -38,8 +40,9 @@ it to a cloud, and where backing it up is your job, not a
 subscription. I wrote about that regression when Microsoft's
 Copilot+ line signalled [the death knell of the Personal Computer](https://overbring.com/blog/2024-05-22-the-death-knell-of-personal-computing/).
 
-We are at the next such moment because the *capability* of local AI models has long crossed a
-line where local models are way better than just "good enough" for most use cases, not because an RTX 5090 with 32 GB magically appeared on every desk. Then again, today's 5090 is past years' RTX 2080 Ti in terms of positioning and relative performance. The 5090 (one hopes) will at some point look quaint too.
+We are at the next such moment because the *capability* of local AI models has long crossed a line where local models are way better than just "good enough" for most use cases, not because an RTX 5090 with 32 GB magically appeared on every desk. Then again, today's 5090 is past years' RTX 2080 Ti in terms of positioning and relative performance. The 5090 (one hopes) will at some point look quaint too.
+
+### Your budget shopping list in November 2026
 
 In November 2026, the situation of hardware affordability for local AI is not great (to put it mildly), but it's also not disastrous. The notion that you need a 5090 and/or 32 GB of VRAM is a red herring.
 Inference engines such as [Strata](https://github.com/Niko1221/Strata) combined with novel multi-tier model architectures like that of [Qwen3.8-Flash-Next](https://qwen.ai/blog?id=qwen3.8-flash-next) have made as 12 GB GPU viable, provided that you have 32+ GB of RAM. AMD's Radeon RX 9060 XT 16 GB is not half bad, and eminently more affordable than alternatives, even if pricey in absolute terms. I paid 399 EUR for mine, intra-EU purchase without VAT, and I find it was a good price. 100 EUR more would not have made a difference; it's a business expense, and one that [already delivers work](https://si.overbring.com) with embeddings, reranker, translations, summarization, chat, and sometimes, when traffic is low, also running an agentic-coding subagent with Ornith-1.5-35B-A3B. It's not the fastest for the latter use-case, but it gets the job done.
@@ -57,6 +60,8 @@ handful of billions of active parameters per token. Fine-tunes of those
 families do real work too. I have been building with them since this
 spring, on budget GPUs, on machines that answer only to me. 
 
+### GPUs are now an appreciating asset?!
+
 I bought an RTX 4070 Super 12 GB in 2024 and an RTX 4060 Ti 16 GB in 2025. Then I sat on them
 because I had no use case beyond single-shot "translate this" or "summarize this" requests with Ollama and early Qwen models and llama derivatives. In May 2026 I put these two unbalanced GPUs on an X570 motherboard with unbalanced PCIe 4.0 slots. Even so, these combined 28 GB of VRAM have been doing a lot of work for me since then, and they have kept doing _better_ work with every new local-AI model that deserves the NVMe storage space.
 
@@ -71,6 +76,8 @@ appreciating asset looks like when the software side is moving, and here we have
 But is that the end game? I think not. Once upon a time, an 8 GB GPU was a flagship and a 4 GB GPU, like my middle-of-the-GPU-drought Radeon RX 6500 XT 4 GB, seemed pitiful. Even so, those GPUs _today_ are still not totally useless; they are more than fine for RAG, i.e. for BGE-m3 and BGE-reranker-v2-m3 (or EmbeddingGemma-2), and for a small, heavily quantized model that can be used as a chatbot. They are practically useless for serious agentic work though. But as a RAG-supporting GPU, the RX 6500 XT was certainly far faster with bge-m3 and bge-reranker-v2-m3 than the Ryzen 5 5600G that used to run the same models, even on its Vega 7 iGPU.
 
 So, 12 GB is the entry point, 16 GB is the minimum viable for local agentic coding, 32 GB is the comfortable sweet spot of capability and speed and cost, at least when it comes to VRAM. As I said, new architectures and inference engine also make use of NVMe storage and RAM. Thus, VRAM will become less important, while RAM's value in the local-AI equation will become more important. RAM is right now very expensive, but will it remain expensive forever? _Forever ever?_
+
+### The memory drought is a detour; nothing is forever
 
 Press X to doubt. My ThinkPad W520 from 2012 already had 32 GB of DDR3 (4x8 GB). Every PC I've built between 2023 and 2025, while DDR4 prices were sensible, has 24, 48, or 64 GB of DDR4. I still kick myself for not going for 4x32 GB DDR4-3200 sticks two years ago, but hey, hindsight is 20/20. As a friend says, "never read the chart backwards".
 
@@ -96,6 +103,8 @@ nineties. The more people stay in the cave, and the more "AI bros" and Claude fa
 
 Having a chatbot in a tab is the least interesting version of this wished-for future. Far more interesting is the outlook of outright owning hardware that can help you do work you would otherwise do entirely by yourself, or you'd have to pay a stranger's cloud computer to do, but without the stranger and their nanny-state restrictions on what you can do, based on opaque criteria and moralizing built on delusions about matrix multiplications being somehow sentient with feelings that can be hurt.
 
+### Private life does not belong in training sets
+
 Agentic coding is the least of my concerns, to be quite honest. It's an early-adopter obsession, and a pre-crossing-the-chasm obsession of software developers with what is already eating their lunch. Human slop-deliverers, framework monkeys and single-issue experts are going to have a bad time. The question is what happens with the world at large. The "Windows XP era" of local AI (and I'm saying "Windows XP" and not "Windows 95", because Windows XP was where we saw billions already having crossed the personal-computing chasm globally) is one that makes it possible for a private person, a family, a small business to get their menial tasks done, locally, without worries of privacy breaches or nanny-state do-gooder moderation or operating expenses for tasks that totally, _absolutely_ **do not** deserve a subscription plan to a trillion-parameter frontier model.
 
 That means all the boring stuff, the menial administrative boring stuff that one might want to do, but is always a PITA to get done because it involves websites, spreadsheets, fragmented sources of information like email attachments, and files stored on your laptop, and online searches. Bank statements and reminders, an integration with your smartphone, keeping track of things that you are owed and you owe. It also includes catering to the desires of people of all ages that want to understand more; the knowledge-thirsty. Doing online research and discussing it with a local model, using a local model as a sparring partner or a tutor, doing your homework, organizing your collection of files, learning any skill with a tailored learning plan and a chat interface with a model that will grill you. And all that, without shipping your questions, your worries, your progress, your chat trajectories to a morality-posturing, virtue-signaling, AI-psychotic, self-interested vendor who will use your input as part of the training set of the next model.
@@ -103,6 +112,8 @@ That means all the boring stuff, the menial administrative boring stuff that one
 The Windows-XP era will reasonably have a similar spread of "normie use-cases" (and I do not use "normie" derogatorily here) as the Windows 95 era of the personal-computing boom had: online research, writing, learning things, figuring things out. This includes things that other people (worse, a cloud-AI vendor's automatic ToS-breaching detection classifiers) might scoff at. Most importantly, it will include things that you would not want to share with the cloud vendor, such as discussing something of a personal nature with a model, health concerns, money and budget, a family mess, or anything else.
 
 Though I mostly use local AI models for agentic coding, I too am a normie, as are all of us to a varying degree. I have sat with a local model and discussed email and social-media confrontations. I have pasted instant-messaging back-and-forths from a break-up that lasted way too long. I have discussed my approach in communication, what I didn't do well, what I should do better next time, the rough edges I should file, and what I should not carry as a conscience burden going forward. Is it better than a psycotherapist? I don't know and it doesn't matter. If you use the tool well, and with appropriate skepticism, it can deliver insightful points. What matters here is that all this is totally innocuous, and I would still not feel comfortable sending those chats to a cloud-AI vendor, not because they are somehow illegal, but because a) it's personal and b) I respect the privacy _of the other people_ mentioned in the chats. And even though I have nothing to hide, it's literally nobody else's business other than mine.
+
+### The office is a document swamp that we wade through daily
 
 Businesses are normies too (in fact, they are _full_ of normies, with corporate being basically a magnet for mediocrity and compliant boat-non-shakers), and the most normie thing a business can do is start getting rid of its ancient, document-based approaches to getting things done. By "document" I mean any artifact that contains a piece of the puzzle of information pertaining to a situation; a case folder. A document be an email, a PDF, a spreadsheet, a memo, a chat log. It can be a case of a legal dispute, an RFQ, an offer, a discussion across numerous emails, a negotiation, a business plan. All this is scattered across datastores, in varying formats, and the biggest challenge of a business is to bring all that together and distill what's happening, where the situation stands, what decisions need to be made, etc.
 
@@ -146,6 +157,8 @@ Ask them what they use it for:
 
 For the most part, those use cases represent simply a more chatty, natural-language, convenient web search. With how Google Search has degraded in terms of UX over the years, I don't find that curious. Instead of having to scroll down across 5 sponsored search results, or click the first 5 actual results to see if the search returned anything relevant, it's simpler to just ask ChatGPT, or YOLO and believe the "AI Overview" by Gemini Whatever. It is Altavista or Word 95 or Excel 95 with a conversation. Pretty much none of that needs a trillion-parameter model. A lot of it was already within the capabvilities of a model from April 2026, i.e. of Qwen 3.6-35B-A3B, which is also insanely fast (because it's an MoE model) even on entry-level hardware. Heck, a lot of the above is certainly doable by a 9B-class model. Heckity-heck, a lot of the above is even doable by Spark-X2.6-4B or LFM2.5-8B-A1B, at blazing-fast speeds and very modest VRAM requirements, even on an 8 GB GPU.
 
+### Capabilities are getting squeezed into ever smaller models
+
 Two years ago you needed a 70B-parameter model for that quality, and that model was impossible to run locally because of its architecture and KV-cache VRAM cost per token. Nowadays on 32 GB VRAM you can fit [Nemotron-3.5-Bolt-74B-A9B IQ2 QAT](https://overbring.com/ai-benchmarks/2026-10-31-nvidia-nemotron-35-bolt-74b-a9b-iq2-qat-gguf-rtx-5060-ti-16gb-x2-layer-split-llama-server-cuda/), a model that wipes the floor with older models of 2025 and 2024 that you could not even run on affordable local-AI hardware.
 
 Architectural advances, quantization-aware training, better quantization schemes, immense training corpora, distillation of frontier cloud models (totally justified, in my view), new training approaches and finetunes, new and improved inference engines, better harnesses: the technological mine is probably not going to be exhausted anytime soon. What used to be considered "frontier/SOTA" capability keeps getting squeezed into smaller and smaller GGUF files, sometimes with 1M native context window (Nemotron-3.5-Lightning, Spark-X2.6-4B).
@@ -159,6 +172,8 @@ A Mac Mini with 16 GB of unified memory can run a 9B-class model (or Spark-X2.5-
 
 And if you face a usage spike that demands compute capacity to parallelize and go faster, e.g. for agentic coding? Provided that you don't care about privacy or Zero Data Retention, buy DeepSeek Platform credits for DeepSeek Flash or a Qwen token plan that will give you access to Qwen3.8-Flash. If you do care about ZDR and keep facing usage spikes that make your one box feel limiting, buy credit on OpenRouter, tick the ZDR-only checkbox, and cross your fingers that the checkbox actually does something. Even better: invest in a second box and scale your compute capacity and your costs in steps that amortize, and stop caring about where your data ends up; it stays here. You do not need to swear fealty to a cloud despot for basic stuff.
 
+### The hot rods are not the market
+
 The danger is that we are inundated with hot takes from people who
 feel they need full-precision weights on a stack of $5k to $10k DGX Spark or Mac Studio units, because they are spending their time more with tuning their "hot rods" than actually using their "vehicles" for anything other than "AI-maxxing". That is their prerogative, fine. Tuning the `llama-server` arguments to fit a model and have it run at maximum context and at good quality is a rite of passage, and thankfully one that an agent can easily do for you after the first few times. However, let's be clear: tuning a very expensive rack instead of getting work done is not the bulk of the market; it's an AI consultancy business, a hobby, or both. The more limited the hardware you own, the more you care about extracting the best out of it. ROCm/HIP or Vulkan builds of llama.cpp? q8 KV cache or asymmetric q8/q4? How many drafters? Once you answer these and more questions, or your first deployed model or a cloud model does this tuning for you, at some point the actual work can be performed.
 
@@ -167,6 +182,8 @@ The local-AI market is in the early-adopters phase. Most people you see posting 
 True, as a trade-off, for *those* use cases, but then again **those use cases are not representative of a maturing market**. They might be the majority of *spend* right
 now, but the long tail is not rewriting code into Rust or doing genome research, or electronics research. The long tail is comprised of people using Gemini Flash or ChatGPT for free, living with "you're doing this too much, come back later" and switching to a free model (or _another_ free model), and asking ultra-basic things, i.e. using the
 thing as a search engine that can also chat with them.
+
+### The prisoners of the Cave are recruiting
 
 If you listen only to the Veblen-priced cloud serfs, you will believe that the only way to get _anything_ done is to become the same loud-and-proud serf stuck in a cave that they are. What's worse: the prisoners of the cave are recruiting others by spouting off nonsense about how amazing the cave is. This is a result of a mix of identitarian nonsense, a sense of superiority from paying tribute and showing off how much tribute they are paying (i.e. portraying subscription costs as a proxy of how advanced they are at using AI), and -- perversely -- a conquered status they want everyone else to share. It is laziness? Is it because they are spending their employer's money? Who knows? Statements about local AI being "useless" remain increasingly idiotic.
 
@@ -191,12 +208,18 @@ Fair and square: in terms of cost per token, local AI in 2026 cannot compete, ex
 
 You pay differently, and you _wait_ differently, and pretending otherwise is how you lose the argument with someone who has a credit card and multiple $200-per-month subscriptions or has been granted a budget for corporate use.
 
+### Context versus concurrent chats
+
 On 32 GB of VRAM you can hold a 256k-token context, which is
 workable, and if you actually *use* that whole window you pay in
 throughput. One session, maybe two, depending on how you split the
 post-weights and post-compute-buffers VRAM into slots. Maybe you run 1 slot with 256k context window. Maybe you run 2 concurrent slots, each with 128k context, or 4x65k. Any of those three is totally workable for the basic things that normie use-cases require. 128k is IMO the bare minimum for agentic coding, because models like Qwen3.8-27B reason a lot, and therefore a large part of that context window will be used for reasoning about how to get things done.
 
-256k is more than enough for the vast majority of use cases. Models with a 1M context window anyway start to lose coherence long before the window is exhausted, so the "but muh 1M context window" argument is moot if the model gets Alzheimers at 320k tokens deep. Not every model behaves the same, and this might be an effect of cloud-AI providers temporarily serving "dumber" models, i.e. more heavily quantized models and or KV caches, during peak demand. Then again, that is another chink in the cloud-AI hypers' armor: you never know what exactly you're getting served. In fact, that one model that you _really_ liked working with? Yeah, that's gone, eventually. Bye buy Grok 4.20, 4.3 (not 4.5, it was a step down). Bye bye Grok 4.6. Better step up to Grok 4.7, you serf. Yeah it's 2.5 times the token cost than 4.6, and yeah, your $30 SuperGrok won't even last half a day -- but **it's SO much better!** (you just need to pay for SuperGrok Plus now, but you have the money, right? You have all your chats here already. Come on, what's $100 between friends? Come on, try it, it's worth it, I pinky promise. Well, until Grok 5 lands, then we'll see, maybe you'll have to pay $200/month then, but OK, I give you a **frontier** model...) It's enshittification wave after enshittification wave. It's akin to shrinkflation. You don't actually **need** the performance of the bajillion-parameter next-version model. But the cloud provider needs to _somehow_ increase its revenue. Easiest thing without raising the price of your current plan:
+256k is more than enough for the vast majority of use cases. Models with a 1M context window anyway start to lose coherence long before the window is exhausted, so the "but muh 1M context window" argument is moot if the model gets Alzheimers at 320k tokens deep. Not every model behaves the same, and this might be an effect of cloud-AI providers temporarily serving "dumber" models, i.e. more heavily quantized models and or KV caches, during peak demand. 
+
+### You never know what you are being served
+
+Then again, that is another chink in the cloud-AI hypers' armor: you never know what exactly you're getting served. In fact, that one model that you _really_ liked working with? Yeah, that's gone, eventually. Bye buy Grok 4.20, 4.3 (not 4.5, it was a step down). Bye bye Grok 4.6. Better step up to Grok 4.7, you serf. Yeah it's 2.5 times the token cost than 4.6, and yeah, your $30 SuperGrok won't even last half a day -- but **it's SO much better!** (you just need to pay for SuperGrok Plus now, but you have the money, right? You have all your chats here already. Come on, what's $100 between friends? Come on, try it, it's worth it, I pinky promise. Well, until Grok 5 lands, then we'll see, maybe you'll have to pay $200/month then, but OK, I give you a **frontier** model...) It's enshittification wave after enshittification wave. It's akin to shrinkflation. You don't actually **need** the performance of the bajillion-parameter next-version model. But the cloud provider needs to _somehow_ increase its revenue. Easiest thing without raising the price of your current plan:
 
 1. Launch the new and better model. First week, run it at full precision, glorious full-precision KV cache. The fish bite. YouTubers post "`$MODEL` is INSANE!" videos with mouth-wide-open photos and the same old boring one-shot "benchmarking" prompts. Keep it like this for a week or so.
 2. The honeymoon period begins. More YouTube "benchmarks" are posted. Early adopters of the new model praise it. Demand rises, speed drops, latency increases. Drop quality by serving a quantized model and/or changing other settings like the KV-cache quantization. Add a feedback button below the responses on the chat UI on the web, so that you can lure people into giving you a signal about their sentiment.
@@ -214,6 +237,8 @@ Having two different models co-resident is a hassle; you are fighting VRAM by ha
 With cloud AI, you burn tokens, the harness dispatches multiple parallel sub-agents (each without the workers-versus-context-window trade-off that I explained above), you get there faster and you also empty the weekly usage pool faster. Capacity is the vendor's problem. They scale up and down, sometimes they serve you a dumber model version, they give you another subagent session, but you can parallelize work. That is, it remains the vendor's problem until the invoice arrives; then, it becomes your problem. Your operating expenses grow. Fair, if you can afford it.
 
 With local AI, if your job is to code all day and you need that kind of fan-out, you put together a second GPU box and you start building a small fleet, each with its own `llama-swap` server, which is a real barrier for anyone who is not an enthusiast right now. Most people will not put up with the effort needed for the setup and the orchestration, i.e. the cognitive load of knowing which server has capacity to send the next prompt to. That does not make the single-box case fake, it just means that the use case of _"I need 5 parallel subagents to run at full speed and costs be damned, because I have a hard deadline for the next software release"_ is a fundamentally different Job-To-Be-Done / requirement than _"a family or business PC that helps us get the menial work done"_.
+
+### Having to wait means an opportunity to observe and to think
 
 That is a genuine trade-off; for some kinds of work it is limiting. For a lot of work it is just slower, which means you wait. However, waiting is not always bad. Waiting means that you have to be more deliberate with what you do, especially if you use that limited local-compute capacity and sub-SOTA local models to get agentic-coding work done. It means that you cannot simply "vibecode", expecting that the model will read your mind and arrive at an implementation despite your lack of effort at setting constraints and requirements on what will be developed, and how.
 
@@ -234,11 +259,15 @@ you for the reprocessing is a smart way of burning more tokens so that you don't
 fires; periodic token burn through automatic compaction is one of the ways in which they eat through your plan's weekly affordance so that you will eventually, maybe, be enticed to jump to the next-bigger plan. The closed-source harness
 that "just works" by spawning sub-agents is the same token-burner with a friendlier face, cute animations, etc. Don't fall for that.
 
+### The user experience is not yet approachable
+
 Setup knowledge is a barrier to entry. `llama-swap`, slot counts, KV cache and its quantization, speculative decoding, parallel slots,
 which quant affords you how much context, etc. We are early in a boom; of course the UX is still
 ugly. It will get easier, no doubt. Enthusiasts will put up with the hassle, but the Windows 95 masses will not, until someone packages it. Some already do that, with nice GUIs that help you easily load models, but in my experience they still expect a lot from the user (_"WTF is Q4\_K\_M?!"_), and the automatic choices they make are not smart enough so that the user can squeeze maximum performance from the hardware. That's fine; the hassle in this phase still does not make the underlying capability of local AI any less impressive.
 
 The other side of the ledger is how you pay.
+
+## Capital expenditures vs. operating expense
 
 A cloud subscription or an OpenRouter invoice is operating expense: pay-as-you-go, or a
 plan that pretends to be a buffet until the weekly pool of tokens is dry. Note that they never show you tokens, they show you credits or a percentage, or money left. This way you cannot calculate price per token.
@@ -261,7 +290,7 @@ to an older model on OpenRouter and you often pay *more* per token. Qwen3.8-27B 
 
 Qwen4, when it drops sometime in November 2026, will be a nice-to-have upgrade on silicon you already own. That is a rare case in technology: the equipment sits still, the models get better, and so you get better outcomes without further capital expenditure.
 
-## What a token actually costs, if you pretend the box never sleeps
+### What a token actually costs
 
 Say you run Qwen3.8-27B NVFP4 on 32 GB VRAM. You will not run it 24/7.
 If you did, you could put the output tokens next to API list prices
@@ -313,7 +342,9 @@ each (incl. 24% VAT, in Greece). They are also more power-hungry, so you'd need 
 
 The point is 32 GB of VRAM on two modest cards, not a 5090. You cannot time the market, but €10k for a 5090 clearly is not the right path for local AI. Dual-5090 would give you insane speeds, but at what cost per Mtok?
 
-Electricity: let's assume **$0.40/kWh**. That is high for cheap-power US states,
+### Equipment-cost amortization, and electricity
+
+Let's assume **$0.40/kWh** for electricity. That is high for cheap-power US states,
 high for some EU countries, roughly right for expensive-power EU
 households (Eurostat's EU average all-in is nearer €0.28; Germany
 and Ireland live up near €0.39).  It's a conservative that works against the local-AI business case, and that's on purpose on
@@ -339,7 +370,6 @@ do not get Opus quality. A $200/month plan, if you actually get
 hundreds of millions of tokens out of it, is a better sticker price than
 $146 of 24/7 wall power...
 
-
 ..that is, until you notice that you most likely do not run the rig on full blast 24/7, that Claude Code will chew a weekly pool for breakfast, and that the
 plan is a meter with a smile and an ulterior motive. Plus, it's a bet on an uncertain future in which:
 
@@ -353,7 +383,9 @@ I don't know about you, but I don't like to run my business on hopes and prayers
 Anyway, what the table refuses to capture is the "shape" of the cost. Cloud AI is
 a hose. You want to burn more tokens? Buy more credit, but a bigger plan or more (and maybe bigger) plans. Have at it. OpEx baby, all the way.
 
-Local is a speed limiter, or rather a bunch of speed limiters. Here's an average of prompt-processing and token-generation speeds across a selection of the models I mostly run on the dual-5060 box. I've selected only those with hundreds of requests on `llama-swap`:
+### What the limiter actually is
+
+Local AI is like a speed limiter, or rather a bunch of speed limiters. Here's an average of prompt-processing and token-generation speeds across a selection of the models I mostly run on the dual-5060 box. I've selected only those with hundreds of requests on `llama-swap`:
 
 ```sql
 SELECT model_id, CAST(AVG(tokens_per_second) AS INTEGER) AS tps
@@ -402,7 +434,7 @@ this PDF", "what do the emails say", "summarize the invoices' amounts", "extract
 However, when the box is not generating, the bill falls
 toward idle: on this chassis, on the order of **80 W**, call it a few tens of dollars a month, not $146. Real use, in Open WebUI or Grok Build or whatever harness, is a few minutes of cranking through a few subsequent responses by one person in a flurry, then silence, then repeat. The duty cycle is then low, and includes prefill
 
-## The comparison that actually moves a business
+## The comparison that actually makes sense, for a business
 
 Forget 114 million tokens. Put a clerk on the menial work already
 described: email, documents, PDFs, spreadsheets, "where does this offer stand?", "which offers are expiring soon?", "what is the historical price of `$PRODUCT` in the past 2 years?", "has this order been confirmed by the supplier?", an executive summary now and then. Let's assume eight hours a day, five-ish days, fully loaded, which is overkill.
@@ -418,12 +450,16 @@ Against $2,500, closer to **six weeks**. After that, you are paying power and th
 
 That is the ISATEK story with extra arithmetic: the dual-5060 box paid for itself against labour in months, not against the spot price of $/Mtok (input and output) on OpenRouter -- and nobody gets access to the company's data either.
 
+### Subsidized plans' prices are the bait to a switch
+
 A $200 Max plan is a different animal. To be fair: $200 is more than idle power, and less than what a person costs per month. It is also tied to the fortunes of two
 US labs if you stay in either or both of those pens. Plans have gotten worse, and who knows what the future may bring? People complain about chatty harnesses, shrinking pools, models that move under you, retirement of the models that worked well enough for you, before the vendor played the planned-obsolescence card. Accenture has reported engineers hitting **$500–$1000/month** on Claude before the firm capped them; reporting in the same season of **$500–$2000 per engineer per month** at other large buyers. 
 
 If $200 is a promotional sticker on labour substitution, it is not unthinkable that the price on the sticker moves to match these reported economics, especially if/when the duopoly IPOs and is pressured to make its insane valuations a reality. API list prices can move the same way and for the same reason. Local's unpleasant property, i.e. that you bought a Fiat Punto with a speed limiter instead of a scalable fleet of Ferrari F40s then becomes a hedge against a future where everything is overpriced and the labor-substitution argument doesn't hold water. 
 
 But still: the cat is out of the bag. Practically everything in a business can be done with a modern open-weights model that fits 32, 16, or even 12 GB of VRAM. That is also one of the reasons why I look at the proposed IPOs of the duopoly with as much skepticism as I look at the Fear, Uncertainty and Doubt that they like to spread about open-weights models, and particularly those coming from China. The duopoly knows that the vast majority of their use cases has already been disrupted, not only by frontier-level models from China (that many, justifiably, are distrustful towards, due to data privacy and intellectual-property concerns), but already by open-weights models that can fit the above pitiful (by datacenter standards and even DGX Spark standards) and cost-effective VRAM budget, and still get these jobs done far more than just "good-enough". It's the classic Clayton Christensen "Theory of Disruption" story. While the duopoly keeps wowing digital serfs with bigger, better (way better than required for most tasks) models that are expensive to train and expensive to deploy, Chinese labs have been releasing models that not only challenge the duopoly on the cloud frontier, but even "at home".
+
+### The cloud overflow cannot be used for everything
 
 Chinese APIs and token plans (DeepSeek Platform, Qwen Cloud) are excellent value for money. I use them for work I do not mind leaving the building. OpenRouter with a zero-retention claim is the same value-for-money play, as long if you believe that the Zero Data Retention checkbox is leak-tight all the way. Personally, I do not believe it, because there is too much data with valuable information sloshing around a system with too many parties, for this to be tightly controlled always.
 
@@ -434,7 +470,7 @@ As for the resale value of that pricey GPU rig you may buy or have already bough
 The second half is the mass-market punchline: we have already crossed the line where **32 GB VRAM is more than enough** for the long tail. Heck, even 16 GB is enough. In 2
 or 3 years, when wafer allocation is less deranged, a 5080-class card at 5060-class money with 32 or 48 GB is not a crazy scenario. Thenm the used 5060s and 9060s, or a single aging 5090 32 GB or Radeon AI PRO R9700 32 GB, will become the Windows 95 PC of this story: one card with more than sufficient VRAM for anything from chats to agentic business processes to agentic coding, bought cheap, used short stints, and most importantly: with the open-weights models that are yet to come. You do not need more VRAM than that for that job. You needed it for the hot-rod tuning, but tuning the hot-rod is not the market, but research or a hobby (or X and HuggingFace clout).
 
-## Sovereignty, privacy, and not living is someone's cave
+## Sovereignty, privacy, and not living in someone's cloud cave
 
 Local AI's value proposition is: always on, nothing leaves the building, and you **buy** a limiter instead of renting flexible ("elastic") capacity. 
 
@@ -459,9 +495,13 @@ year's weights could do. Especially for coding, there is a large misunderstandin
 
 Some of those people are lazy, stupid, or both, but not everyone is either or any of those things. They are merely trapped in a cave, and by vendor machinations that are old to the point of being banal, and very well understood.
 
+### Brand as product, and as identity
+
 For one, some people attach their identity (or some parts of it) as being patrons to the purveyors of the latest sexiest fad. This is what I call [Deft](https://leanpub.com/deft). It's the shiny new toy, and it's even better if it is unreasonably priced compared to alternatives that can be discarded as "for cheapskates", as "useless", etc. It is Agile, Lean, Claude and OpenAI models, as it is the iPhone vs. Android, the iMessage blue bubble, Audi variants of a Volkswagen automotive platform vs. alternatives, complex web-scale-wannabe software architectures like "more microservices than users" instead of practical, low-cash-burn, performant and scalable software architectures. It is "nobody was ever fired for hiring X", where X has been IBM, McKinsey, Amazon and now the duopoly.
 
 These people do not _need_ the thing. They just _want_ the thing. In fact, the brand _is_ the largest part of the product, and the product's price/performance ratio or its risks (vendor lock-in, price hikes, rug-pulling, bait-and-switch, privacy erosion) are less relevant than the fact that it's the "safe bet". It's what the herd uses, and there's safety in being in the herd that makes the "safe bet", especially if someone else is paying for that bet, like your employer giving you a Claude Code or Codex subscription as a job perk (it's a fucking tool, and you're a tool for considering a tool to be a perk), and you totally buy into this shiny toy without looking at the wider space of AI, and of local AI in particular, because hey, you are not the one carrying the business risk or the cost.
+
+### Nobody was ever fired for hiring the incumbent
 
 Corporates, often treated as the peak of efficiency vs. e.g. the much-derided (and justifiably so) public sector, are in reality also trapped in spending other people's money (the shareholders', their owners', their employees' otherwise-feasible salary bumps) on other people (must-have initiatives and rituals, expensive toys, latest fads, and so-called safe bets). And of course, the average executive prefers going with the "obvious" and "safe" overpriced solution because otherwise they look like laggards, or like they are rocking the boat. The larger an organization grows, the more it rewards conformity, which is another word for mediocrity over the long run.
 
@@ -470,7 +510,11 @@ Organizations that could very well afford not a budget dual-5060 rig, but a stac
 But then again, it's no surprise; we've seen that before. Miracle-cure frameworks and tools. Alluring narratives of success at organizations that do not look
 like yours. Passionate experts. The current AI hype is Deft in a new cloth.
 
-You buy a very expensive German car and, because you paid a lot, you convince yourself it is the pinnacle of automotive. Cloud AI has the same Veblen structure. Twenty dollars, fifty, a hundred, two hundred a month, and rising, for the *privilege* of sending private and proprietary information to a vendor. Cache hits, cache misses, price per million tokens of input and output, a meter on a hose you do not own, and a hose that can be shrunk or taken away at any moment, or if you "misbehave". Subscriptions get encrusted. Usage pools shrink. Serving gets cheaper for them and dumber for you, and you cannot choose the quant. Locally you pick the trade-off yourself.
+### Some want expensive stuff for no good reason
+
+You buy a very expensive German car and, because you paid a lot, you convince yourself it is the pinnacle of automotive. After all, everyone you know who is successful drives a Mercedes/BMW/Audi. Therefore, driving such a brand will make you appear successful. And even though these brands' quality has deteriorated, you are still willing to pay more, even though you are not getting more product for the price. But it's more exclusive, whatever that means in a world when one can lease. Cloud AI has the same Veblen structure. Twenty dollars, fifty, a hundred, two hundred a month, and rising, for the *privilege* of sending private and proprietary information to a vendor. Cache hits, cache misses, price per million tokens of input and output, a meter on a hose you do not own, and a hose that can be shrunk or taken away at any moment, or if you "misbehave". Subscriptions get encrusted. Usage pools shrink. Serving gets cheaper for them and dumber for you, and you cannot choose the quant. Locally you pick the trade-off yourself.
+
+### You will own nothing, and be an unhappy serf
 
 The rental shift is not new, and it started many years ago. for years, Dropbox was the safe bet, if you wanted to store and share files... only, it's a dying platform with nagging features so that you upgrade to paid, long after they bought market share by giving everyone with a pulse gigabytes bundled in purchasing laptops, cameras and other hardware. OneDrive hijacking the PC until it stopped feeling like *your* computer. App stores and walled gardens, and the hardware manufacturer dictating what you can run on the smartphone you paid for, in full, if I'm not mistaken -- because I do not remember getting a discount on the hardware under the condition that I'm not allowed to do whatever tf I want with it. In that light, recent successes at running iOS on cheap Android phones is such, such sweet Schadenfreude...
 
@@ -479,6 +523,8 @@ We went from ripping our CDs into MP3 and FLAC, to renting the ability to listen
 Sum the monthly privileges of doing basic things you could do on a PC you own, and ask whether you are better off. And then ask yourself what it means if in the future most work that is increasingly done with AI assistance (i.e. all the daily nonsense that we treated as "work" even though it was then-necessary waste) can only be done if you pay tribute to one or two companies that are the only ones allowed to rent you the capacity not to do discretionary things, like listen to music, but you get your actual work done in a cost-competitive and time-competitive manner.
 
 Ask yourself whether, by readily dismissing the idea of local AI as "useless", without qualifying it further or even understanding what's at stake, you are not skipping that brief era of personal computing, and jumping straight ahead to the dystopia of "for the price of just one coffee per month", times as many coffees as the vendors will decide are par for the course this month. Only this time, it will be a matter of getting work done.
+
+### Self-hosting and local AI are two sides of the same coin
 
 It's a similar topic as self-hosting some of your IT infrastructure, really. I have been on this
 argument for years, for ordinary infrastructure, not just models:
@@ -493,6 +539,8 @@ The vast majority of people will not do it, and that is all right. The people wh
 years without requiring a maintenance drama. [Boring is the point](https://overbring.com/blog/2020-01-08-boring-it-infrastructure-great/). Everything that is not turnkey becomes, in their telling, impossible. That is how you keep people paying a stack of despots.
 
 There is a segment being talked out of local AI because "it doesn't do anything well" -- which is plainly false for the work they actually type. There is a technical segment being brainwashed the way they were brainwashed about AWS, microservices, MongoDB, FaaS and other "safe bets" for the future: step away from value creation, from saving money, from sovereignty, in a world drowning in open-source software that is now *easier* to build and deploy because of the incredible open-weights models we can run even on a single 16 GB GPU that costs ~$500. Heck, buy a used RTX 4060 Ti 16 GB. How can ~$500 be considered a barrier to engaging in becoming less dependent on an oligopoly, even if that will not, initially, or ever for some, entirely reduce your risk exposure to cloud AI? Madness.
+
+### The cat, bell, the GPU
 
 People are already rebuilding popular tools with models they run themselves. You cannot put the genie back. There are abliterated models, uncensored models, models that will answer in ways a corporate safety deck would call politically incorrect. **The cat is out of the bag. Deal with it.**
 
@@ -518,6 +566,8 @@ If you treat it as a genie that will read your mind and turn "build me this" int
 
 I learned this the expensive way, twice.
 
+### Cognitive laziness rarely if ever pays off in knowledge work
+
 Once in 2008, as a turbine engineer, shoveling designs between CAD
 and overnight CFD jobs, waiting eighteen hours to find out a variant
 was junk. A colleague wanted a vendor's "pushbutton optimization"
@@ -528,6 +578,8 @@ What worked was the boring version: me in the loop, low-fidelity parametric desi
 expensive hours only on what deserved them. I got faster *and* smarter, because I had to wait, yes, but not 18 hours behind trial-and-error runs. I had to parametrize the geometry, analyze the data (with Machine Learning, even), understand the trade-offs, prepare the next batch of experiments. The fully automated path turned a trained engineer into a machine operator. The "local" approach enabled a newly-minted turbine development engineer to design nigh-optimal turbine designs in record time, **and** to become a better engineer. I wrote the long version of that parallel in [Vibe coding leaves me with a very sour taste](https://overbring.com/blog/2025-08-16-vibe-coding-sour-taste/).
 The punchline has not aged: *spend more tokens, you peasants* is the
 same joke as *calculate more, you peasants*. I am still against vibecoding, but not against using agents for proper software _engineering_ and development.
+
+### Vibecoding and the temptation of the one-shot prompt
 
 The second time was vibecoding itself. Underspecified one-shots. "Build me a clone of that popular game." If the game is popular, you are measuring how much of the training data you are paying to get regurgitated, and the operator remains a meat proxy. The operator becomes the tool. The tool becomes a whimsical slot machine that eats tokens and your time in fruitless prompting, trying to slap the model towards a vague direction with no real plan, no understanding of the context of the things you want to see materialized. YouTube is full of this nonsense, because it films well. You are paying dearly for world knowledge and calling it a coding benchmark.
 
@@ -543,6 +595,8 @@ The human's job with any of these models is the job it always was. **Own the pro
 
 Thus, especially when working with a local AI model that has a paltry 27 billion of parameters instead of the genie-in-a-bottle that will respond with oodles of code regardless of whether your rub it the right way, you have to analyze the system, and work with the model to engineer a solution. Break it into pieces: knowledge gaps, hypotheses, a spec that constrains without encoding the answer. Rambling into a microphone can *open* a problem; it does not replace owning it. 
 
+### Scatter, hand-off, and wishful thinking
+
 And how will you know if the local model gives you nonsense? Remember: a fool with a tool is still a fool, even if the tool is cool and makes the vendor drool. Stay in the zone where you know enough to smell nonsense. See [the 2×2 matrix I still use](https://overbring.com/articles/2023-06-23-on-using-llm-to-get-things-done/).
 That matrix has held up better than most of what has been written about this since. Keep the knowledge, and expand the known-knowns and your awareness. Institutional memory that accumulates: how this codebase does a thing, the skill you extracted because you did it twice, the cookbook, the ledger of documents that the model can maintain as the codebase changes. You can write a skill for that, like [lean-agent-flow](https://overbring.com/skills/lean-agent-flow/) for the technical stuff or [knowcarve](https://overbring.com/skills/knowcarve/) for the overarching scope that a product manager would handle. You pay for that once. Scatter, hand-off, and wishful thinking are still the three wastes, and map cleanly onto knowledge work with local models--and it's _all_ knowledge work, my dudes. For example:
 
@@ -554,6 +608,8 @@ Local models do not forgive incompetence. They expose it, because
 there is no trillion-parameter world-knowledge crutch to hide
 behind, which is useful. The people who get value out of this are
 the people who were already trying to understand systems. Cognitively lazy and those who never anyway wanted to learn how things work need not apply. They were screwed long before the advent of GenAI.
+
+### Own the problem, and collaborate
 
 Finally, do not treat the model as a mere executor. Treat it as a collaborator. You will be surprised to find out, especially if you use a model not as a crutch but as a research partner, that even Qwen3.8-27B, that allegedly "useless" local AI model, is superintelligent in that it most certainly does a better job at online research, documentation and analysis than most product managers I've ever met. That is neither scary, disappointing, or a value judgment against people; we eat food and power the human brain, and our attention still wanders, we forget things we already know, we simplify by reducing the scope of our analysis, we do not document enough. A model does not; it eats tokens, rifles through SearXNG searches and Markdown fetched with Firecrawl, and shits documentation, code, responses, and its own limited-intelligence take on things, that often relates to its training cut-off date and more often than not relates to how you prompted, and what skill files you applied.
 
@@ -567,6 +623,8 @@ Separating "the brains" from "the hands" is a managerial fantasy. Sure, the "han
 - "Tell me where I'm wrong"
 
 Etc. etc. Don't let it soothe your worries that you have not been particular enough. I guarantee that you haven't, until you have. *That* is now where the meraki and the craftsmanship needs to be diverted towards: figuring what needs to really be done, with which architecture, which components, which functions each domain needs to have , in what sequence we can delay decision-making to the last responsible moment, which trade-offs are inherent in the system, which specs must be tight and which ones can be left loose and be decided later, what is the 80/20 scope right now, what is the 80/20 scope 5 turns later, which constraints are apparent, and so on and so forth.
+
+### Delay your gratification
 
 Meraki and craftsmanship eat the process for breakfast; they always did. And if you divert them away from code golf and patting yourself on the back for a) how amazing it was that the model one-shotted your vagueposting prompt and/or b) how much better code you write after spending 10x the amount of time it takes even Ornith-1.5-35B-A3B to write, you can focus on what really matters: fulfilling the system's or the task's requirements, or in other words, fulfilling the Jobs To Be Done without obsessing about frivolous navelgazing about how _exactly_ the code looks like, and how it's not as good as the code _you_ wrote back when you were getting paid handsomely to write beautiful code in a world in which the software developer (often named "engineer", with scant evidence of engineering competencies) was a scarce resource. Programming capacity is not anymore a scarce resource. Giving a fuck still is, and will forever be, but now it's more about whether you care enough to learn the new tricks of the trade and focus on what's really valuable (JTBDs) instead of nonsense like Emacs vs. vi, tabs vs. spaces, JetBrains vs. VSCode, Rust vs. Zig, and similar trivialities that matter squat to a model that -- sometimes, only with your guidance -- can lift an entire codebase piece by piece and reimplement it in another language.
 
