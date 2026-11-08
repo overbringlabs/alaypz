@@ -9,6 +9,8 @@ the world. What's worse is that many of them are the shadowcasters themselves, a
 I care about the next step of personal computing, i.e. about who gets to "own"
 it, and whether you use it as a sovereign collaborator, or as a machine operator and/or digital serf.
 
+This is not a claim that local AI, today, is for everyone. It is not a claim that it ever will be, or should be. Plenty of people will — and should — keep a cloud tab. What I refuse is the *other* universal: that the only serious way to use any of this is a frontier subscription, and that a box you own is a toy.
+
 ## The Windows 95 moment is already here
 
 A little over thirty years ago personal computing had a big-bang
@@ -105,13 +107,21 @@ Having a chatbot in a tab is the least interesting version of this wished-for fu
 
 ### Private life does not belong in training sets
 
+> You moved the goalposts. First this was a coding rebuttal. Then coding is an early-adopter obsession and lasagna is the market. If local cannot win the hard case, don't call the easy case a civilizational win.
+
+Fair. I am not pretending Qwen3.8-27B is how you replace five parallel Opus agents on a deadline. I am saying the *market* that actually showed up — a billion people asking Chat — is not that deadline. Two different jobs. I use local for both, with different honesty about which one hurts.
+
 Agentic coding is the least of my concerns, to be quite honest. It's an early-adopter obsession, and a pre-crossing-the-chasm obsession of software developers with what is already eating their lunch. Human slop-deliverers, framework monkeys and single-issue experts are going to have a bad time. The question is what happens with the world at large. The "Windows XP era" of local AI (and I'm saying "Windows XP" and not "Windows 95", because Windows XP was where we saw billions already having crossed the personal-computing chasm globally) is one that makes it possible for a private person, a family, a small business to get their menial tasks done, locally, without worries of privacy breaches or nanny-state do-gooder moderation or operating expenses for tasks that totally, _absolutely_ **do not** deserve a subscription plan to a trillion-parameter frontier model.
 
-That means all the boring stuff, the menial administrative boring stuff that one might want to do, but is always a PITA to get done because it involves websites, spreadsheets, fragmented sources of information like email attachments, and files stored on your laptop, and online searches. Bank statements and reminders, an integration with your smartphone, keeping track of things that you are owed and you owe. It also includes catering to the desires of people of all ages that want to understand more; the knowledge-thirsty. Doing online research and discussing it with a local model, using a local model as a sparring partner or a tutor, doing your homework, organizing your collection of files, learning any skill with a tailored learning plan and a chat interface with a model that will grill you. And all that, without shipping your questions, your worries, your progress, your chat trajectories to a morality-posturing, virtue-signaling, AI-psychotic, self-interested vendor who will use your input as part of the training set of the next model.
+That means all the boring stuff, the menial administrative boring stuff that one might want to do, but is always a PITA to get done because it involves websites, spreadsheets, fragmented sources of information like email attachments, and files stored on your laptop, and online searches. Bank statements and reminders, an integration with your smartphone, keeping track of things that you are owed and you owe. It also includes catering to the desires of people of all ages that want to understand more; the knowledge-thirsty. Doing online research and discussing it with a local model, using a local model as a sparring partner or a tutor, doing your homework, organizing your collection of files, learning any skill with a tailored learning plan and a chat interface with a model that will grill you. And all that, without shipping your questions, your worries, your progress, your chat trajectories to a self-interested vendor who will use your input as part of the training set of the next model.
 
 The Windows-XP era will reasonably have a similar spread of "normie use-cases" (and I do not use "normie" derogatorily here) as the Windows 95 era of the personal-computing boom had: online research, writing, learning things, figuring things out. This includes things that other people (worse, a cloud-AI vendor's automatic ToS-breaching detection classifiers) might scoff at. Most importantly, it will include things that you would not want to share with the cloud vendor, such as discussing something of a personal nature with a model, health concerns, money and budget, a family mess, or anything else.
 
-Though I mostly use local AI models for agentic coding, I too am a normie, as are all of us to a varying degree. I have sat with a local model and discussed email and social-media confrontations. I have pasted instant-messaging back-and-forths from a break-up that lasted way too long. I have discussed my approach in communication, what I didn't do well, what I should do better next time, the rough edges I should file, and what I should not carry as a conscience burden going forward. Is it better than a psycotherapist? I don't know and it doesn't matter. If you use the tool well, and with appropriate skepticism, it can deliver insightful points. What matters here is that all this is totally innocuous, and I would still not feel comfortable sending those chats to a cloud-AI vendor, not because they are somehow illegal, but because a) it's personal and b) I respect the privacy _of the other people_ mentioned in the chats. And even though I have nothing to hide, it's literally nobody else's business other than mine.
+> Nothing-to-hide is the median user. They already pasted the breakup into ChatGPT. Revealed preference. You're a high-sensitivity outlier — trading data, other people's names. Don't generalize your threat model.
+
+I agree that I am not the median. I am not asking the median to become me. I am asking them not to be *talked out of* a box if their threat model is closer to mine than they were told. Revealed preference is also "I didn't know I had another option."
+
+Though I mostly use local AI models for agentic coding, I too am a normie, as are all of us to a varying degree. I have sat with a local model and discussed email and social-media confrontations. I have pasted instant-messaging back-and-forths from a break-up that lasted way too long. I have discussed my approach in communication, what I didn't do well, what I should do better next time, the rough edges I should file, and what I should not carry as a conscience burden going forward. Is it better than a psycotherapist? I don't know and it doesn't matter. If you use the tool well, and with appropriate skepticism, it can deliver insightful points. What matters here is that all this is totally innocuous, and I would still not feel comfortable sending those chats to a cloud-AI vendor, not because the chats' contents are somehow illegal, but because a) it's personal and b) I respect the privacy _of the other people_ mentioned in the chats. And even though I have nothing to hide, it's literally nobody else's business other than mine.
 
 ### The office is a document swamp that we wade through daily
 
@@ -122,6 +132,10 @@ The average office laborer's work is disgustingly zero-value-adding and menial t
 Anyway, what's more important: **local** AI agents can do that better **and** in a way that does not expose private information or other proprietary matters to cloud-AI providers, such as contracts, roadmaps, research, budgets, prices, cost of goods, contracts, names, contact information, etc. All that is information that I do not want ending up in the training set of a fuzzy thing that my business does not control. It's not a different argument to the one for self-hosting to a sensible, instead of paying $5 here, $20 there, $15 there. So many "for just a single coffee per month" that has turned into 10 small-amount invoices per month, the processing of which for accounting purposes costs more than the actual invoice. BTW, cloud providers: bill me $120 or $100 annually, instead of 12 times $10.
 
 Note that I do not assume the vendor is necessarily malicious. I assume that they and their vibecoded infrastructure can get hacked, and will get hacked. It's just a matter of time, at this point. Most importantly, I assume that none of us can really know what they keep, let alone audit whether and how they mitigated a security breach, or what they actually use from what we send them, and how.
+
+> Local isn't zero risk. Weights from China, HuggingFace, Pirate Face, abliterated GGUFs. Supply chain. Prompt injection against your IMAP MCP. A box on the LAN with the company mail. Cloud at least has a vendor to sue.
+
+True, there is no zero. I am trading one risk surface for another I can unplug. "Someone to sue" has not, in my experience, restored a leaked inbox. I still wouldn't put the crown jewels on a toy you found on a random GGUF blog without looking.
 
 A business that uses local AI is not science fiction in 2026. It's entirely feasible. I run [my industrial-equipment trading business](https://isatek.gr) this way. A local model called by an open-source harness connects via [an open-source MCP server](https://github.com/dryas/mail-shadow-mcp) to my [self-hosted IMAP server](https://dovecot.org/) to access emails that get periodically pulled down from Google Workspace, to my own software tools for inventory management, product data management, invoice tracking, etc. using MCP servers that Qwen3.8-27B added, reads data (invoices, pricelists, etc.) from the self-hosted Samba network drive, keeps track of who owes what, what needs to be delivered by when, what awaits pickup at which factory, which offers are expiring, which purchase orders have come in, etc. Everything is in Markdown files, and Qwen3.8-27B even wrote a nice Go application with htmx that shows me that Markdown data as a list or a kanban board.
 
@@ -137,6 +151,10 @@ and already in cahoots with each other, and perhaps one day with captured regula
 Watching people who think that renting the latest fancy trillion-parameter model capacity is the only way to do things argue that future away annoys me to no end. It is disconnected from reality and practical use-cases that could unlock immense savings and human time, and from a reality that's possible already **today** with local AI. What, did you think that you need Claude Magnum 8.7 ultramax and a proprietary closed-source harness geared towards maximum token-burn across five $200 monthly plans to do all of the above? Puh-lease. Get a grip. Touch grass. Curb your enthusiasm. Stop being a willing serf.
 
 ## The long tail is a search box, not a hot rod
+
+> Democratization already happened: the free tier. A billion ChatGPT users *is* Windows 95. Local is the Linux desktop of this wave — righteous, never the default.
+
+That's the strongest version of their story, and I don't dismiss it. Free Chat *is* the mass product. I am arguing for a second machine in the house, the way some people still bought a PC when they also had a phone — not that the phone must die. Linux desktop is the warning: if we never package this, we stay a scene.
 
 In 2026, ChatGPT has supposedly already reached a billion users globally. Talk to non-technical
 people who actually use "Chat" (as they call it), and you will find that many of them are not even on a paid plan.
@@ -163,6 +181,12 @@ Two years ago you needed a 70B-parameter model for that quality, and that model 
 
 Architectural advances, quantization-aware training, better quantization schemes, immense training corpora, distillation of frontier cloud models (totally justified, in my view), new training approaches and finetunes, new and improved inference engines, better harnesses: the technological mine is probably not going to be exhausted anytime soon. What used to be considered "frontier/SOTA" capability keeps getting squeezed into smaller and smaller GGUF files, sometimes with 1M native context window (Nemotron-3.5-Lightning, Spark-X2.6-4B).
 
+> The gap is the product. Qwen3.8-27B is not Opus. For the work I get paid for — ambiguous specs, nasty refactors, "make this production" — the extra quality *is* the ROI. "Does it get the job done" is a slogan until the job is *my* job.
+
+> Frontier plus search plus the harness tool-loop *is* the product. A 27B plus SearXNG is a different animal. Distillation lag is real: six months behind is a long time in this market.
+
+I agree that Opus (or whatever the name is this month) is better at a pile of hard software tasks. I use overflow APIs for some of that. I do not agree that "better at my job" licenses the claim that local is *useless* at anyone else's, or at the other 90% of *my* week. The six-month lag is real; it is also how every previous squeeze into a smaller GGUF looked, the week before it shipped.
+
 When Qwen3.8-27B was released mid-August in 2026, the benchmarks put it next to a cloud frontier model from six months earlier. I never used that cloud model, but I can tell you: it can absolutely get serious software engineering work done. You just have to not be a dumb vibecoder about it. At the same time, Qwen3.8-27B is total overkill for _"search this and tell me what people think"_ and similar use cases.
 
 A 16 GB entry-level GPU that will eventually not cost what it currently costs (call it $450 tops, in a saner market) can already run the 35B MoE class at decent speed and quality. Divide that by $20 a month for a typical ChatGPT entry-level plan and you have paid it back in two years, during and after which you ask the model whatever
@@ -187,6 +211,10 @@ thing as a search engine that can also chat with them.
 
 If you listen only to the Veblen-priced cloud serfs, you will believe that the only way to get _anything_ done is to become the same loud-and-proud serf stuck in a cave that they are. What's worse: the prisoners of the cave are recruiting others by spouting off nonsense about how amazing the cave is. This is a result of a mix of identitarian nonsense, a sense of superiority from paying tribute and showing off how much tribute they are paying (i.e. portraying subscription costs as a proxy of how advanced they are at using AI), and -- perversely -- a conquered status they want everyone else to share. It is laziness? Is it because they are spending their employer's money? Who knows? Statements about local AI being "useless" remain increasingly idiotic.
 
+> You're the identitarian. Dual-5060, Qwen, llama.cpp, "serf," "cave." That's a scene. I pay $200 and ship. One of us is doing politics.
+
+I *am* in a scene. This page is a scene. Paying $200 and shipping is also a scene, with better marketing. The test is not who has a tribe. The test is whether "useless" is true for the work under discussion. Often it isn't. Sometimes, for *your* work, it is — and then you should not buy my BOM.
+
 Imagine the late 1990s with that mindset: a subscription for the privilege of writing a document in Word, Word running an opaque classifier on what you may type and censoring what you can write based on Microsoft's Terms & Conditions, a meter on AltaVista searches... Disgusting. That's not personal computing.
 
 Value creation with AI at planetary scale will not happen because a department of 20 became 2 people burning tokens like there's no tomorrow. It will happen the way the personal-computer boom happened: more people get access to **private AI capacity** that is limited only by what money they feel comfortable spending on their AI hardware, just like in the 1990s we were only limited by how much money we feel comfortable spending on a new PC with the Pentium 133, because the one we had already was none or the 486DX2/33, where (for the younger ones) 133 and 33 denotes MHz of a single-core CPU, i.e. what has now peaked with modern consumer-grade CPUs at around 4.5 GHz and God knows how many cores and threads. And that 33 to 133 MHz jump happened over the span of almost exactly **3 years** (DX2 in 1992, Pentium 133 in 1995). Crazy, right? About as crazy as the jump from ChatGPT-3.5 to Qwen3.8-27B.
@@ -194,6 +222,10 @@ Value creation with AI at planetary scale will not happen because a department o
 **That**, in my view, is where we are right now with local AI models, and latest by the release of Qwen3.8-27B: in the Pentium 133 era-equivalent. Some might even argue that we are even earlier, i.e. at the 286/386 era, where personal computing **really** got started, albeit without the niceties of Windows 95 that brought a PC into every home that could afford it. How can you **not** be excited by what the future may bring? What will the "Ryzen 5 3600/5600"-class (the all-time individual desktop bestseller of the modern era, powerful and affordable, and still in use) local AI model eventually look like?
 
 And how can you not be distrustful of everything and everyone who disparages that timeline, claiming instead that local-AI is useless, because it cannot one-shot a simple videogame, i.e. that 27B parameters of "world knowledge" are not sufficient to have captured and later regurgitate that videogame in functionality and looks?
+
+> Benchmarks aren't only regurgitation. One-shot clones are dumb, agreed. SWE-bench, internal evals, and "it compiled the migration" still correlate with something I feel on Monday morning.
+
+Also fair. I am not anti-eval. I am anti the YouTube clone as a proxy for "can this thing work." If your Monday morning is SWE-bench-shaped, buy the model that wins it — and still don't tell the lasagna people they need it.
 
 ## The trade-offs are real
 
@@ -205,6 +237,10 @@ It's not all roses, and local AI is a different kind of beast than a subscriptio
 - And instead of a pay-as-you-go for tokens, you pay-as-you-go by the kWh.
 
 Fair and square: in terms of cost per token, local AI in 2026 cannot compete, except if you stole the hardware and/or you live in a USA state with very cheap electricity rates, or if you have a photovoltaic installation (which, by itself, is CapEx again, but I digress).
+
+> Wall-clock to *correct* output. 43 tok/s of a weaker model plus your rounds can still lose to a stronger one that needs fewer corrections. I optimize for shipped, not tok/s on a log.
+
+Yes. If Opus saves you three rounds, it can be cheaper in *your* hours even when it is dearer in tokens. That is a real professional calculation. It is not a calculation that says a 9B in the house is worthless.
 
 You pay differently, and you _wait_ differently, and pretending otherwise is how you lose the argument with someone who has a credit card and multiple $200-per-month subscriptions or has been granted a budget for corporate use.
 
@@ -236,6 +272,10 @@ Having two different models co-resident is a hassle; you are fighting VRAM by ha
 
 With cloud AI, you burn tokens, the harness dispatches multiple parallel sub-agents (each without the workers-versus-context-window trade-off that I explained above), you get there faster and you also empty the weekly usage pool faster. Capacity is the vendor's problem. They scale up and down, sometimes they serve you a dumber model version, they give you another subagent session, but you can parallelize work. That is, it remains the vendor's problem until the invoice arrives; then, it becomes your problem. Your operating expenses grow. Fair, if you can afford it.
 
+> The limiter is the dealbreaker for professionals. Five parallel agents, long context, no swap, no prefill tax. That's not a hot rod, that's Tuesday. Dual-box fleets are a second job.
+
+I agree that for that Tuesday, cloud wins on *capacity*. I already said it. I will not pretend a $3k box is a privately owned Anthropic. I will pretend — because it is true — that most Tuesdays in most offices are not that Tuesday.
+
 With local AI, if your job is to code all day and you need that kind of fan-out, you put together a second GPU box and you start building a small fleet, each with its own `llama-swap` server, which is a real barrier for anyone who is not an enthusiast right now. Most people will not put up with the effort needed for the setup and the orchestration, i.e. the cognitive load of knowing which server has capacity to send the next prompt to. That does not make the single-box case fake, it just means that the use case of _"I need 5 parallel subagents to run at full speed and costs be damned, because I have a hard deadline for the next software release"_ is a fundamentally different Job-To-Be-Done / requirement than _"a family or business PC that helps us get the menial work done"_.
 
 ### Having to wait means an opportunity to observe and to think
@@ -261,6 +301,12 @@ that "just works" by spawning sub-agents is the same token-burner with a friendl
 
 ### The user experience is not yet approachable
 
+> Setup *is* the product. llama-swap, KV quant, NVFP4 vs MXFP4, "WTF is Q4_K_M." Windows 95 succeeded because it *was* the package. You're asking the masses to be 1993 Slackware.
+
+> Reliability: my session doesn't die because a driver wedged. Cloud has SLO theater, but "the box in the next room" has disk full, CUDA OOM, and you on a Saturday.
+
+Both right. This is not Windows 95 yet. It is closer to Slackware than I wish. I have been that Saturday. The masses will not do this until someone packages it; I said so. Capability existing is not the same as capability being a product. Cloud's reliability is also a product — until the plan empties on Thursday, or the model is retired, which is a different kind of Saturday.
+
 Setup knowledge is a barrier to entry. `llama-swap`, slot counts, KV cache and its quantization, speculative decoding, parallel slots,
 which quant affords you how much context, etc. We are early in a boom; of course the UX is still
 ugly. It will get easier, no doubt. Enthusiasts will put up with the hassle, but the Windows 95 masses will not, until someone packages it. Some already do that, with nice GUIs that help you easily load models, but in my experience they still expect a lot from the user (_"WTF is Q4\_K\_M?!"_), and the automatic choices they make are not smart enough so that the user can squeeze maximum performance from the hardware. That's fine; the hassle in this phase still does not make the underlying capability of local AI any less impressive.
@@ -271,6 +317,10 @@ The other side of the ledger is how you pay.
 
 A cloud subscription or an OpenRouter invoice is operating expense: pay-as-you-go, or a
 plan that pretends to be a buffet until the weekly pool of tokens is dry. Note that they never show you tokens, they show you credits or a percentage, or money left. This way you cannot calculate price per token.
+
+> I can expense the plan this month. Capex needs a budget owner, depreciation, a place in the rack, and someone who doesn't quit. OpEx is how companies buy.
+
+Correct, in a company that already has a credit card and no one who is allowed to buy a GPU. That is a procurement fact, not a physics fact. Small firms (mine) can buy a box in an afternoon. Large firms will keep renting until an accountant is scared of the duopoly instead of the capex form.
 
 A local box is capital expenditure up front, then electricity, then
 almost nothing when the fans are not spinning, except for the electricity cost of an idle PC (40 to 80 W). One year of a heavy
@@ -362,6 +412,10 @@ might sell the cards into a drought for half, or more, of what you paid. That wo
 | 4 | 62.50 | 146 | 208.50 | 1.82 |
 | 5 | 50.00 | 146 | 196.00 | 1.72 |
 
+> You already conceded $/Mtok. Plans are cheaper still per token than list. You're arguing a different game after losing the one people actually quote.
+
+I did concede it. The 24/7 table is there so nobody can say I hid it. The game people quote is not the game most people *play* — they don't emit 114 million output tokens a month. If you do, and you don't care where they go, pay Grok Build or Flash and don't buy my BOM.
+
 Under this fictitious 100%-decode duty cycle, local is **not**
 cheaper per output token than Grok Build 0.1 at $2/Mtok. It is in
 the same band as the cheap APIs once you have amortized a few years,
@@ -378,14 +432,14 @@ plan is a meter with a smile and an ulterior motive. Plus, it's a bet on an unce
 - Plan prices remain roughly the same, i.e.:
   - the $200/month plan that now affords you X tokens does not enshittify into way less than X tokens, thus forcing you into e.g. a $500 or $1000 per-month plan for the same affordance.
 
-I don't know about you, but I don't like to run my business on hopes and prayers, and since a lot of my operating efficiency now hinges on local-AI agents handling the menial stuff, I wouldn't want its evolution to depend on the whims of the duopoly, any potential regulators, doom-and-gloom BS about a Skynet-like apocalypse, or to not have the ability to launch an abliterated local agent on a penetration test against the software I develop, because daddy Amodei's sycophants might frown in disapproval at "but muh AI safety". The AI-safety cat is out of the bag, for better or for worse. There is no going back. There was never any chance of the cat staying in the bag for that matter. Tools are not dangerous, people with harmful intent are dangerous. Regulating the technology does not miraculously make such people stop and ponder. And yes, this Greek believes that this goes for _any_ tool, my USA friends of your Second Amendment.
+I don't know about you, but I don't like to run my business on hopes and prayers, and since a lot of my operating efficiency now hinges on local-AI agents handling the menial stuff, I wouldn't want its evolution to depend on the whims of the duopoly, any potential regulators, doom-and-gloom BS about a Skynet-like apocalypse, or to not have the ability to launch an abliterated local agent on a penetration test against the software I develop, because a cloud AI vendor's self-appointed "AI wellness and mental-health guardians" might frown in disapproval at "but muh AI safety". The AI-safety cat is out of the bag, for better or for worse. There is no going back. There was never any chance of the cat staying in the bag for that matter. Tools are not dangerous, people with harmful intent are dangerous. Regulating the technology does not miraculously make such people stop and ponder. And yes, this Greek believes that this goes for _any_ tool, my USA friends of your Second Amendment.
 
 Anyway, what the table refuses to capture is the "shape" of the cost. Cloud AI is
 a hose. You want to burn more tokens? Buy more credit, but a bigger plan or more (and maybe bigger) plans. Have at it. OpEx baby, all the way.
 
 ### What the limiter actually is
 
-Local AI is like a speed limiter, or rather a bunch of speed limiters. Here's an average of prompt-processing and token-generation speeds across a selection of the models I mostly run on the dual-5060 box. I've selected only those with hundreds of requests on `llama-swap`:
+Local AI is like a speed limiter, or rather a bunch of speed limiters. Here's an average of prompt-processing and token-generation speeds across a selection of the models I mostly run on the dual-5060 box. I've selected only those with hundreds of requests to that box's `llama-swap` server:
 
 ```sql
 SELECT model_id, CAST(AVG(tokens_per_second) AS INTEGER) AS tps
@@ -432,7 +486,11 @@ For a family or a small office, where you'll typically have max. one chat at a t
 this PDF", "what do the emails say", "summarize the invoices' amounts", "extract the total volume and weight of the shipment", etc., the speed limiter is not that big of a deal, because sessions rarely exceed 64k or even 32k tokens. Turns are usually short too, especially when not using "chronic overthinkers" like Qwen3.8-27B (which will be overkill for chat sessions or agentic workflows), and so requester's turns can be interleaved, with the pending ones waiting. Since each slot has 32k to 64k tokens, even if a lot's KV cache is evicted for an extra request that doesn't fit, re-prefill cost is low, because it's in the high triple digits, so maybe one person waits for one minute now and then for their request to get served. It's unlikely that *everyone* in an office will be hammering the server at the same time.
 
 However, when the box is not generating, the bill falls
-toward idle: on this chassis, on the order of **80 W**, call it a few tens of dollars a month, not $146. Real use, in Open WebUI or Grok Build or whatever harness, is a few minutes of cranking through a few subsequent responses by one person in a flurry, then silence, then repeat. The duty cycle is then low, and includes prefill
+toward idle: on this chassis, on the order of **80 W**, call it a few tens of dollars a month, not $146. Real use, in Open WebUI or Grok Build or whatever harness, is a few minutes of cranking through a few subsequent responses by one person in a flurry, then silence, then repeat. The duty cycle is then low, and includes prefill.
+
+> Duty cycle cuts both ways. If it's "a few minutes," you never generate 114 Mtok, so the API comparison was theater — and idle 80 W is still a PC you wouldn't have left on. My plan's idle cost is $0.
+
+Yes. The 114 Mtok column is an upper bound, not a forecast. Idle watts are a real cost of "always on." I leave the box on because I want it there at 23:00 without a boot lottery. If you don't, you switch it off, and local gets cheaper, and less convenient. Trade-off, not a miracle.
 
 ## The comparison that actually makes sense, for a business
 
@@ -448,6 +506,10 @@ roughly **$65/month** of electricity.
 Remember that are assuming that the dual-GPU rig cost somewhere around $3000. Against €1500 fully-loaded cost of an employee, the rig's cash payback is **about two months**.
 Against $2,500, closer to **six weeks**. After that, you are paying power and the occasional disk. The clerk still sleeps, still forgets, still cannot be audited the way a Markdown trail can. I am not claiming the model *is* a person. I am claiming that for the zero-value-adding alignment of documents, the cost of a local AI agent in a low-wage country breaks even against hiring an employee before the first quarter of the year is over.
 
+> The labor napkin is a category error. The clerk is not replaceable by 8 hours of 500 W generation. Hallucinated PO status, a missed VAT rule, a customer you annoyed. Fully loaded €1500 includes accountability, not tok/s. Two-month payback assumes the model *is* the clerk.
+
+The napkin is a ceiling on *electricity plus amort*, not a firing notice. I still review. I still get the VAT wrong myself. The honest version: for the slice of work that is "read these seven artifacts and tell me where it stands," the box has paid for itself in my firm in months *with me still in the loop*. If you need a human who can be yelled at by a customer, hire the human. Don't use my two-month figure as a layoff spreadsheet.
+
 That is the ISATEK story with extra arithmetic: the dual-5060 box paid for itself against labour in months, not against the spot price of $/Mtok (input and output) on OpenRouter -- and nobody gets access to the company's data either.
 
 ### Subsidized plans' prices are the bait to a switch
@@ -461,11 +523,19 @@ But still: the cat is out of the bag. Practically everything in a business can b
 
 ### The cloud overflow cannot be used for everything
 
+> Chinese APIs already ate your cost argument. DeepSeek/Qwen token plans are the cheap meter *and* better than 27B. Local is then only privacy. Don't sell it as economics.
+
+For the jobs I am willing to send out, yes: those plans beat my box on quality-per-dollar. I said they are excellent. Local's remaining case on those jobs is privacy, predictability, and not getting the model yanked. That is still a case. It is not "always cheaper."
+
 Chinese APIs and token plans (DeepSeek Platform, Qwen Cloud) are excellent value for money. I use them for work I do not mind leaving the building. OpenRouter with a zero-retention claim is the same value-for-money play, as long if you believe that the Zero Data Retention checkbox is leak-tight all the way. Personally, I do not believe it, because there is too much data with valuable information sloshing around a system with too many parties, for this to be tightly controlled always.
 
 That is why those API credits and token plans do not replace my boxes for privacy-sensitive or business-proprietary sessions. It is overflow for the things that don't matter, i.e. for the noise (throwaway software prototypes, code review and cheap refactoring of my open-source Elixir libraries, as two examples). The signal (all the things that provide data for fingerprinting persons, businesses, accounts, prices) remains local. I refuse to tie the horse or my business' "digital agentic AI transformation" (`inception_BWAAM.wav`) to OpenAI or Anthropic's wagon and its uncertain path, whether that path is eventually inexistent or overpriced.
 
 As for the resale value of that pricey GPU rig you may buy or have already bought: in a drought you might get money back; after the next real GPU generation (and who knows when that will come?), an RTX 5060 Ti 16 GB may look quaint and sell for peanuts. Both can be true in sequence.
+
+> You skip resale when it helps the local case, then use used 5060s as the mass-market punchline. Pick one. Next-gen 48 GB at 5060 money is a hope, not a hedge.
+
+I am not putting a resale credit in the amort table on purpose. The used-card story is a *later* market, if the drought breaks. It is a scenario, not a line item. If cards stay scarce, you recoup more and the "peanuts" future is delayed. If they crash, you don't recoup and the masses get cheap 32 GB. I don't know which year. I am not selling you a forecast.
 
 The second half is the mass-market punchline: we have already crossed the line where **32 GB VRAM is more than enough** for the long tail. Heck, even 16 GB is enough. In 2
 or 3 years, when wafer allocation is less deranged, a 5080-class card at 5060-class money with 32 or 48 GB is not a crazy scenario. Thenm the used 5060s and 9060s, or a single aging 5090 32 GB or Radeon AI PRO R9700 32 GB, will become the Windows 95 PC of this story: one card with more than sufficient VRAM for anything from chats to agentic business processes to agentic coding, bought cheap, used short stints, and most importantly: with the open-weights models that are yet to come. You do not need more VRAM than that for that job. You needed it for the hot-rod tuning, but tuning the hot-rod is not the market, but research or a hobby (or X and HuggingFace clout).
@@ -488,6 +558,10 @@ The machine, and what you type into it, is an extension of what you have in your
 
 How did we inch backwards into something this illiberal approach being considered as anything other than despicable? How did we accept that notion of wrong-think from 1984, except the telescreen is now a ToS sheet and a model that is covering the vendor's ass? I do not want a nanny state overhead on anyone's thinking, including boring, legal, and personal/private thinking.
 
+> Classifier friction is the price of a product used by a billion people. One jailbreak in the press and the plan dies. I don't want your Word 95 analogy; I want the bank to still offer the API next year.
+
+That's their job. I am not a bank. I am not obligated to accept a nanny on *my* hardware so that *their* billion-user product stays insurable. Different products, different threat models. If you are the bank, classify. If you are me, don't pretend my PC is the bank.
+
 ## Why people stay in the cave
 
 I keep meeting people and reading posts by people who still think that the only way to use AI is the latest cloud model at an immense monthly cost, even for work that last
@@ -502,6 +576,14 @@ For one, some people attach their identity (or some parts of it) as being patron
 These people do not _need_ the thing. They just _want_ the thing. In fact, the brand _is_ the largest part of the product, and the product's price/performance ratio or its risks (vendor lock-in, price hikes, rug-pulling, bait-and-switch, privacy erosion) are less relevant than the fact that it's the "safe bet". It's what the herd uses, and there's safety in being in the herd that makes the "safe bet", especially if someone else is paying for that bet, like your employer giving you a Claude Code or Codex subscription as a job perk (it's a fucking tool, and you're a tool for considering a tool to be a perk), and you totally buy into this shiny toy without looking at the wider space of AI, and of local AI in particular, because hey, you are not the one carrying the business risk or the cost.
 
 ### Nobody was ever fired for hiring the incumbent
+
+> Nobody gets fired for Anthropic. If the local box hallucinates a delivery date, *I* get fired. Safe bet is fiduciary, not Veblen.
+
+Sometimes it is fiduciary. Sometimes it is "I like being in the herd" with a fiduciary costume. If your personal downside is a hallucinated date and no review process, you should not run unattended local agents on customer promises — and you should not run unattended *cloud* agents on them either. The safe bet that nobody reviews is not safe.
+
+> Talent market: candidates ask "do you have Claude Code?" The perk *is* the tool. Refusing it is a hiring tax.
+
+Also real, in a certain hiring pool. I don't recruit that pool. If you do, pay the tax or offer both. I will not pretend local is a campus recruiting strategy in 2026.
 
 Corporates, often treated as the peak of efficiency vs. e.g. the much-derided (and justifiably so) public sector, are in reality also trapped in spending other people's money (the shareholders', their owners', their employees' otherwise-feasible salary bumps) on other people (must-have initiatives and rituals, expensive toys, latest fads, and so-called safe bets). And of course, the average executive prefers going with the "obvious" and "safe" overpriced solution because otherwise they look like laggards, or like they are rocking the boat. The larger an organization grows, the more it rewards conformity, which is another word for mediocrity over the long run.
 
@@ -544,11 +626,15 @@ There is a segment being talked out of local AI because "it doesn't do anything 
 
 People are already rebuilding popular tools with models they run themselves. You cannot put the genie back. There are abliterated models, uncensored models, models that will answer in ways a corporate safety deck would call politically incorrect. **The cat is out of the bag. Deal with it.**
 
+> Open weights *are* a dual-use problem. You say tools aren't dangerous, people are. Labs and governments don't buy that for bio/cyber. "Cat out of the bag" is a description, not a permission structure they have to accept.
+
+It's a description. I am not a regulator and this page is not a treaty. I think banning weights after they exist is theater. I think people with harmful intent were not waiting for Qwen. I also think "therefore ship every weight with no care" is not an argument I need to make, because the weights are already out. Policy people can fight that fight. I am talking about whether *you* need to rent a mind to file an invoice.
+
 A few entrenched companies are attempting regulatory capture, and trying to claim the next productivity step as theirs and theirs only, allegedly as the only path in which menial work can be whittled away, so that people can focus on more important things that what a 9B model on a 12 GB GPU can already do. 
 
 They dress the grab as safety, as national security, as "open weights are dangerous," as "DeepSeek distilled us," as "Alibaba did this and that". Fundraising gets sketchier as the return story gets harder. They talk as if they have already lost the technical argument and are playing the regulatory one. You can ban whatever you want. I have enough GPUs, and some gamers are selling their older RTX and RX units online. The weights are downloaded and backed up across three disks. Stop releasing models, ban GPU sales, ban Chinese and/or open-weights models, do whatever you think will protect your IPO. Nothing you do can stop what began with the leak of the first llama model's weights, was solidified into a better trajectory for everyone thanks to Georgi Gerganov and his llama.cpp, and is now continuing with [Pirate Face](https://pirateface.co/). Latest by August 14th 2026, Qwen3.8-27B sounded once again the bell that had already sounded with DeepSeek-R1, with Qwen3.6 and even Qwen3.5 before it. *"Therefore, send not to know for whom the bell tols, it tolls for thee."*
 
-Most of the good open weights are coming from China, not because Chinese companies are doing it out of the kindness of their corporate heart, but because China is playing _exactly_ to the weakness the American incumbents are displaying. Anyone who already owns compute, or is willing to buy a single 12 GB or 16 GB card second-hand, already has the means to cover basic and beyond-basic use cases without _ever_ paying a single subscription cent to a duopoly that displays psychotic and psychopathic behavior.
+Most of the good open weights are coming from China, not because Chinese companies are doing it out of the kindness of their corporate heart, but because China is playing _exactly_ to the weakness the American incumbents are displaying. Anyone who already owns compute, or is willing to buy a single 12 GB or 16 GB card second-hand, already has the means to cover basic and beyond-basic use cases without _ever_ paying a single subscription cent.
 
 Gaming is still a huge industry even while wafer capacity leans toward HBM. I cannot picture a future where consumer GPUs stay permanently out of reach. The drought is a detour. When it ends, a 64 GB card will look like the 8 GB flagship did, and the people who spent those years insisting you had to rent a "digital mind" from a feudal lord will have been selling a delay.
 
@@ -557,6 +643,10 @@ The moral hazard is the fanboy who paid for the fanciest model telling the rest 
 And don't forget that ultimately we are all in someone's Cave, such as NVIDIA's or AMD's. Or, ultimately, ASML's. That's the way the cookie crumbles.
 
 ## A tool is only half the story
+
+> You need the operator to be you. The competence chapter admits the 27B only works with an engineer in the driver's seat. The long-tail user is *exactly* the meat proxy. Cloud quality plus a chatty harness is how you productize around incompetence. If that's ugly, it's also why the cave fills up.
+
+This is the one that actually lands. I agree. Local, today, is a bad product for people who will not own the problem. Cloud is a better *product* for meat proxies — that's the business model. I am not going to win those users with a manifesto, and I shouldn't try. The piece is for people who might own the problem if they knew they were allowed to, and for people who already do and were told they were wasting their time. The cave fills up because incompetence is the default and vendors sell around it. I would rather not build a civilization on that default. That is a preference, not a forecast that everyone will share it.
 
 Cloud versus local is the easy argument. Competence is the one people skip. Give someone the best power tool in the shop: they still have to know how to use it. A trillion-parameter frontier model and a 35-billion Mixture of Experts on your desk fail the same way if you do not know how to steer it.
 
@@ -575,7 +665,7 @@ suite. Their way of using it? No need to understand the engineering problem--jus
 left their team.
 
 What worked was the boring version: me in the loop, low-fidelity parametric design and exploration first, kill bad regions of the design space, spend the
-expensive hours only on what deserved them. I got faster *and* smarter, because I had to wait, yes, but not 18 hours behind trial-and-error runs. I had to parametrize the geometry, analyze the data (with Machine Learning, even), understand the trade-offs, prepare the next batch of experiments. The fully automated path turned a trained engineer into a machine operator. The "local" approach enabled a newly-minted turbine development engineer to design nigh-optimal turbine designs in record time, **and** to become a better engineer. I wrote the long version of that parallel in [Vibe coding leaves me with a very sour taste](https://overbring.com/blog/2025-08-16-vibe-coding-sour-taste/).
+expensive hours only on what deserved them. I got faster *and* smarter, because I had to wait, yes, but not 18 hours behind trial-and-error runs. I had to parametrize the geometry, analyze the data (with Machine Learning, even), understand the trade-offs, prepare the next batch of experiments. The fully automated path turned a trained engineer into a machine operator. The "local" approach enabled a newly-minted turbine development engineer to design nigh-optimal turbine designs in record time, **and** to become a better engineer. I wrote the long version of that parallel in ["Vibe coding leaves me with a very sour taste"](https://overbring.com/blog/2025-08-16-vibe-coding-sour-taste/).
 The punchline has not aged: *spend more tokens, you peasants* is the
 same joke as *calculate more, you peasants*. I am still against vibecoding, but not against using agents for proper software _engineering_ and development.
 
@@ -636,6 +726,8 @@ Read the reasoning traces, whether it's Qwen3.8-27B or a DeepSeek V4.1 Flash 101
 
 Whether we let a couple of companies seize the next productivity
 step is a civilizational question, and my bet is on the small ones, like mine, and of course I'm biased.
+
+Local AI is not for everyone today. It may never be "for everyone" in the sense Windows 95 was, because the UX is not there, the limiter is real, and a lot of people want a genie more than a collaborator. I am not writing this so that they feel guilty. I am writing it so that the rest of us are not gaslit into renting a mind for work a 9B could do in the next room.
 
 The frontier-model fanboys who have tried local AI mostly deride it
 as too slow, or not smart enough. What I have figured out after
