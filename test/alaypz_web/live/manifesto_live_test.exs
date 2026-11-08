@@ -13,7 +13,7 @@ defmodule AlaypzWeb.ManifestoLiveTest do
     assert has_element?(view, ".history-prose a[href=\"https://overbring.com/books/cave/\"]")
     # The byline: the operator's name (linked) and the publication date.
     assert has_element?(view, "a[href=\"https://overbring.com/about/\"]", "Isaak Tsalicoglou")
-    assert has_element?(view, "#case-byline", "2026-11-08")
+    assert has_element?(view, "#case-byline", "2026-11-09")
   end
 
   test "the full page carries the footer link to the case", %{conn: conn} do
