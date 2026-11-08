@@ -15,8 +15,17 @@ operator.
 
 A little over thirty years ago personal computing had a big-bang
 moment: Windows 95. Within months — a year, pretty much — homes in
-the advanced economies had a computer running it. That
-democratization of *personal* compute shaped the world we live in.
+the advanced economies had a computer running it. Word processing.
+Spreadsheets. Games. A 28.8k US Robotics Sportster, AltaVista,
+Lycos, homework in Word, a kid looking up Lord of the Rings. That
+is what changed the world. Microsoft did not get there by catering
+only to people already on Windows NT. They brought up the masses
+who were on Windows 3.1, or DOS, or nothing. The people who work
+with their hands still needed an invoice and a search box; they got
+a PC too, and later a phone that is a locked-down impersonation of
+one. Knowing how to operate a Windows machine became commonsensical
+in the advanced economies. That is democratization. It is not John
+the Nerd rewriting something in Rust on four concurrent sessions.
 
 Since then the world of personal computing has *regressed*.
 Operating systems that snoop on you. Vendors who handicap their own
@@ -120,6 +129,70 @@ and small companies keeping the gains, instead of renting them back
 from a handful of firms that are already not particularly profitable
 and already in cahoots with captured regulators. Watching people
 argue that future away is annoying.
+
+## The long tail is a search box, not a hot rod
+
+ChatGPT is supposedly at a billion users. Talk to non-technical
+people who actually use it. Most of them are not on a paid plan.
+They hit a daily allowance and fall back to whatever free Gemini
+Flash-lite Google will still serve them. Ask what they type. Find
+me this. Discuss this. Check this online. What do you think.
+Formulate an email. Look at my spreadsheet. Tell me what people are
+saying about this product. A recipe. Homework. That is a more
+informed, chatty web search. It is AltaVista with a conversation,
+not a frontier lab.
+
+Pretty much none of that needs a trillion-parameter model. A lot of
+it was already inside a model from April of the Qwen 3.6-35B-A3B
+class, which is also insanely fast. A lot of it is inside a 9B.
+Some of it is inside a 4B — Spark X2.6-4B and friends. Two years
+ago you wanted 70B for that quality. Architecture, distillation,
+training, inference engines, harnesses, fine-tunes: the mine is not
+exhausted. Capability keeps getting squeezed into smaller boxes.
+Qwen 3.8-27B, when it dropped, sat next to a cloud frontier model
+from six months earlier and will do serious software engineering.
+It is total overkill for "search this and tell me what people
+think."
+
+A 16 GB card that should not cost what it currently costs, call it
+five hundred euros in a saner market, already runs the 35B Mixture
+of Experts class. Divide five hundred by twenty euros a month and
+you have paid it back in two years, after which you ask it whatever
+you want and nobody is snooping. A Mac with 16 GB of unified memory
+runs a 9B and gets the basic stuff done. Slower than the cloud tab.
+Not four sessions in parallel. For a usage spike you either invest
+in a second box or you buy overflow credits. You do not need to
+swear fealty for a recipe.
+
+The danger is that we are inundated with hot takes from people who
+feel they need DeepSeek-class weights on a stack of DGX Sparks at
+Q8, because they are building hot rods. That is their prerogative.
+Tuning a very expensive rack instead of getting work done is a
+hobby. We are in early adoption. Crossing the chasm means noticing
+that the vast majority of chats a normal person has with ChatGPT
+sit well below even a 9B. The enthusiasts and the fanboys take
+*their* use case — agentic coding, a million tokens, sub-agents,
+refactoring a codebase, cutting-edge maths — and declare local AI
+useless because a sensibly priced box cannot match cloud compute
+laxity. True, as a trade-off, for *that* use case. They are not the
+majority of humans. They might be the majority of *spend* right
+now. The long tail is not building Rust. The long tail is people
+using Gemini Flash or ChatGPT for free, living with "you're doing
+this too much, come back later," asking basic things, using the
+thing as a search engine that can also consult them.
+
+If you listen only to the Veblen serfs, you will believe the only
+way to get anything done is to become a serf like they are. The
+prisoners of the cave are recruiting. Identitarian, a sense of
+superiority from paying tribute, a conquered status they want
+everyone else to share. Imagine 1995 with that mindset: a
+subscription for Word, a classifier on what you may type, a meter
+on AltaVista. Disgusting, and some of the same mouths talk about
+democratizing global value creation through AI. Value creation at
+planetary scale will not happen because a department of twenty
+became two people burning tokens. It will happen the way PCs
+happened: more people get access, including the ones who still work
+with their hands and still have to issue an invoice.
 
 ## The trade-offs are real
 
@@ -277,13 +350,39 @@ the trade-off yourself.
 The rental shift is not new. Dropbox if you wanted to share files.
 OneDrive hijacking the PC until it stopped feeling like *your*
 computer. App stores. Ripping CDs into MP3 and FLAC, then Spotify.
-Office as a subscription. Someone always limits how much you can
-use, for how long, at which cost. There are usually good-enough
-alternatives. People are already rebuilding popular tools with
-models they run themselves. You cannot put the genie back. There are
-abliterated models, uncensored models, models that will answer in
-ways a corporate safety deck would call incorrect. **The cat is out
-of the bag. Deal with it.**
+Office as a subscription. Microsoft wants a tribute, Spotify wants
+a tribute, Apple wants a tribute, Google wants a tribute. Sum the
+monthly privileges of doing basic things you could do on a disk you
+own, and ask whether you are better off. I have been on this
+argument for years, for ordinary infrastructure, not just models:
+[boring IT](https://overbring.com/blog/2020-01-08-boring-it-infrastructure-great/),
+[make-or-buy / autarky](https://overbring.com/blog/2023-12-21-autarky-out-of-fashion/),
+[digital serfdom](https://overbring.com/blog/2020-01-24-microsoft-pihole/),
+[File Browser instead of Dropbox](https://overbring.com/books/elixir-file-browsing/).
+Self-hosting is a hassle sometimes. The vast majority of people
+will not do it, and that is all right. The people who call
+themselves web-scale while they have three users and more
+microservices than customers, who need Kubernetes to auto-scale a
+crappy startup, who tell you a Proxmox box is a full-time job: my
+first Proxmox VE server went up in 2021 and has sat there for five
+years without requiring a maintenance drama. [Boring is the
+point](https://overbring.com/blog/2020-01-08-boring-it-infrastructure-great/).
+Everything that is not turnkey becomes, in their telling,
+impossible. That is how you keep people paying a stack of despots.
+
+There is a segment being talked out of local AI because "it doesn't
+do anything well" — which is false for the work they actually type.
+There is a technical segment being brainwashed the way they were
+brainwashed about AWS, microservices, MongoDB, Elastic: step away
+from value creation, from saving money, from sovereignty, in a
+world drowning in open-source software that is now *easier* to
+build because of the same models. Madness.
+
+People are already rebuilding popular tools with models they run
+themselves. You cannot put the genie back. There are abliterated
+models, uncensored models, models that will answer in ways a
+corporate safety deck would call incorrect. **The cat is out of the
+bag. Deal with it.**
 
 A few entrenched companies, with captured regulators, are trying to
 claim the next productivity step as theirs. They dress the grab as
