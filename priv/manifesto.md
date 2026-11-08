@@ -11,6 +11,8 @@ it, and whether you use it as a sovereign collaborator, or as a machine operator
 
 This is not a claim that local AI, today, is for everyone. It is not a claim that it ever will be, or should be. Plenty of people will — and should — keep a cloud tab. What I refuse is the *other* universal: that the only serious way to use any of this is a frontier subscription, and that a box you own is a toy.
 
+You don't invest in local AI hardware and put in the effort to make it work because it's cheaper. That much is clear. There are other arguments for local AI, and some legitimate arguments against it. In the debate between cloud AI and local AI, there is no one answer that fits everyone, because not everyone asks the same questions, anyway.
+
 ## The Windows 95 moment is already here
 
 A little over thirty years ago personal computing had a big-bang
