@@ -48,6 +48,19 @@ defmodule AlaypzWeb.LobbyLiveTest do
              render_click(element(view, "#start-button"))
   end
 
+  test "the hero carries the experiment title and the two prose buttons", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/")
+
+    assert has_element?(view, "#lobby-hero h1", "A local AI experiment with Qwen3.8-27B")
+    assert has_element?(view, "#lobby-hero a[href=\"/why\"]", "Why does this exist?")
+
+    assert has_element?(
+             view,
+             "#lobby-hero a[href=\"/the-case-for-and-against-local-ai\"]",
+             "The case for and against local AI"
+           )
+  end
+
   test "a fresh lobby shows the empty states", %{conn: conn} do
     {:ok, view, _html} = live(conn, "/")
 

@@ -1,5 +1,26 @@
 <Layouts.app flash={@flash}>
   <div class="mx-auto max-w-6xl px-4 py-8">
+    <%!-- hero: the experiment title + the two prose pages --%>
+    <div id="lobby-hero" class="mb-8">
+      <h1 class="text-center text-3xl font-black tracking-tight sm:text-4xl">
+        A local AI experiment with Qwen3.8-27B
+      </h1>
+      <div class="mt-6 grid gap-3 sm:grid-cols-2">
+        <.link
+          navigate="/why"
+          class="rounded-xl border border-base-300/80 bg-base-200/40 px-5 py-3 text-center font-semibold transition hover:border-cyan-400/60 hover:text-cyan-500"
+        >
+          Why does this exist?
+        </.link>
+        <.link
+          navigate="/the-case-for-and-against-local-ai"
+          class="rounded-xl bg-cyan-400 px-5 py-3 text-center font-semibold text-cyan-950 shadow-lg shadow-cyan-500/30 transition hover:bg-cyan-300"
+        >
+          The case for and against local AI
+        </.link>
+      </div>
+    </div>
+
     <%!-- name form + one-time access string; the Play button goes to /play --%>
     <.identity_form
       form={@form}

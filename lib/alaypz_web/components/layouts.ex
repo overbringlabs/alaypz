@@ -88,19 +88,19 @@ defmodule AlaypzWeb.Layouts do
           />
         </a>
         <p class="text-xs leading-relaxed text-base-content/50">
-          a local AI experiment — built with Qwen 3.8-27B on local hardware ·
+          a local-AI experiment — built with Qwen3.8-27B ·
           <a
-            href="/history"
+            href="/why"
             class="underline decoration-base-300 underline-offset-2 transition hover:text-cyan-500"
           >
-            how it was built
+            Why does this exist?
           </a>
           ·
           <a
-            href="/manifesto"
+            href="/the-case-for-and-against-local-ai"
             class="underline decoration-base-300 underline-offset-2 transition hover:text-cyan-500"
           >
-            manifesto
+            The case for and against local AI
           </a>
         </p>
       </div>

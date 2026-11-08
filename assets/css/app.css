@@ -304,7 +304,7 @@ body {
   }
 }
 
-/* ── /history: the markdown body ────────────────────────────────────
+/* ── /why + /the-case-for-and-against-local-ai: the markdown body ─────
    Theme-safe: only currentColor-derived tints + the cyan accent, so it
    reads on both the light and the dark base. */
 .history-prose h1 {

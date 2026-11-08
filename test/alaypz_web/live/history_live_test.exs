@@ -3,10 +3,10 @@ defmodule AlaypzWeb.HistoryLiveTest do
 
   import Phoenix.LiveViewTest
 
-  test "renders the development history from the markdown", %{conn: conn} do
-    {:ok, view, _html} = live(conn, "/history")
+  test "renders why this exists from the markdown", %{conn: conn} do
+    {:ok, view, _html} = live(conn, "/why")
 
-    assert has_element?(view, "#history-title", "Development history")
+    assert has_element?(view, "#why-title", "Why does this exist?")
     refute has_element?(view, ".history-prose h1")
     assert has_element?(view, ".history-prose", "Qwen 3.8-27B")
 
@@ -15,7 +15,7 @@ defmodule AlaypzWeb.HistoryLiveTest do
   end
 
   test "the full page carries the Overbring footer", %{conn: conn} do
-    conn = get(conn, "/history")
+    conn = get(conn, "/why")
 
     assert conn.status == 200
     assert conn.resp_body =~ "https://overbring.com"

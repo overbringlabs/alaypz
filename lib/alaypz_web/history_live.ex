@@ -1,6 +1,6 @@
 defmodule AlaypzWeb.HistoryLive do
   @moduledoc """
-  `/history`: the development chronicle.
+  `/why`: why this exists — the rebuttal, and how this one was built.
 
   A dead view on purpose — one static render, no events, no updates.
   The content is `priv/history.md`, parsed by :mdex and styled by

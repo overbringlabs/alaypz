@@ -13,6 +13,7 @@ released: priv/manifesto.md  (enrich: trade-offs, buy-vs-rent, nanny/classifier,
 released: priv/history.md  test/alaypz_web/live/manifesto_live_test.exs  test/alaypz_web/live/history_live_test.exs  knowledge/lean-agent-flow/PROGRESS.md  (MECE rewrite + duplicate H1 fix)
 
 ## agent: main   since: 2026-11-06
+released: lib/alaypz_web/  priv/  test/alaypz_web/  assets/css/  (prose pages repointed to /why + /the-case-for-and-against-local-ai; lobby hero + two buttons; case byline + GPU hero image; footer copy)
 released: priv/  lib/alaypz_web/  test/alaypz_web/  (/history final text — motivation write-up, placeholder gone — and /manifesto: the local AI manifesto dead view, cave book + footer links)
 released: assets/css/  lib/alaypz_web/components/  lib/alaypz_web/live/  (base font size 16→17px root via the central knob; px-literal micro-labels → rem so they scale)
 released: assets/css/  priv/static/fonts/  (font swap: Fredoka replaces Arsenal as the UI face — variable 300–700, 2 vendored faces)

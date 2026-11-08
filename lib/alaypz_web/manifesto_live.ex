@@ -1,6 +1,6 @@
 defmodule AlaypzWeb.ManifestoLive do
   @moduledoc """
-  `/manifesto`: the local AI manifesto.
+  `/the-case-for-and-against-local-ai`: the local AI manifesto.
 
   A dead view on purpose — one static render, no events, no updates.
   The content is `priv/manifesto.md`, parsed by :mdex and styled by
