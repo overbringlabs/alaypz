@@ -7,9 +7,9 @@ defmodule AlaypzWeb.ManifestoLiveTest do
     {:ok, view, _html} = live(conn, "/manifesto")
 
     assert has_element?(view, "#manifesto-title", "Manifesto for local AI")
+    refute has_element?(view, ".history-prose h1")
     assert has_element?(view, ".history-prose", "cat is out of the bag")
     assert has_element?(view, ".history-prose", "driver's seat")
-    # The book link the rant points at.
     assert has_element?(view, ".history-prose a[href=\"https://overbring.com/books/cave/\"]")
   end
 

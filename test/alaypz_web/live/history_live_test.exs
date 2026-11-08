@@ -7,6 +7,7 @@ defmodule AlaypzWeb.HistoryLiveTest do
     {:ok, view, _html} = live(conn, "/history")
 
     assert has_element?(view, "#history-title", "Development history")
+    refute has_element?(view, ".history-prose h1")
     assert has_element?(view, ".history-prose", "Qwen 3.8-27B")
 
     # The footer is layout chrome, outside the LiveView subtree the

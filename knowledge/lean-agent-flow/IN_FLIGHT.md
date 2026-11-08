@@ -7,6 +7,9 @@ step commits. A claim older than ~15 minutes with no matching fresh write is
 stale and may be treated as released; whoever notices deletes the stale line.
 Edit only your own block; never another agent's.
 
+## agent: grok-4.6   since: 2026-11-08
+released: priv/manifesto.md  priv/history.md  test/alaypz_web/live/manifesto_live_test.exs  test/alaypz_web/live/history_live_test.exs  knowledge/lean-agent-flow/PROGRESS.md  (MECE rewrite + duplicate H1 fix)
+
 ## agent: main   since: 2026-11-06
 released: priv/  lib/alaypz_web/  test/alaypz_web/  (/history final text — motivation write-up, placeholder gone — and /manifesto: the local AI manifesto dead view, cave book + footer links)
 released: assets/css/  lib/alaypz_web/components/  lib/alaypz_web/live/  (base font size 16→17px root via the central knob; px-literal micro-labels → rem so they scale)

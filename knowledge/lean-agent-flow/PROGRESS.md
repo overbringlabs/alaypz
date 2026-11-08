@@ -11,9 +11,11 @@ get here".
 
 ## In flight
 
-- none — UI round 2 (a–i) committed in 4 steps (2026-11-06); `mix precommit` green.
+- none.
 
 ## Last completed
+
+- 2026-11-08 — **Manifesto vs history MECE rewrite**: `/manifesto` is the value foundation (Windows 95 moment, personal AI, cave mechanisms, competence/engineering); `/history` is this build (rebuttal, timeline, hard parts, stack). Duplicate H1s gone (md no longer opens with the page title; tests `refute` `.history-prose h1`). One-way pointers only. `mix precommit` 89 green; live `/manifesto` and `/history` each have a single `h1`.
 
 - 2026-11-06 — **UI round 2 (operator asks a–i; `plans/20261106_ui_round2.md`) — plan complete**: theme-aware design system (daisy base classes; both themes usable; wordmark **EXTROMINO**, title "Extromino"; single key legend; claim-row alignment; zero monospace) · replay recording (`scores.seed`/`scores.replay`, `Game.apply/2`, tick-stamped inputs, `Alaypz.Replay` — a real top-out replays to exactly its persisted board) · score cards + right-side session drawer (leaderboard + lobby top-5 score-desc; player page non-clickable) + `/replay/:id` at 1x/2x/5x/10x (not-found / unrecorded states) · responsive 320×568 clean (390/1440 too) + polish (clickable cards are `<button>`s — Enter/Space open the drawer; focus-visible rings; neon hover glow). Real bug caught: `decode_board` minted atoms from stored data — a BEAM that never loaded `Pieces` 500'd on `binary_to_existing_atom("o")` → whitelist map. 77 tests, zero console errors, both themes. Commits: `a02c50a` (theme), `46bc494` (recording), `769fcf8` (cards/drawer/replay), `b8b563d` (polish).
 

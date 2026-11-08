@@ -1,43 +1,29 @@
-# How this was built
+Alaypz is a complete web product — deterministic engine,
+server-authoritative game processes, identity, leaderboards, replays,
+a mobile-first interface — developed end-to-end with **Qwen 3.8-27B
+running on local hardware**, one operator round at a time.
 
-Alaypz is a local AI experiment: a complete web product — deterministic
-engine, server-authoritative game processes, identity, leaderboards,
-replays, a mobile-first interface — developed end-to-end with **Qwen
-3.8-27B running on local hardware**, one operator round at a time.
-
-## Why
-
-People who have spent the past year and a half using cloud frontier models
-exclusively have a badly distorted picture of what local models can do
-now — Plato's cave, mistaking shadows for the world. And the usual way of
-settling the argument — "build me a clone of that popular game" in one
-underspecified prompt — does not measure coding ability at all: it
-measures how much of the training data you are paying to get
-regurgitated, with the operator reduced to a meat proxy.
-
-The real value of a local model is an experienced collaborator, with the
-operator in the driver's seat: requirements, specification, architecture,
-many rounds. In this codebase the game matters less than the system
-around it — the lobby, the leaderboard, live-spectating any user's game,
-replaying any game. That is where the model's architectural judgment gets
-evaluated.
-
-This was built as a rebuttal: someone on LinkedIn claimed that Qwen
-3.8-27B cannot code. Since May (Qwen 3.6), and since August with Qwen
-3.8, multiple codebases have been developed this way — the operator in
-the driver's seat, not hoping the model reads their mind. If you want to
-understand the stakes behind that, read
-[The Cave](https://overbring.com/books/cave/); if you want the
-unfiltered version of this section, [read the manifesto](/manifesto).
+Someone on LinkedIn said that model cannot code. This product is the
+rebuttal. The stakes of that argument — why local inference has to
+win, and what competence has to do with it — are on the
+[manifesto](/manifesto). This page is how this one was built.
 
 ## The concept
 
-A neon block-stacker with a deliberately tight product surface: play your
-own tower, watch every other game live, keep the history. The working
-method is the point — the operator sends a screenshot or a one-line
-complaint, and the next version is running in the browser moments later.
-The invariant every round must leave green: the full test suite, plus a
-real-browser size matrix from 387 to 1440 px.
+A neon block-stacker with a deliberately tight product surface: play
+your own tower, watch every other game live, keep the history. The
+working method is the point. The operator sends a screenshot or a
+one-line complaint, and the next version is running in the browser
+moments later. The invariant every round must leave green: the full
+test suite, plus a real-browser size matrix from 387 to 1440 px.
+
+The game itself is the smaller half of the product. Lobby,
+leaderboard, live-spectating any user's game, replaying any game —
+that is where architectural judgment gets evaluated. Phoenix
+LiveView, WebSockets, PubSub, a GenServer per game, a pure engine
+shared with the replays. I did not write the code by hand. I sat in
+the driver's seat: requirements, a plan, rounds, review. The model
+did the typing.
 
 ## Timeline (from the session logs)
 
