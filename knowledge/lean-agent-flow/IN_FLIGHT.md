@@ -8,7 +8,7 @@ stale and may be treated as released; whoever notices deletes the stale line.
 Edit only your own block; never another agent's.
 
 ## agent: grok-4.6   since: 2026-11-08
-released: priv/manifesto.md  (deslopify pass, keep voice)
+released: priv/manifesto.md  (enrich: trade-offs, buy-vs-rent, nanny/classifier, deliberate use)
 released: priv/history.md  test/alaypz_web/live/manifesto_live_test.exs  test/alaypz_web/live/history_live_test.exs  knowledge/lean-agent-flow/PROGRESS.md  (MECE rewrite + duplicate H1 fix)
 
 ## agent: main   since: 2026-11-06

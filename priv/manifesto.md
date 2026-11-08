@@ -31,33 +31,50 @@ was not a metaphor.
 We are at the next such moment because the *capability* crossed a
 line, not because a 5090 magically appeared on every desk.
 
-Hardware for this is not great, and it is also not disastrous. A
-single 12 GB or 16 GB card, or two of them, already runs work that
-people currently pay twenty, fifty, a hundred, two hundred dollars a
-month to get from a vendor — plus the tribute of whatever they
-typed. Open weights in the 27-billion-parameter class, and
-Mixture-of-Experts models in the 35-billion class with a handful of
-billions active per token, do real work on that hardware today.
-Fine-tunes of those families do too. I have been building with them
-since the spring, on budget cards, on machines that answer only to
-me.
+Hardware for this is not great, and it is also not disastrous. As of
+late 2026, if you are not sitting on 64-plus gigabytes of expensive
+DDR5, a gut reading of cost versus what you can actually run puts
+**32 GB of VRAM** as the sweet spot, and **16 GB** as the floor that
+already does real work. A single 12 GB or 16 GB card, or two of
+them, already runs work that people currently pay twenty, fifty, a
+hundred, two hundred dollars a month to get from a vendor — plus the
+tribute of whatever they typed.
 
-That is enough of an existence proof. The next open-weights
-generation — whatever it is called; people are already claiming
-another breakthrough — will move the line again. A less miserable
-user experience around standing a machine up will move it. So will
-the eventual downward correction in RAM and GPU prices. Waiting for
-the perfect box is opportunity cost. In a year or two it will be
-cheaper again to buy the hardware. It is already cheap enough to
-start.
+Right now, until the next open-weights jump lands (people are
+already talking about Qwen 4 as if it were Christmas), the dense
+model I keep coming back to on that hardware is **Qwen 3.8-27B**.
+When I want speed more than that last notch of thoroughness, I reach
+for **Ornith 1.5-35B-A3B**, a Mixture-of-Experts that spends a
+handful of billions of parameters per token. Fine-tunes of those
+families do real work too. I have been building with them since the
+spring, on budget cards, on machines that answer only to me. I
+bought a 4070 Super and a 4060 Ti in 2024 and 2025, sat on them
+because I had no use case, then put them on one machine. Twenty-eight
+gigabytes of VRAM. The silicon did not get smarter. The *models* did.
+Capability of the cards stayed put; capability of what they can run
+is in a different league from a year ago. That is what an
+appreciating asset looks like when the software side is moving.
+
+Eight gigabytes of VRAM is the new four. Fine for embeddings,
+reranking, a small chat. Practically useless for serious agentic
+work. My ThinkPad W520 from 2012 already had 32 GB of DDR3. There is
+no physical law that says a PC in 2026 should be cost-capped at 16
+or 32 GB of anything. Wafer capacity got yanked toward HBM for the
+data-center boom, consumer DRAM and GPU memory went into a drought,
+and the path bifurcated. That drought will not last forever. Two
+years, three, five — ten is a joke, you cannot predict a year —
+consumer machines will have 64 GB on a GPU the way 8 GB used to be
+the flagship, and hundreds of gigabytes of system RAM will stop
+being a data-center punchline. When prices and capacity resume
+something like normal behaviour, the question is whether we already
+handed the capability to a handful of landlords.
 
 I want ordinary speech to sound like *"we have local AI at home"*,
-the way people once said *"we have a Windows 95 PC at home"*, and
-not like "I have a Claude subscription." Inference capacity you own.
-Personal AI, as commonplace among people who can afford it and want
-it as personal computing became in the nineties.
-
-The more people stay in the cave, the longer that sentence is delayed.
+the way people once said *"we have a Windows 95 PC at home."*
+Inference capacity you own. Personal AI, as commonplace among people
+who can afford it and want it as personal computing became in the
+nineties. The more people stay in the cave, the longer that sentence
+is delayed.
 
 ## What that actually enables
 
@@ -66,31 +83,127 @@ interesting version is a machine that does work you would otherwise
 do yourself, or pay a stranger's computer to do, without the
 stranger.
 
-For a private person that means bank statements and reminders,
-integration with the phone, keeping track of things, the smart home,
-a tutor that will sit with you on a subject and never ship the
-question to a vendor's training set. Asking something of a personal
-nature — health, money, a family mess — without it becoming someone
-else's dataset. Reconciling the mess of notes and emails that is a
-life.
+For a private person, and for a family, that means bank statements
+and reminders, integration with the phone, keeping track of things,
+the smart home, a tutor that will sit with you on a subject and
+never ship the question to a vendor's training set. Homework.
+Learning a skill. Playing. Research. The same spread a Windows 95
+PC had: games, the early internet, writing, figuring things out,
+including things other people might scoff at. Asking something of a
+personal nature — health, money, a family mess — without it becoming
+someone else's dataset. Reconciling the mess of notes and emails
+that is a life.
+
+I have sat with a local model and pasted an email confrontation, or
+described a situation between me and someone else, and asked where I
+was making a mistake in communication, what rough edges that implied
+about how I behave. Totally innocuous. I would not send that to a
+cloud vendor. Not because I have something to hide. Because those
+personal matters do not belong in somebody else's training set, and
+I do not want Anthropic or OpenAI or xAI looking over my shoulder
+while I think.
 
 For a business: getting rid of bureaucratic paper. Checking email
 and aligning spreadsheets and notes. Flows that today eat a human's
 week — an RFQ, an offer, a delivery schedule, a chase when the
-invoice has not gone out. A 24/7 work associate, or more than one,
-on machines that answer only to the firm. I run a trading business
-this way. Market knowledge, prices, and customer data stay inside
-the building. That is the setup, not a policy document.
+invoice has not gone out. Agents that update inventory by reading
+invoices and delivery notes. Names, phones, customer and supplier
+records: privately identifiable information that I do not want in a
+fuzzy thing I do not control. I do not assume the vendor is
+malicious. I assume they can get hacked, and I assume I cannot audit
+what they keep. I run a trading business this way. Market knowledge,
+prices, and customer data stay inside the building. That is the
+setup, not a policy document.
 
-The future I want is personal AI as ordinary as personal computing
-was, for the people who want it. Claude versus this week's other
-name is a sideshow. The actual prize is ownership of the next
-productivity step: individuals and small companies keeping the
-gains, instead of renting them back from a handful of firms that are
-already not particularly profitable and already in cahoots with
-captured regulators.
+The prize is ownership of the next productivity step: individuals
+and small companies keeping the gains, instead of renting them back
+from a handful of firms that are already not particularly profitable
+and already in cahoots with captured regulators. Watching people
+argue that future away is annoying.
 
-Watching people argue that future away is annoying.
+## The trade-offs are real
+
+Local AI is not "cloud, but free and private." You pay differently,
+and you wait differently. Pretending otherwise is how you lose the
+argument with someone who has a million-token window and a credit
+card.
+
+On 32 GB of VRAM you can hold a 256k-token context, which is
+workable, and if you actually *use* that whole window you pay in
+throughput. One session, maybe two, depending on how you split the
+card into slots. Agentic flows — take this document, call an API or
+an MCP tool, do something, call something else — want about 64k as a
+floor, so a native 256k model gives you four slots if you are
+disciplined, or two slots at 128k if you want a main and a
+delegate. Two different models co-resident is a hassle. Swapping
+models costs wall-clock: load time, then prefill of whatever the
+previous session had built up. Cloud does not make you care about
+any of that. You burn tokens, you spawn sub-agents, capacity is
+their problem until the invoice arrives.
+
+That is a genuine trade-off. For some work it is limiting. For a lot
+of work it is just slower, which means you wait, which means you
+have to be more deliberate: requirements, a nudge, a correction,
+another task while it cranks. Waiting is not always a problem. Being
+forced to stay in the loop is how you avoid cognitive decline on the
+task. You still know what is going on.
+
+Not every use case needs 32 GB, and not every use case needs four
+slots. A Qwen 3.6-class Mixture of Experts with a 262k window,
+split across two slots, is already one or two or three conversations
+at once. Plenty of people, plenty of days, need one. Judging local
+AI against the laxity of a cloud vendor who advertises a million
+tokens — and whose quality, if you listen to people who actually
+use Claude hard, starts falling over well before that, so they start
+new sessions anyway — is a category error. Use cases have
+requirements. A million-token carrot that auto-compacts and bills
+you for the reprocessing is a meter, not a gift.
+
+Setup knowledge is a barrier. llama-swap, slot counts, KV cache,
+which quant fits. We are early in a boom; of course the UX is still
+ugly. It will get easier. Enthusiasts will put up with the hassle.
+The Windows 95 masses will not, until someone packages it. That is
+fine. It does not make the underlying capability fake.
+
+The other side of the ledger is the subscription. One year of a
+heavy cloud plan is already in the neighbourhood of a mid-range
+local box. Year two, year three, year four, you keep paying. Locally
+you paid once, plus electricity. Models keep getting better for a
+while yet, even as we are in diminishing-returns territory for any
+given size: you bought the card, the card got more useful. For a
+business there is also the invoice circus — another vendor, another
+seat, another person whose usage you cannot predict.
+
+I would rather have a limit on how many sessions I can run at once,
+and a machine that is always there, than a weekly token pool I have
+to pace. Tuesday, 75% gone, reset on Friday: slow down so you do not
+run out, then scramble to burn the rest so the money was not
+"wasted." That is a sunk-cost fallacy and we fall for it anyway.
+Some weeks you needed more than the plan. The next tier is twice or
+ten times the money. Then you are on OpenRouter or raw APIs at
+unsubsidized rates, buying $50 credit packs. The baseload of real
+work does not match a tiered menu.
+
+You can still buy a cheap Qwen token plan or DeepSeek credits for
+the jobs you do not mind leaving the building. Those plans are
+excellent value. Use them as overflow. Keep the bulk, and anything
+with a name or an invoice in it, on the box in the next room.
+
+Transpose the current cloud deal back to 1995. Someone tells you
+that a personal computer will cost the equivalent of a hundred euros
+a month, and that Microsoft Word will refuse a sentence because it
+breaches a safety policy, and that you may not search for a topic
+because it breaches terms of service. Whose job is it to tell me
+what I do with my computer? The machine, and what you type into it,
+is an extension of what you have in your mind. Nobody has managed to
+censor that. Vendors are reducing legal liability by putting an
+imperfect classifier between your fingers and the input box. There
+is no perfect classifier for human language. Sessions that stop
+responding because a nanny decided you were doing "cybersecurity"
+research, or something merely adjacent to a banned category, are
+the point. This is not a brief for doing shady things in private. I
+do not want a nanny state overhead on thinking, including boring,
+legal, personal thinking.
 
 ## Why people stay in the cave
 
@@ -132,44 +245,67 @@ get encrusted. Usage pools shrink. Serving gets cheaper for them and
 dumber for you, and you cannot choose the quant. Locally you pick
 the trade-off yourself.
 
-Your data goes to the provider for training. Your proprietary
-information, your IP, goes there too. You are the product, and the
-product-improver: paying tribute so that you keep paying, on work
-that a local model and a bit more human involvement could do. I
-would rather discuss a personal matter with a machine in the next
-room than with a black box whose job, in part, is to get better at
-the next customer using my sentence.
+The rental shift is not new. Dropbox if you wanted to share files.
+OneDrive hijacking the PC until it stopped feeling like *your*
+computer. App stores. Ripping CDs into MP3 and FLAC, then Spotify.
+Office as a subscription. Someone always limits how much you can
+use, for how long, at which cost. There are usually good-enough
+alternatives. People are already rebuilding popular tools with
+models they run themselves. You cannot put the genie back. There are
+abliterated models, uncensored models, models that will answer in
+ways a corporate safety deck would call incorrect. **The cat is out
+of the bag. Deal with it.**
 
 A few entrenched companies, with captured regulators, are trying to
 claim the next productivity step as theirs. They dress the grab as
-safety. Open-weights models are dangerous, you can never know
-whether your data will leak, a model might touch things it should
-not, open models are a danger to mankind, or their own models are so
-capable that a Skynet-like scenario is bound to happen. All of it:
-self-serving arguments to prop up IPO prices.
-
-You can ban whatever you want. I have GPUs. The weights are
-downloaded and backed up across three disks. You will never pry
-local AI from my hands. Stop releasing models, ban GPU sales, do
-whatever you want. **The cat is out of the bag. Deal with it.**
+safety, as national security, as "open weights are dangerous," as
+"DeepSeek distilled us," as "Alibaba did this and that." Fundraising
+gets sketchier as the return story gets harder. They talk as if they
+have already lost the technical argument and are playing the
+regulatory one. You can ban whatever you want. I have GPUs. The
+weights are downloaded and backed up across three disks. Stop
+releasing models, ban GPU sales, do whatever you want.
 
 Most of the good open weights are coming from China, because China
-is playing exactly to the weakness the incumbents are displaying:
-trying to get a government to nationalize part of the business so
-the revenue projections hold water. Anyone who already owns compute,
-or is willing to buy a single 12 GB or 16 GB card, already has their
-card out of the bag.
+is playing exactly to the weakness the incumbents are displaying.
+Anyone who already owns compute, or is willing to buy a single 12 GB
+or 16 GB card second-hand, already has their card out of the bag.
+
+The moral hazard is the fanboy who paid for the fanciest model
+telling the rest of the world that local AI cannot code, cannot
+work, is a toy. Thousands of people are already doing serious work
+on budget cards. If that person wants a hobby and a Veblen sticker,
+that is their money. When they talk to people who have never tried a
+local box, they propagate the idea that the only way to benefit from
+AI is to be a digital serf. That is how you put the sheep in
+someone's pen again.
 
 ## A tool is only half the story
 
 Cloud versus local is the easy argument. Competence is the one
-people skip.
+people skip. Give someone the best power tool in the shop: they
+still have to know how to use it. A trillion-parameter frontier
+model and a 35-billion Mixture of Experts on your desk fail the same
+way if you do not.
 
 A tool is only half the story. The other half is knowing how to use
-it. That is true of a lathe, a CAD suite, a frontier model, and a
-local one. If you underspecify, if you cannot think the problem into
-pieces, if you treat the model as a black box that will magically
-fulfil a wish, you are measuring your absence.
+it, which includes knowing its limits, being wary, and taking
+personal responsibility for the results. The harness matters —
+people keep rediscovering this — for how the model behaves and how
+it recovers from its own stupidity. Rules you write, and rules you
+have the harness distill from past sessions, change the work. I
+still do not think we should anthropomorphize the thing. It is
+matrix multiplications on hardware. It does not have a soul. How you
+work with it still determines what you get.
+
+If you treat it as a genie that will read your mind and turn "build
+me this" into the architecture you had in your head, with clean
+tests, you will be disappointed. A quadrillion-parameter model
+cannot mind-read. If you do not say what you need, how you need it,
+which trade-offs you already made, which constraints are real, you
+are paying for a wish. On a $200 Anthropic stack that can be a
+hobby, a fancy car in the driveway. Fine. It is a toy. It is not a
+verdict on what the rest of us can do with a box we own.
 
 I learned this the expensive way, twice.
 
@@ -230,11 +366,12 @@ with a tool is still a fool, even if the tool is cool and makes the
 vendor drool. Stay in the zone where you know enough to smell
 nonsense —
 [the 2×2 I still use](https://overbring.com/articles/2023-06-23-on-using-llm-to-get-things-done/).
-Keep the knowledge. Institutional memory that accumulates: how this
-codebase does a thing, the skill you extracted because you did it
-twice, the cookbook, the ledger. You pay for that once. Scatter,
-hand-off, and wishful thinking are still the three wastes.
-Compaction is a hand-off you do not control.
+That matrix has held up better than most of what has been written
+about this since. Keep the knowledge. Institutional memory that
+accumulates: how this codebase does a thing, the skill you extracted
+because you did it twice, the cookbook, the ledger. You pay for that
+once. Scatter, hand-off, and wishful thinking are still the three
+wastes. Compaction is a hand-off you do not control.
 
 Local models do not forgive incompetence. They expose it, because
 there is no trillion-parameter world-knowledge crutch to hide
