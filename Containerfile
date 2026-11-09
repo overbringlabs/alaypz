@@ -114,8 +114,8 @@ COPY --from=builder /app/_build/${MIX_ENV}/rel/alaypz ./
 COPY deploy/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
-# Runs as container root ON PURPOSE: under rootless podman (the DEPLOY_HOST model,
-# same as inferyes) that maps to the deploy user on the host, so the SQLite
+# Runs as container root ON PURPOSE: under rootless podman (the house
+# model, same as inferyes) that maps to the deploy user on the host, so the SQLite
 # file on the bind-mounted /app/data is writable. `USER nobody` cannot write
 # a host-owned data dir and dies with database_open_failed.
 

@@ -11,7 +11,7 @@ defmodule Alaypz.PlayersTest do
       {:ok, player, secret} = Players.claim_name("  Ada  ")
 
       assert player.name == "Ada"
-      assert player.name_key == "DEPLOY_USER"
+      assert player.name_key == "ada"
       assert byte_size(player.secret_salt) == 16
       assert byte_size(player.secret_hash) == 32
       assert Players.verify_secret(player, secret)

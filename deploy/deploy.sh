@@ -1,24 +1,26 @@
 #!/bin/bash
-# Deploy Alaypz to DEPLOY_HOST.overbring.com: build, save, rsync,
-# load, run. Mirrors inferyes/deploy/deploy.sh — the house pattern.
+# Deploy Alaypz: build, save, rsync, load, run. Mirrors
+# inferyes/deploy/deploy.sh — the house pattern.
 #
 # OPERATOR-RUNS, NEVER THE AGENT. Podman, host networking, one replica.
 # The container runs migrate-then-serve (Containerfile CMD ->
 # entrypoint.sh), so schema and image stay in lockstep; there is no
-# separate migration job. Caddy on DEPLOY_HOST reverse-proxies
+# separate migration job. Caddy on the deploy host reverse-proxies
 # https://alaypz.overbring.com to 127.0.0.1:7043 (Caddyfile.snippet);
 # port 7043 because 4000 is occupied by another Elixir app on the VPS.
 #
-# First run: create the env file and data dir on DEPLOY_HOST (see alaypz.env.example),
-#   ssh DEPLOY_HOST.overbring.com 'install -d /home/DEPLOY_USER/apps_data/alaypz && \
-#                          $EDITOR /home/DEPLOY_USER/alaypz.env'
+# Target host + remote paths come from the local .deploy.env (NOT
+# committed) or the environment: DEPLOY_HOST, DATA_HOST_DIR,
+# ENV_HOST_FILE (see deploy/.deploy.env.example).
 set -e
 
 IMAGE=alaypz
 CONTAINER=alaypz
-DEPLOY_HOST="DEPLOY_HOST.overbring.com"
-DATA_HOST_DIR="/home/DEPLOY_USER/apps_data/alaypz"
-ENV_HOST_FILE="/home/DEPLOY_USER/alaypz.env"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -f "$SCRIPT_DIR/../.deploy.env" ] && . "$SCRIPT_DIR/../.deploy.env"
+: "${DEPLOY_HOST:?set DEPLOY_HOST in .deploy.env (see deploy/.deploy.env.example)}"
+: "${DATA_HOST_DIR:?set DATA_HOST_DIR in .deploy.env}"
+: "${ENV_HOST_FILE:?set ENV_HOST_FILE in .deploy.env}"
 
 # 1. Build locally (--format docker preserves HEALTHCHECK under Podman).
 # The git commit is baked in as a build arg.

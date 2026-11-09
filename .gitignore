@@ -42,3 +42,6 @@ npm-debug.log
 # ERTS history dir (created by `mix run`)
 .erl.history/
 
+# Deploy target (host + remote paths) — see deploy/.deploy.env.example
+/.deploy.env
+

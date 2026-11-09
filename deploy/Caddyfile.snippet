@@ -1,4 +1,4 @@
-# Standalone site block for Alaypz on DEPLOY_HOST's /etc/caddy/Caddyfile.
+# Standalone site block for Alaypz on the deploy host's /etc/caddy/Caddyfile.
 # Mirrors inferyes/deploy/Caddyfile.snippet (the house pattern).
 #
 # Phoenix runs on 127.0.0.1:7043 (deploy/deploy.sh passes PORT=7043;
@@ -15,8 +15,8 @@
 alaypz.overbring.com {
 	# Certificate: Caddy's on-demand Let's Encrypt issues this on first
 	# request. Requires the CNAME alaypz.overbring.com →
-	# DEPLOY_HOST.overbring.com to already resolve to this box (HTTP-01 follows
-	# the CNAME).
+	# the deploy host (DEPLOY_HOST) to already resolve to this box
+	# (HTTP-01 follows the CNAME).
 	encode gzip
 
 	reverse_proxy 127.0.0.1:7043 {

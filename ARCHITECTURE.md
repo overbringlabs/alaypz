@@ -9,7 +9,7 @@ client-side access string.
 ## Request path
 
 ```
-Caddy (DEPLOY_HOST, https://alaypz.overbring.com)
+Caddy (the deploy host, https://alaypz.overbring.com)
   └─ reverse proxy → 127.0.0.1:7043
       └─ AlaypzWeb.Endpoint (Phoenix, :server in prod via PHX_SERVER)
           ├─ AlaypzWeb.OG          — per-request OpenGraph meta plug
@@ -134,22 +134,23 @@ in the deployment.
 |----------------------|----------------------------------------------------------------|
 | `config/runtime.exs` | `PHX_SERVER` gate, `PORT` (prod default 7043 / dev 4000), prod env requirements (`DATABASE_PATH`, `SECRET_KEY_BASE`), the dev live-reload patterns |
 | `config/prod.exs`    | `force_ssl` (excluding localhost/127.0.0.1), the canonical OG URL |
-| env (container)      | `DATABASE_PATH=/app/data/alaypz.db`, `PORT=7043`, `SECRET_KEY_BASE`, `PHX_HOST=alaypz.overbring.com` (from `/home/DEPLOY_USER/alaypz.env` on DEPLOY_HOST) |
+| env (container)      | `DATABASE_PATH=/app/data/alaypz.db`, `PORT=7043`, `SECRET_KEY_BASE`, `PHX_HOST=alaypz.overbring.com` (from the deploy host's env file — `ENV_HOST_FILE` in `.deploy.env`) |
 
 ## Deployment
 
 `deploy/deploy.sh` (run from the repo, by the operator or on explicit
-authorization): local `podman build` (the `Containerfile` — multi-stage
+authorization; target host + remote paths from the gitignored `.deploy.env`):
+local `podman build` (the `Containerfile` — multi-stage
 hexpm/elixir builder → debian slim, `mix release` with `include_build_info`,
 a `HEALTHCHECK` on `/`, runs as container root on purpose so the bind-mounted
-SQLite file is writable) → `podman save` → `rsync` → `ssh DEPLOY_HOST` `podman load`
-+ `podman run -d --network host -v /home/DEPLOY_USER/apps_data/alaypz:/app/data:Z
--e DATABASE_PATH=/app/data/alaypz.db -e PORT=7043 --env-file
-/home/DEPLOY_USER/alaypz.env`. `deploy/entrypoint.sh` is just `exec ./bin/server`
-(migrations happen at boot — see the supervisor tree). Caddy on DEPLOY_HOST
-terminates TLS at `https://alaypz.overbring.com` and proxies to
-`127.0.0.1:7043`. Rollback = redeploy the previous image tarball from
-`~/podman-images/`; the data dir survives untouched.
+SQLite file is writable) → `podman save` → `rsync` → `ssh $DEPLOY_HOST`
+`podman load` + `podman run -d --network host -v $DATA_HOST_DIR:/app/data:Z
+-e DATABASE_PATH=/app/data/alaypz.db -e PORT=7043 --env-file $ENV_HOST_FILE`.
+`deploy/entrypoint.sh` is just `exec ./bin/server` (migrations happen at boot
+— see the supervisor tree). Caddy on the deploy host terminates TLS at
+`https://alaypz.overbring.com` and proxies to `127.0.0.1:7043`. Rollback =
+redeploy the previous image tarball from `~/podman-images/`; the data dir
+survives untouched.
 
 ## Testing
 
