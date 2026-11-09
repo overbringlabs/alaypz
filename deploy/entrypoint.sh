@@ -1,20 +1,16 @@
 #!/bin/sh
 # Container entrypoint for Alaypz.
 #
-# Single-node SQLite deployment: migrate, then exec the release server as
-# PID 1. The release has no bin/migrate (Mix.Release did not generate
-# one), so migrations run through the release runner instead: `bin/alaypz
-# evaluate` boots the app (repo configured from DATABASE_PATH by
-# config/runtime.exs) and runs Alaypz.Release.migrate. Idempotent, so
-# schema and image stay in lockstep on every start — there is no
-# separate migration job to forget. `exec` so the BEAM receives SIGTERM
-# for a clean shutdown.
+# Single-node SQLite deployment: exec the release server as PID 1.
+# `bin/server` sets PHX_SERVER=true (rel/overlays/bin/server) and execs
+# the release. Migrations need no separate step: Alaypz.Application
+# supervises {Ecto.Migrator, repos: …, skip: RELEASE_NAME == nil}, so a
+# release boot (RELEASE_NAME set) runs the pending migrations itself,
+# before the endpoint starts accepting traffic — schema and image stay
+# in lockstep on every start, and there is no migration job to forget.
+# `exec` so the BEAM receives SIGTERM for a clean shutdown.
 set -eu
 
 cd /app
 
-echo "==> running migrations"
-./bin/alaypz evaluate Alaypz.Release.migrate
-
-echo "==> starting server"
 exec ./bin/server
