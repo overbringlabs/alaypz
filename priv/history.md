@@ -9,47 +9,36 @@ It does not matter in the end. Those who want to remain in [the cave](https://le
 
 Qwen3.8-27B is great at coding regardless, but only if you know how to wield it, as with any other tool.
 
-## Built in anger and indignation
+## How to use Qwen3.8-27B as a coding agent or sub-agent
 
-The discussion on LinkedIn went a bit like this...
+### 1. Division of labor
 
-**Isaak:** Qwen3.8-27B-GSQ-RCO-IQ or Ornith-1.5-35B-A3B-MiniPlus-V2.1-IQ2_S, with DeepSeek V4.1 Flash 1017 or Qwen3.8-Flash as the orchestrator. Plus Alibaba's open-code-review. No Claude needed.
+Alaypz was developed Qwen3.8-27B as a coding agent, not as a sub-agent. No other model was involved, because I wanted to make a point.
 
-**Other guy:** Qwen 3.8 Flash cannot produce great design, code architecture or help smaller models.
+For more complex coding missions, I often treat Qwen3.8-27B as a core component within an agentic pipeline rather than as a standalone agent that does everything by itself, end-to-end.
 
-**Isaak:** by itself, without any guidance? Not always. With human guidance in the session and with skills / rules? Absolutely. But then again, I am using it to extend a three-codebase product that I had already hand-built and refactored over 2 yea rs, so I'm biasing it. OTOH, it can absolutely review a codebase and suggest refactoring, be told to pursue Domain-Driven Design principles and surface recommendations for refactoring, and it does so without any issues, even on new codebases. As for helping smaller models, it absolutely can. I regularly use it as an orchestrator of Qwen3.8-27B (for unbounded tasks) and Qwen3.5-9B derivatives (for more mechanical, bounded tasks), and it works great. I have Grok 4.6 and DeepSeek V4.1 Flash 1017 review code generated/orchestrated/amended by Qwen3.8-Flash and 27B, and these bigger models' verdicts (plus my own cursory review of the codebase) is why I trust it.
+* **Orchestrator:** Use Qwen3.8-Flash or DeepSeek V4.1 Flash, or Nemotron-3.5-Lightning-30B-A3B or (better) Nemotron-3.5-Bolt-74B-A9B to direct workflows and manage high-level task routing, e.g. by evaluating the complexity of a task and choosing the right model for it among a selection. 
+* **Heavy-lifter / problem-solver:** That is the core role of Qwen3.8-27B in this case. The orchestrator delegates complex logic, feature implementation, and unbounded subtasks to it. At `xhigh` reasoning effort, Qwen3.8-27B can resolve a lot of ambiguity by itself, so it chews through unbounded tasks competently. Whatever it might miss, will get caught by the adversarial code review. Here, you can also use Ornith-1.5-35B-A3B, if you want to go faster and have Qwen3.8-27B or a bigger model for post-implementation reviews and fixes.
+* **Bounded-task sub-agents:** Some parts or tasks of a plan are not worth the "brainpower" of Qwen3.8-27B. Smaller or faster models can be used for those. The orchestrator will delegate mechanical, straightforward, or strictly-bounded tasks to models like Ornith-1.5-35B-A3B, Qwen3.6-35B-A3B, or for even simpler tasks, Groot-19B-A3B, Ornith-1.5-9B or other derivatives of Qwen3.5-9B, such as MiMo-V2.6-Distill-Qwen-9B or LAR-9B.
+* **Adversarial code reviewers:** After each implementation task has completed, the orchestrator either runs and adversarial-review and bugfixing pass on the sub-agent's deliverable, or initiates an incremental run of Alibaba’s `open-code-review` configured with a model like Qwen3.8-27B and above.
 
-**Other guy:** Even with human guidance, the context is too small.
+The above has worked well for me for months now.
 
-**Isaak:** That's why you need to use a proper skill that manages the knowledge across "lean indexes" so that you don't blow up the context with unnecessary information. I have also exclusively used the 27B with my "lean-agent-flow" skill (to be open-sourced within the month) to develop 3 Elixir codebases from scratch. Question your assumptions; I'm giving you a data point that disproves them, on a 3-codebase product that was mature already, and has been growing rapidly in recent months by building on a hand-crafted set of code and using Qwen3.8-Flash via Qwen Cloud as the orchestrator, DeepSeek as the reviewer, and Qwen3.8-27B for problem-solving and implementation of subparts. It's been working amazingly well, despite the 262k context of the 27B. You need the right setup to work around the limitations of the 262k context. But once you figure out the right setup, it is entirely workable. And you can also use the 27B as the heavy-lifter, delegating to even smaller models for the boring work -- provided that you have 27B write and adversarially review a thorough plan that's been written with the explicit intent that its parts "will be handed out to dumber subagents that cannot perform well in unbounded tasks".
+## 2. Context window and knowledge management
 
-**Other guy:** The context is 32k :) for machines that cost less than $10k
+While hardware setups vary and with them the models you can run, and at which quantization and context window size, having agents and sub-agents document their progress and lessons learned as they go along is key in reducing the probability of rework.
 
-**Isaak:** The context of the 27B is 262k on a dual-5060 PC with tensor parallelism and an NVFP4 quant and q8_0 symmetric KV cache. It's 131k on a single 16 GB GPU with an APEX quant. 32k? What is this, 2024?
+* **Use lean indexes:** Instead of an ever-growing `AGENTS.md` that eats into your context, implement a dedicated knowledge/skill manager skill that keeps track of TODO items, "WONTDO" items, decisions, constraints, lessons learned, cookbooks and progress in "lean indexes" that point to granular Markdown documents loaded on demand.
+* **Structured planning and review:** Have Qwen3.8-27B, the orchestrator model, or a bigger model write and adversarially review a thorough execution plan before starting. Ask the planner to design the plan _specifically_ so that discrete subtasks can be handed off safely to smaller, "dumber" subagents.
 
-**Other guy:** The whole post is about running LLMs in a Mac Mini - so people don't spend $20k to have a worst version of a $20 subscription (or $200)
+## 3. Grounding
 
-**Isaak:** On a Mac Mini, can you not run Ornith-1.5-35B-A3B with decent context, perhaps with a NanoPlus quant?
+Qwen3.8-27B excels when working within well-defined structural boundaries:
 
-**Other guy:** It is horrible in building code. Loops, hallucinations, it behaves like someone that learnt programming 6 months ago. Even with Claude as supervisor, it cannot build anything
-
-**Isaak:** Cannot verify, and the only thing I can offer is my own and opposite anecdotal evidence.
-
-**Other guy:** I mean, it is kind of easy to check :D LM Studio, download, "make me Tetris" on a Mac Mini :D
-
-**Isaak:** Yeah but what is the use of this as a benchmark? One-shot, underspecified prompts are a useless proxy for real-world coding performance.
-
-**Other guy:** If it cannot do a Tetris game, I definitely cannot do a real app.
-
-**Isaak:** PEBKAC... not only can Qwen3.8-27B "do a Tetris game", it can do what I'm going to release on Github later today. I let it code overnight, see a screenshot of what it delivered. Phoenix LiveView app with a "live lobby" feature where you can see everyone else's games taking place there, plus a leaderboard with each game's last state. Might add more features, like a game-replay feature.
-
-**Other guy:** overnight? And looks like this? This is from LocalOrca - in 12 minutes (ed. a very nice screenshot). I said "Tetris" as a figure of speech but if it took overnight to make a Tetris game, maybe code it by hand?
-
-**Isaak:** Overnight, because I did not emphasize the game, but the Phoenix LiveView features for live-display of other players' game sessions. It's more than just "Tetris that looks good". A UI polish pass can be done later. Why would I waste my time coding a Tetris game by hand? What kind of benchmark is that anyway? Are you not shifting the goalposts? My point being: you can totally have Qwen3.8-27B develop way more than a toy example with a one-shot prompt. It's been my workhorse for feature expansion and verification of an actual in-production SaaS / web app since August. Three codebases, each one in a different language (NextJS web app and two REST APIs, with the newer REST API strangler-fig-ing the legacy REST API), and it's done a great job, together with alibaba's open-code-review. But do note that all three codebases had been meticulously refactored by hand before I got into agentic coding back in May, and design patterns and architecture have been extensively documented by Qwen3.6-35B-A3B, so the Qwen3.8-27B agent sessions already step on solid ground, even for new features that extend the codebase. You've been telling me that something that I've been doing since May can't be done. Both of us can't be right.
-
----
-
-This is the proof that both of us can't be right.
+* **Step onto solid ground:** Maintain clean, refactored codebases and clearly documented design patterns (e.g., Domain-Driven Design principles). Work with the model on the architecture instead of letting it pile code on top of other code. Early work on concept, requirements, architecture and knowledge-management work pays off.
+* **Guide with skills and rules:** Provide session guidance, project rules, and explicit design constraints so the model can reliably surface refactoring recommendations and follow established architectural patterns with more autonomy. Once something has been set in stone, ask it to extract a cookbook for that aspect of the system, so that sub-agents working on other plans in the future do not reinvent the wheel or stray from established conventions.
+* **Give the next session or project a head-start:** Ask a model with a sufficiently large context window to review prior sessions and extract a "working-mode" skill. Do the same to extract insights from session about how well sub-agent models got their work done, and have the model write a "model-routing" skill so that orchestrator models improve their routing decisions. Do this periodically. Every session's log is a goldmine.
+* **Avoid one-shot benchmarks:** Move past underspecified single prompts (like "make me `$GAME`") to evaluate models that you'll be using as sub-agents. Real-world utility comes from structured multi-step development, full feature integration, and iterative refinement over time. If you want to have a more structured approach for evaluating models as sub-agents for specific tasks and/or programming languages, work with Qwen3.8-27B or similar (or bigger) models to create one or more standard benchmarking prompts. Have an orchestrator run this "bake-off" across the models you consider as sub-agent candidates. Use this to improve the model-routing skill.
 
 ## The concept
 
@@ -62,9 +51,9 @@ leaderboard, live-spectating any user's game, replaying any game, all that is wh
 LiveView, WebSockets, PubSub, a GenServer per game, a pure engine
 shared with the replays. I did not write any code by hand. I sat in the driver's seat: requirements, a plan, rounds, review. The model did the typing, the implementation of the tests, and the testing after every round.
 
-It took very few turns overall, and the gap between the turns in the timeline below is because I was busy with other things or sleeping, not the actual working time of the model. After the first turn when the game was playable, I started providing more guidance, sometimes sending a screenshot or a
-one-line complaint and indication of how I want things fixed. The full
-test suite must pass with every `mix precommit` at the end of every turn, and it must look proper using a headless-browser walk for all responsive-design breakpoints from 387 to 1440 px.
+It took a decent amount of turns. The lead-time gap between the turns in the timeline below is because I was busy with other things or sleeping, not the actual working time of the model. After the first turn when the game was playable, I started providing more guidance, sometimes sending a screenshot or a one-line complaint and indication of how I want things fixed. I do not emphasize looks early on, and I do not care about getting both the functionality _and_ the UI design/styling done in parallel.
+
+The full test suite must pass with every `mix precommit` at the end of every turn, and must look proper using a headless-browser walk for all responsive-design breakpoints from 387 to 1440 px.
 
 ## Timeline (from the session logs)
 
