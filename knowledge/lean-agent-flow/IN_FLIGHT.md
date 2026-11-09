@@ -13,6 +13,7 @@ released: priv/manifesto.md  (enrich: trade-offs, buy-vs-rent, nanny/classifier,
 released: priv/history.md  test/alaypz_web/live/manifesto_live_test.exs  test/alaypz_web/live/history_live_test.exs  knowledge/lean-agent-flow/PROGRESS.md  (MECE rewrite + duplicate H1 fix)
 
 ## agent: main   since: 2026-11-06
+released: assets/css/  knowledge/  (manifesto drafted as an overbring.com article — hugo-overbring commit; prose h4-h6 display-face insurance)
 released: assets/css/  priv/static/fonts/  lib/alaypz_web/  priv/  test/alaypz_web/  deploy/  (font stack: Knewave/Manrope/Victor Mono/EB Garamond replaces Fredoka; case page renamed to /the-case-for-and-against-local-personal-ai)
 released: config/  lib/alaypz_web/  test/alaypz_web/  priv/  mix.exs  Containerfile  deploy/  rel/  (production readiness: OG link previews + OVERBRING title suffix, prod port 7043 + canonical alaypz.overbring.com, podman Containerfile + deploy/ house pattern, new hero image)
 released: lib/alaypz_web/  priv/  test/alaypz_web/  assets/css/  (prose pages repointed to /why + /the-case-for-and-against-local-ai; lobby hero + two buttons; case byline + GPU hero image; footer copy)

@@ -415,6 +415,18 @@ body {
   margin: 1.5rem 0 0.5rem;
 }
 
+/* Insurance: the current content stops at h4, but any deeper heading the
+   markdown gains keeps the display face too — the body serif never
+   impersonates a heading. */
+.history-prose h4,
+.history-prose h5,
+.history-prose h6 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 1.25rem 0 0.5rem;
+}
+
 .history-prose p,
 .history-prose li {
   line-height: 1.7;
