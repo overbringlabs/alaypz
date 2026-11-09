@@ -1,6 +1,6 @@
 defmodule AlaypzWeb.ManifestoLive do
   @moduledoc """
-  `/the-case-for-and-against-local-ai`: the local AI manifesto.
+  `/the-case-for-and-against-local-personal-ai`: the local AI manifesto.
 
   A dead view on purpose — one static render, no events, no updates.
   The content is `priv/manifesto.md`, parsed by :mdex and styled by
@@ -14,10 +14,10 @@ defmodule AlaypzWeb.ManifestoLive do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:page_title, "The case for and against local AI")
+     |> assign(:page_title, "The case for and against local, personal AI")
      |> assign(
        :og_description,
-       "A rant, with the edge intact — the case for and against local AI."
+       "A rant, with the edge intact — the case for and against local, personal AI."
      )}
   end
 end

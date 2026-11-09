@@ -97,10 +97,10 @@ defmodule AlaypzWeb.Layouts do
           </a>
           ·
           <a
-            href="/the-case-for-and-against-local-ai"
+            href="/the-case-for-and-against-local-personal-ai"
             class="underline decoration-base-300 underline-offset-2 transition hover:text-cyan-500"
           >
-            The case for and against local AI
+            The case for and against local, personal AI
           </a>
         </p>
       </div>

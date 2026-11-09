@@ -102,44 +102,118 @@
 /* Make LiveView wrapper divs transparent for layout */
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
-/* ── Fredoka — the UI face, no exceptions ────────────────────────────
-   Vendored from Google Fonts (family v17): priv/static/fonts/fredoka/
-   (served at /fonts/fredoka/), latin + latin-ext subsets. Fredoka is a
-   VARIABLE font — each file carries the whole 300–700 weight axis
-   (2 × ~4–30 KB woff2, no CDN fetch, no synthetic bold for in-axis
-   weights; requests above 700 clamp to it). The family ships no
-   italic, so italics synthesize from the normal face. The @theme
-   remap below points every Tailwind font stack at it, and the body
-   default follows --font-sans, so nothing escapes. */
+/* ── Font stack — vendored from Google Fonts, no CDN ─────────────────
+   Knewave (display headings), Manrope (everything else), Victor Mono
+   (code), EB Garamond (the markdown prose body). Each family is a
+   VARIABLE font carrying its whole weight axis (Knewave ships a single
+   static 400 — the declared range stops the browser faux-bolding it);
+   latin + latin-ext subsets only, ~5-30 KB woff2 each. The @theme
+   remap below points the Tailwind font stacks at them: --font-sans is
+   the body default, so nothing escapes. */
 @font-face {
-  font-family: "Fredoka";
+  font-family: "Knewave";
   font-style: normal;
-  font-weight: 300 700;
+  font-weight: 100 900;
   font-display: swap;
-  src: url("/fonts/fredoka/fredoka-latin.woff2") format("woff2");
+  src: url("/fonts/knewave/Knewave-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/manrope/xn7gYHE41ni1AdIRggmxSuXd.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/manrope/xn7gYHE41ni1AdIRggexSg.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
     U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: "Fredoka";
+  font-family: "Victor Mono";
   font-style: normal;
-  font-weight: 300 700;
+  font-weight: 100 700;
   font-display: swap;
-  src: url("/fonts/fredoka/fredoka-latin-ext.woff2") format("woff2");
+  src: url("/fonts/victor-mono/Yq6Q-LGQWyfv-LGy7lEO0_ZTtxUUSA.woff2") format("woff2");
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
     U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
     U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-/* Fredoka is the only UI face: every Tailwind font stack resolves to it
-   (sans is also the body default), so font-sans/serif/mono utilities
-   all render Fredoka. */
+@font-face {
+  font-family: "Victor Mono";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("/fonts/victor-mono/Yq6Q-LGQWyfv-LGy7lEO0_ZdtxU.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/eb-garamond/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/eb-garamond/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: italic;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/eb-garamond/SlGWmQSNjdsmc35JDF1K5GRweDU1ZzPJ.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: italic;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/eb-garamond/SlGWmQSNjdsmc35JDF1K5GRweDs1Zw.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* The Tailwind font stacks: sans is the body default (Manrope), serif is
+   the markdown body face (EB Garamond), mono is the code face (Victor
+   Mono), display is the heading face (Knewave). */
 @theme {
-  --font-sans: "Fredoka", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Fredoka", ui-serif, Georgia, serif;
-  --font-mono: "Fredoka", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "EB Garamond", Georgia, ui-serif, serif;
+  --font-mono: "Victor Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "Knewave", "Manrope", sans-serif;
 }
 
 /* This file is for your main application CSS */
@@ -304,10 +378,20 @@ body {
   }
 }
 
-/* ── /why + /the-case-for-and-against-local-ai: the markdown body ─────
-   Theme-safe: only currentColor-derived tints + the cyan accent, so it
-   reads on both the light and the dark base. */
+/* ── /why + /the-case-for-and-against-local-personal-ai: the markdown
+   body ──────────────────────────────────────────────────────────────
+   Body text is EB Garamond (--font-serif), the headings are Knewave
+   (--font-display), code is Victor Mono (--font-mono). Theme-safe: only
+   currentColor-derived tints + the cyan accent, so it reads on both
+   the light and the dark base. */
+.history-prose {
+  font-family: var(--font-serif);
+  /* Garamond sits small: a step above the UI size for the reading face. */
+  font-size: 1.125rem;
+}
+
 .history-prose h1 {
+  font-family: var(--font-display);
   font-size: 1.875rem;
   font-weight: 900;
   letter-spacing: -0.02em;
@@ -315,6 +399,7 @@ body {
 }
 
 .history-prose h2 {
+  font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -322,6 +407,7 @@ body {
 }
 
 .history-prose h3 {
+  font-family: var(--font-display);
   font-size: 0.9rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -369,7 +455,7 @@ body {
 }
 
 .history-prose code {
-  font-family: "Fredoka", ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-size: 0.85em;
   background: color-mix(in oklab, currentColor 8%, transparent);
   padding: 0.125rem 0.375rem;

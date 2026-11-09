@@ -6,7 +6,7 @@ running on local hardware**, one operator round at a time.
 Someone on LinkedIn said that this model cannot code. This product is the
 rebuttal. The stakes of that argument, i.e. why local inference has to
 win, and what competence has to do with it, are on the
-[manifesto](/the-case-for-and-against-local-ai). This page is how this one was built.
+[manifesto](/the-case-for-and-against-local-personal-ai). This page is how this one was built.
 
 ## Built in anger and indignation
 
