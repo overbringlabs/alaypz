@@ -13,6 +13,7 @@ released: priv/manifesto.md  (enrich: trade-offs, buy-vs-rent, nanny/classifier,
 released: priv/history.md  test/alaypz_web/live/manifesto_live_test.exs  test/alaypz_web/live/history_live_test.exs  knowledge/lean-agent-flow/PROGRESS.md  (MECE rewrite + duplicate H1 fix)
 
 ## agent: main   since: 2026-11-06
+released: assets/css/  assets/js/  lib/alaypz_web/  knowledge/  (last live-code traces of the old product name renamed: .alaypz-wordmark, window.__alaypz_sfx; the overbring.com article is live)
 released: lib/alaypz_web/  priv/  knowledge/  (GitHub repo "Source" links in navbar + footer; the operator's history.md rewrite)
 released: lib/alaypz_web/  test/alaypz_web/  priv/  assets/css/  deploy/  (case page cut over to the overbring.com article — ManifestoLive + priv/manifesto.md deleted, all case links external; the hero webp restored)
 released: assets/css/  priv/static/fonts/  knowledge/  (EB Garamond removed — prose bodies are the Manrope body default; app now carries exactly three vendored families)

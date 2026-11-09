@@ -53,8 +53,8 @@ const ensure = () => {
 
 const counts = { rotate: 0, lock: 0, clear: 0 }
 
-// probe surface (smoke tests + debugging): window.__extromino_sfx
-window.__extromino_sfx = {
+// probe surface (smoke tests + debugging): window.__alaypz_sfx
+window.__alaypz_sfx = {
   counts: () => ({ ...counts }),
   unlocked: () => unlocked,
 }

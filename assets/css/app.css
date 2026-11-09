@@ -209,7 +209,7 @@ body {
 }
 
 /* Neon wordmark in the header (brand — same in both themes) */
-.extromino-wordmark {
+.alaypz-wordmark {
   background: linear-gradient(90deg, #00e5ff, #e040fb);
   -webkit-background-clip: text;
   background-clip: text;

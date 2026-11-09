@@ -40,7 +40,7 @@ defmodule AlaypzWeb.Layouts do
       class="sticky top-0 z-10 border-b border-base-300/60 bg-base-100/85 backdrop-blur"
     >
       <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
-        <a href="/" class="extromino-wordmark text-xl font-black tracking-[0.3em]">
+        <a href="/" class="alaypz-wordmark text-xl font-black tracking-[0.3em]">
           ALAYPZ
         </a>
         <span class="hidden text-xs text-base-content/60 lg:inline">live boards</span>
