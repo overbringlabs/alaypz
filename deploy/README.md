@@ -8,7 +8,8 @@ occupied by another Elixir app on the VPS). Mirrors
 The target host and remote paths are **not committed**: they come from a
 local `.deploy.env` at the repo root (copy
 `deploy/.deploy.env.example`, gitignored) or exported environment
-variables — `DEPLOY_HOST`, `DATA_HOST_DIR`, `ENV_HOST_FILE`.
+variables — `DEPLOY_HOST`, `DATA_HOST_DIR`, `ENV_HOST_FILE`,
+`DEPLOY_PORT` (defaults to 7043, the app's prod default).
 
 | File | Purpose |
 |---|---|
