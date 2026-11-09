@@ -103,11 +103,11 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* ── Font stack — vendored from Google Fonts, no CDN ─────────────────
-   Knewave (display headings), Manrope (everything else), Victor Mono
-   (code), EB Garamond (the markdown prose body). Each family is a
-   VARIABLE font carrying its whole weight axis (Knewave ships a single
-   static 400 — the declared range stops the browser faux-bolding it);
-   latin + latin-ext subsets only, ~5-30 KB woff2 each. The @theme
+   Knewave (display headings), Manrope (everything else — including the
+   markdown prose bodies), Victor Mono (code). Knewave ships a single
+   static 400 (the declared range stops the browser faux-bolding it);
+   the other families are VARIABLE fonts carrying their whole weight
+   axis; latin + latin-ext subsets only, ~5-30 KB each. The @theme
    remap below points the Tailwind font stacks at them: --font-sans is
    the body default, so nothing escapes. */
 @font-face {
@@ -162,59 +162,15 @@
     U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-@font-face {
-  font-family: "EB Garamond";
-  font-style: normal;
-  font-weight: 400 800;
-  font-display: swap;
-  src: url("/fonts/eb-garamond/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: "EB Garamond";
-  font-style: normal;
-  font-weight: 400 800;
-  font-display: swap;
-  src: url("/fonts/eb-garamond/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
-    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "EB Garamond";
-  font-style: italic;
-  font-weight: 400 800;
-  font-display: swap;
-  src: url("/fonts/eb-garamond/SlGWmQSNjdsmc35JDF1K5GRweDU1ZzPJ.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: "EB Garamond";
-  font-style: italic;
-  font-weight: 400 800;
-  font-display: swap;
-  src: url("/fonts/eb-garamond/SlGWmQSNjdsmc35JDF1K5GRweDs1Zw.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
-    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-/* The Tailwind font stacks: sans is the body default (Manrope), serif is
-   the markdown body face (EB Garamond), mono is the code face (Victor
-   Mono), display is the heading face (Knewave). The stacks carry no
+/* The Tailwind font stacks: sans is the body default (Manrope — also
+   the markdown prose bodies), mono is the code face (Victor Mono),
+   display is the heading face (Knewave). The stacks carry no
    system-sans fallbacks — the only sans in the app is the vendored
    Manrope (if it failed to load, the browser's default sans would
    apply anyway, but the app never asks for one by name). */
 @theme {
   --font-sans: "Manrope";
-  --font-serif: "EB Garamond", Georgia, ui-serif, serif;
+  --font-serif: ui-serif, Georgia, serif;
   --font-mono: "Victor Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display: "Knewave";
 }
@@ -383,15 +339,10 @@ body {
 
 /* ── /why + /the-case-for-and-against-local-personal-ai: the markdown
    body ──────────────────────────────────────────────────────────────
-   Body text is EB Garamond (--font-serif), the headings are Knewave
-   (--font-display), code is Victor Mono (--font-mono). Theme-safe: only
-   currentColor-derived tints + the cyan accent, so it reads on both
-   the light and the dark base. */
-.history-prose {
-  font-family: var(--font-serif);
-  /* Garamond sits small: a step above the UI size for the reading face. */
-  font-size: 1.125rem;
-}
+   Body text is the body default (Manrope), the headings are Knewave
+   (--font-display), code is Victor Mono (--font-mono). Theme-safe:
+   only currentColor-derived tints + the cyan accent, so it reads on
+   both the light and the dark base. */
 
 .history-prose h1 {
   font-family: var(--font-display);
