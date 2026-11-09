@@ -1,14 +1,17 @@
-Alaypz is a complete web product — deterministic engine,
-server-authoritative game processes, identity, leaderboards, replays,
-a mobile-first interface — developed end-to-end with **Qwen 3.8-27B
-running on local hardware**, one operator round at a time.
+**Alaypz** is a complete web app developed end-to-end with **Qwen 3.8-27B running on local hardware**, one operator round at a time, and it exists because I am annoyed at reading nonsense about local AI models' coding capabilities.
 
-Someone on LinkedIn said that this model cannot code. This product is the
-rebuttal. The stakes of that argument, i.e. why local inference has to
-win, and what competence has to do with it, are on the
-[manifesto](https://overbring.com/articles/2026-11-09-the-case-for-and-against-local-personal-ai/). This page is how this one was built.
+The app includes a deterministic engine, server-authoritative game processes, identity, leaderboards, replays, and a touch UI on mobile viewports. 
+
+Someone on LinkedIn said that this model cannot code. This Elixir / Phoenix LiveView web app is the
+rebuttal, because some people won't be convinced about something unless you show it to them; and even then they might shift the goalpost.
+
+It does not matter in the end. Those who want to remain in [the cave](https://leanpub.com/cave) will not let themselves be convinced.
+
+Qwen3.8-27B is great at coding regardless, but you know how to wield it, as with any other tool.
 
 ## Built in anger and indignation
+
+The discussion on LinkedIn went a bit like this...
 
 **Isaak:** Qwen3.8-27B-GSQ-RCO-IQ or Ornith-1.5-35B-A3B-MiniPlus-V2.1-IQ2_S, with DeepSeek V4.1 Flash 1017 or Qwen3.8-Flash as the orchestrator. Plus Alibaba's open-code-review. No Claude needed.
 
@@ -104,6 +107,11 @@ them a screenshot and a sentence.
 
 ## Stack
 
-Elixir and Phoenix LiveView. One GenServer per active game. A pure engine
-shared by the game processes and the replays. SQLite through Ecto. esbuild + Tailwind. No `npm`; all JS dependencies vendored. Custom canvas hooks (tweened pieces, neon
-glow, line flash, sound). The board is the touch surface for the mobile viewport.
+- Elixir and Phoenix LiveView.
+- One GenServer per active game. 
+- A pure engine shared by the game processes and the replays.
+- SQLite through Ecto.
+- esbuild + Tailwind.
+- No `npm`; all JS dependencies are vendored.
+- Custom canvas hooks (tweened pieces, neon glow, line flash, sound).
+- The board is the touch surface for the mobile viewport.
