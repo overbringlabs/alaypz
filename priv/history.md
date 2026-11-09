@@ -7,7 +7,7 @@ rebuttal, because some people won't be convinced about something unless you show
 
 It does not matter in the end. Those who want to remain in [the cave](https://leanpub.com/cave) will not let themselves be convinced.
 
-Qwen3.8-27B is great at coding regardless, but you know how to wield it, as with any other tool.
+Qwen3.8-27B is great at coding regardless, but only if you know how to wield it, as with any other tool.
 
 ## Built in anger and indignation
 
