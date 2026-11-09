@@ -57,6 +57,14 @@ defmodule AlaypzWeb.Layouts do
           >
             Leaderboard
           </a>
+          <a
+            href="https://github.com/overbringlabs/alaypz"
+            target="_blank"
+            rel="noopener"
+            class="rounded px-0.5 text-base-content/70 transition hover:text-cyan-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+          >
+            Source
+          </a>
         </nav>
         <.theme_toggle />
       </div>
@@ -101,6 +109,15 @@ defmodule AlaypzWeb.Layouts do
             class="underline decoration-base-300 underline-offset-2 transition hover:text-cyan-500"
           >
             The case for and against local, personal AI
+          </a>
+          ·
+          <a
+            href="https://github.com/overbringlabs/alaypz"
+            target="_blank"
+            rel="noopener"
+            class="underline decoration-base-300 underline-offset-2 transition hover:text-cyan-500"
+          >
+            Source
           </a>
         </p>
       </div>
