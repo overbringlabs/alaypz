@@ -24,8 +24,22 @@ config :alaypz, AlaypzWeb.Endpoint,
 
 # Configure LiveView
 config :phoenix_live_view,
-  # the attribute set on all root tags. Used for Phoenix.LiveView.ColocatedCSS.
+  # the attribute set on all root tags. Used by Phoenix.LiveView.ColocatedCSS.
   root_tag_attribute: "phx-r"
+
+# OpenGraph / link-preview data — rendered by the root layout, see
+# AlaypzWeb.OG. og:url / og:image are made absolute from the request at
+# runtime, so no deployment domain is hardcoded here. The image is a PNG
+# (Facebook and LinkedIn crawlers don't accept WebP).
+config :alaypz, :og,
+  title: "Alaypz",
+  site_name: "Alaypz",
+  description:
+    "A complete web product — live lobby, leaderboards, game replay — developed end-to-end by a local Qwen 3.8-27B.",
+  image_path: "/images/og/og-image.png",
+  image_alt: "the local GPU hardware this runs on",
+  image_width: 1200,
+  image_height: 630
 
 # Configure the mailer
 #

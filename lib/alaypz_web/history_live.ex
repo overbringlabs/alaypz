@@ -12,6 +12,12 @@ defmodule AlaypzWeb.HistoryLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok,
+     socket
+     |> assign(:page_title, "Why does this exist?")
+     |> assign(
+       :og_description,
+       "Why Alaypz exists — the rebuttal, and how this one was built."
+     )}
   end
 end

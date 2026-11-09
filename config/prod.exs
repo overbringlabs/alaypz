@@ -19,6 +19,12 @@ config :alaypz, AlaypzWeb.Endpoint,
     ]
   ]
 
+# Canonical public URL: the deployment is reverse-proxied by Caddy from
+# https://alaypz.overbring.com to 127.0.0.1:7043 (deploy/Caddyfile.snippet),
+# so the app's own host/port is internal. AlaypzWeb.OG uses this to make
+# og:url / og:image absolute without trusting proxy headers.
+config :alaypz, :og, canonical: "https://alaypz.overbring.com"
+
 # Configure Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Req
 

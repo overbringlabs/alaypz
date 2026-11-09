@@ -20,8 +20,17 @@ if System.get_env("PHX_SERVER") do
   config :alaypz, AlaypzWeb.Endpoint, server: true
 end
 
-config :alaypz, AlaypzWeb.Endpoint,
-  http: [port: String.to_integer(System.get_env("PORT", "4000"))]
+# PORT is set explicitly by the container (deploy/deploy.sh). Absent an
+# override, prod defaults to 7043 (the VPS runs another Elixir app on
+# 4000) and dev stays on 4000.
+port =
+  System.get_env("PORT") ||
+    cond do
+      config_env() == :prod -> "7043"
+      true -> "4000"
+    end
+
+config :alaypz, AlaypzWeb.Endpoint, http: [port: String.to_integer(port)]
 
 if config_env() == :dev do
   # Reload browser tabs when matching files change.

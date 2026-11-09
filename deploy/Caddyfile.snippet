@@ -1,0 +1,37 @@
+# Standalone site block for Alaypz on DEPLOY_HOST's /etc/caddy/Caddyfile.
+# Mirrors inferyes/deploy/Caddyfile.snippet (the house pattern).
+#
+# Phoenix runs on 127.0.0.1:7043 (deploy/deploy.sh passes PORT=7043;
+# the container is --network host, so Caddy's plain-HTTP upstream works).
+# 4000 is occupied by another Elixir app on this VPS — hence 7043.
+#
+# Caddy 2's `reverse_proxy` passes the incoming `Host` header through
+# unchanged by default (it only sets/augments X-Forwarded-{For,Proto,
+# Host}). LiveView `check_origin` (prod default) sees Origin == Host ==
+# alaypz.overbring.com and passes. `force_ssl` is set to
+# `rewrite_on: [:x_forwarded_proto]` in `config/prod.exs`, so the https
+# rewrite works without further config.
+
+alaypz.overbring.com {
+	# Certificate: Caddy's on-demand Let's Encrypt issues this on first
+	# request. Requires the CNAME alaypz.overbring.com →
+	# DEPLOY_HOST.overbring.com to already resolve to this box (HTTP-01 follows
+	# the CNAME).
+	encode gzip
+
+	reverse_proxy 127.0.0.1:7043 {
+		# LiveView websocket / streaming safety:
+		# -1 = flush immediately, do not buffer responses.
+		flush_interval -1
+	}
+}
+
+# Resulting public endpoints (all root-mounted, no prefix):
+#   https://alaypz.overbring.com/            — lobby (LiveView)
+#   https://alaypz.overbring.com/play        — the play session
+#   https://alaypz.overbring.com/why         — why this exists
+#   https://alaypz.overbring.com/the-case-for-and-against-local-ai
+#   https://alaypz.overbring.com/u/<name>    — per-player history
+#   https://alaypz.overbring.com/replay/<id> — game replay
+#   https://alaypz.overbring.com/leaderboard — top scores
+#   wss://alaypz.overbring.com/live/websocket — LiveView socket

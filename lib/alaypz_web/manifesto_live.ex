@@ -12,6 +12,12 @@ defmodule AlaypzWeb.ManifestoLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok,
+     socket
+     |> assign(:page_title, "The case for and against local AI")
+     |> assign(
+       :og_description,
+       "A rant, with the edge intact — the case for and against local AI."
+     )}
   end
 end
