@@ -97,7 +97,7 @@ defmodule AlaypzWeb.Layouts do
           </a>
           ·
           <a
-            href="/the-case-for-and-against-local-personal-ai"
+            href="https://overbring.com/articles/2026-11-09-the-case-for-and-against-local-personal-ai/"
             class="underline decoration-base-300 underline-offset-2 transition hover:text-cyan-500"
           >
             The case for and against local, personal AI

@@ -23,7 +23,6 @@ defmodule AlaypzWeb.Router do
     live "/replay/:id", ReplayLive
     live "/play", PlayLive
     live "/why", HistoryLive
-    live "/the-case-for-and-against-local-personal-ai", ManifestoLive
 
     # Declared last under /u/: unknown names (and unknown /u/ paths) render
     # the not-found state.

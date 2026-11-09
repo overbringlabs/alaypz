@@ -56,7 +56,7 @@ defmodule AlaypzWeb.LobbyLiveTest do
 
     assert has_element?(
              view,
-             "#lobby-hero a[href=\"/the-case-for-and-against-local-personal-ai\"]",
+             "#lobby-hero a[href=\"https://overbring.com/articles/2026-11-09-the-case-for-and-against-local-personal-ai/\"]",
              "The case for and against local, personal AI"
            )
   end

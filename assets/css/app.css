@@ -337,8 +337,7 @@ body {
   }
 }
 
-/* ── /why + /the-case-for-and-against-local-personal-ai: the markdown
-   body ──────────────────────────────────────────────────────────────
+/* ── /why: the markdown body ─────────────────────────────────────────
    Body text is the body default (Manrope), the headings are Knewave
    (--font-display), code is Victor Mono (--font-mono). Theme-safe:
    only currentColor-derived tints + the cyan accent, so it reads on
