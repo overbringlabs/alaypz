@@ -92,7 +92,7 @@ defmodule AlaypzWeb.Layouts do
           <img
             src="/images/overbring.webp"
             alt="OVERBRING Labs"
-            class="h-6 w-auto dark:invert dark:brightness-0"
+            class="h-[28.8px] w-auto dark:invert dark:brightness-0"
           />
         </a>
         <p class="text-xs leading-relaxed text-base-content/50">

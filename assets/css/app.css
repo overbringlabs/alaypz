@@ -46,6 +46,7 @@
   --color-warning-content: oklch(98% 0.022 95.277);
   --color-error: oklch(58% 0.253 17.585);
   --color-error-content: oklch(96% 0.015 12.422);
+  --color-heading: #fd9310;
   --radius-selector: 0.25rem;
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
@@ -81,6 +82,7 @@
   --color-warning-content: oklch(98% 0.022 95.277);
   --color-error: oklch(58% 0.253 17.585);
   --color-error-content: oklch(96% 0.015 12.422);
+  --color-heading: #0050a1;
   --radius-selector: 0.25rem;
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
@@ -215,6 +217,20 @@ body {
   background-clip: text;
   color: transparent;
   filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.35));
+}
+
+/* Headings: the brand blue in light mode, the OVERBRING logo's orange in
+   dark mode (sampled from /images/overbring.webp — the footer logo's
+   accent cluster #fc940f/#fe9311/#ff9211 averages to #fd9310). The
+   element rule governs every h1-h6 that does not carry an explicit color
+   class (the amber/cyan status labels keep their own). */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-heading);
 }
 
 /* kbd chips for the controls legend — theme-aware, sans (no mono in the app) */
@@ -421,7 +437,10 @@ body {
 
 .history-prose code {
   font-family: var(--font-mono);
-  font-size: 0.85em;
+  /* Victor Mono has a larger x-height than Manrope: at the same size it
+     looks visibly taller than the body text it sits in — 0.75em is the
+     optical match (same visual height as the body letters). */
+  font-size: 0.75em;
   background: color-mix(in oklab, currentColor 8%, transparent);
   padding: 0.125rem 0.375rem;
   border-radius: 0.375rem;

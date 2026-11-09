@@ -31,9 +31,9 @@ defmodule AlaypzWeb.IdentityForm do
     <section id="identity" class="rounded-xl border border-base-300/60 bg-base-100 p-4 shadow-sm">
       <div class="mb-3 flex flex-wrap items-baseline justify-between gap-3">
         <%= if @title_level == 1 do %>
-          <h1 class="font-display text-lg font-bold text-base-content">Claim your name</h1>
+          <h1 class="font-display text-lg font-bold">Claim your name</h1>
         <% else %>
-          <h2 class="font-display text-lg font-bold text-base-content">Claim your name</h2>
+          <h2 class="font-display text-lg font-bold">Claim your name</h2>
         <% end %>
         <span class="text-xs text-base-content/60">
           your name is stored in this browser — the access string reclaims it elsewhere
