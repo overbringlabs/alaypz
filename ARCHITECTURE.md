@@ -57,8 +57,9 @@ Routes (`lib/alaypz_web/router.ex`, all `AlaypzWeb.*` LiveViews):
   result, `has_many` from a player.
 - **`Alaypz.Replay`** — derives a replay from a game's recorded inputs
   (seed + action list) rather than storing frames.
-- **`Alaypz.Repo`** — Ecto on SQLite via `exqlite` (single file, the
-  `DATABASE_PATH` env in prod; `/app/data/alaypz.db` in the container).
+- **`Alaypz.Repo`** — Ecto on SQLite via `Ecto.Adapters.SQLite3` (Ecto's
+  native SQLite adapter — the `:sqlite3` NIF, not `exqlite`; single file,
+  the `DATABASE_PATH` env in prod; `/app/data/alaypz.db` in the container).
 - **`Alaypz.Tasks.LedgerBudget`** — the knowledge-ledger token budget
   checker used by `mix precommit`.
 
